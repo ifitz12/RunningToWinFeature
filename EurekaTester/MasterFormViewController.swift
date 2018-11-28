@@ -40,8 +40,8 @@ class MasterFormViewController: FormViewController{
     
     
     @objc func splitAction(sender: UIButton!) {
-        let runner = masterView.alerts.currentRunner
-        masterView.alerts.timerList[runner.lastName]!.addSplit(runnerForm: sender)
+        //let runner = masterView.alerts.currentRunner
+        masterView.alerts.addSplit(runnerForm: sender)
     }
     
     
@@ -52,7 +52,7 @@ class MasterFormViewController: FormViewController{
     }
     @objc func dataAction(sender: UIButton!) {
         let runner = masterView.alerts.currentRunner
-        let alert = UIAlertController(title: masterView.alerts.runners.getFullName(button: sender) , message: masterView.alerts.timerList[runner.lastName]!.runnerData(runnerForm: sender), preferredStyle: .alert)
+        let alert = UIAlertController(title: masterView.alerts.runners.getFullName(button: sender) , message: masterView.alerts.runnerData(runnerForm: sender), preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)

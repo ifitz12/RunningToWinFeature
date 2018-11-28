@@ -106,7 +106,7 @@ class AlertsViewController: UIViewController{
         return alertController
     }
 
-    func setRunner(runner: UIButton) -> RunnerModel.Runner{
+    private func setRunner(runner: UIButton) -> RunnerModel.Runner{
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
         var name = runner.formCell()?.textLabel?.text?.split(separator: " ")
         let fname = name![0].lowercased()
@@ -117,7 +117,7 @@ class AlertsViewController: UIViewController{
     
     }
     
-    func runnerInList(runner: RunnerModel.Runner) -> Bool{
+   private func runnerInList(runner: RunnerModel.Runner) -> Bool{
         var name = runner.lastName
         for i in timerList{
             if(i.key == name){
@@ -128,7 +128,7 @@ class AlertsViewController: UIViewController{
         return false
     }
 
-    func runnerHasChanged(runnerForm: UIButton) -> Bool {
+    private func runnerHasChanged(runnerForm: UIButton) -> Bool {
         let dummy = setRunner(runner: runnerForm)
         
         if(currentRunner.lastName != dummy.lastName){
@@ -171,85 +171,36 @@ class AlertsViewController: UIViewController{
     }
     
     
-//    func addSplit(runnerForm: UIButton){
-//        currentRunner.time.splits.append(timeString)
-//
-//    }
+    func addSplit(runnerForm: UIButton){
+        if(runnerHasChanged(runnerForm: runnerForm)){
+            currentRunner = setRunner(runner: runnerForm)
+        }
+        //currentRunner.time.splits.append(timeString)
+        let time = timerList[currentRunner.lastName]?.timeString
+        timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
+        print("split added for: ")
+        print(timerList[currentRunner.lastName]?.currentRunner)
+    }
     
-//    func runnerData(runnerForm: UIButton) -> String{
-//        
-//        var splits = ""
-//        var i: Int = 1;
-//        for str in currentRunner.time.splits{
-//            if(str != ""){
-//            splits += String(i) + ". " + str + "\n"
-//            i+=1
-//            }
-//        }
-//        if(i == 1){
-//            return "Runner has no splits"
-//        }
-//        return splits
-//    }
+    func runnerData(runnerForm: UIButton) -> String{
+        if(runnerHasChanged(runnerForm: runnerForm)){
+            
+            currentRunner = setRunner(runner: runnerForm)
+        }
+        var splits = ""
+        var i: Int = 1;
+        for str in (timerList[currentRunner.lastName]?.currentRunner.time.splits)!{//currentRunner.time.splits{
+            if(str != ""){
+            splits += String(i) + ". " + str + "\n"
+            i+=1
+            }
+        }
+        if(i == 1){
+            return "Runner has no splits"
+        }
+        return splits
+    }
     
     
-//    func start(){
-//
-//
-//        currentRunner.time.startTime = Date().timeIntervalSinceReferenceDate - currentRunner.time.elapsed
-//        currentRunner.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
-//
-//
-//        // Set Start/Stop button to true
-//        currentRunner.time.status = true
-//        //print("started: " )
-//        //print(currentRunner.time)
-//    }
-//
-//    func stop()  {
-//
-//
-//        currentRunner.time.elapsed = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
-//        currentRunner.time.timer?.invalidate()
-//
-//        // Set Start/Stop button to false
-//        currentRunner.time.status = false
-//        //print("stopped: ")
-//        //print(currentRunner.time)
-//        runners.updateTimeElement(runner: currentRunner)
-//
-//    }
-//
-//    @objc func updateCounter(){   //runner: [String: RunnerModel.Runner], runnerCell: UIButton){
-//        //var hold = currentRunner
-//
-//        //var run = runner.
-//        // Calculate total time since timer started in seconds
-//        currentRunner.time.time = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
-//
-//        // Calculate minutes
-//        let minutes = UInt64(currentRunner.time.time / 60.0)
-//        currentRunner.time.time -= (TimeInterval(minutes) * 60)
-//
-//
-//        // Calculate seconds
-//        let seconds = UInt64(currentRunner.time.time)
-//        currentRunner.time.time -= TimeInterval(seconds)
-//
-//        // Calculate milliseconds
-//        let milliseconds = UInt64(currentRunner.time.time * 100)
-//
-//        // Format time vars with leading zero
-//        let strMinutes = String(format: "%02d", minutes)
-//        let strSeconds = String(format: "%02d", seconds)
-//        let strMilliseconds = String(format: "%02d", milliseconds)
-//
-//        let total = strMinutes + ":" + strSeconds + "." + strMilliseconds
-//        timeString = total
-//        currentRunner.cell.baseRow.baseValue = total
-//        currentRunner.cell.formCell()?.update()
-    
-       
-        
-  //  }
+
 }

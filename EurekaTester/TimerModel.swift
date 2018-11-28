@@ -25,26 +25,7 @@ class TimerModel{
         return self.currentRunner
     }
     
-//    func addSplit(runnerForm: UIButton){
-//        currentRunner.time.splits.append(timeString)
-//        
-//    }
-//    
-//    func runnerData(runnerForm: UIButton) -> String{
-//        
-//        var splits = ""
-//        var i: Int = 1;
-//        for str in currentRunner.time.splits{
-//            if(str != ""){
-//                splits += String(i) + ". " + str + "\n"
-//                i+=1
-//            }
-//        }
-//        if(i == 1){
-//            return "Runner has no splits"
-//        }
-//        return splits
-//    }
+
     
     
     func start(){

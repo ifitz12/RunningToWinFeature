@@ -108,11 +108,7 @@ struct RunnerModel {
         
         
         for i in 0...size!-1{
-//            print(runnersByTeam![i])
-//            print(runnersByTeam![i].firstName)
-//            print(String(runnersByTeam![i].lastName.first!))
-//            print(first)
-//            print(last)
+
             if(runnersByTeam![i].firstName == first && String(runnersByTeam![i].lastName.first!) == last){
                 return runnersByTeam![i]
             }
