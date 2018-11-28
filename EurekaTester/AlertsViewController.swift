@@ -127,15 +127,17 @@ class AlertsViewController: UIViewController{
         
         return false
     }
-    
-//    func timerIndex(runner: RunnerModel.Runner) -> Int{
-//
-//        for i in 0...timerList.count-1 {
-//
-//            if(timerList[i].)
-//        }
-//
-//    }
+
+    func runnerHasChanged(runnerForm: UIButton) -> Bool {
+        let dummy = setRunner(runner: runnerForm)
+        
+        if(currentRunner.lastName != dummy.lastName){
+            return true
+        }
+        else{
+            return false
+    }
+    }
     
     
     func startTimer(runnerForm: UIButton){
@@ -156,6 +158,12 @@ class AlertsViewController: UIViewController{
         }
     
     func stopTimer(runnerForm: UIButton){
+        
+        if(runnerHasChanged(runnerForm: runnerForm)){
+            
+            currentRunner = setRunner(runner: runnerForm)
+        }
+        
         timerList[currentRunner.lastName]?.stop()
         runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
         print("stop clicked")
@@ -163,26 +171,26 @@ class AlertsViewController: UIViewController{
     }
     
     
-    func addSplit(runnerForm: UIButton){
-        currentRunner.time.splits.append(timeString)
-        runners.printRunnerList()
-    }
+//    func addSplit(runnerForm: UIButton){
+//        currentRunner.time.splits.append(timeString)
+//
+//    }
     
-    func runnerData(runnerForm: UIButton) -> String{
-        
-        var splits = ""
-        var i: Int = 1;
-        for str in currentRunner.time.splits{
-            if(str != ""){
-            splits += String(i) + ". " + str + "\n"
-            i+=1
-            }
-        }
-        if(i == 1){
-            return "Runner has no splits"
-        }
-        return splits
-    }
+//    func runnerData(runnerForm: UIButton) -> String{
+//        
+//        var splits = ""
+//        var i: Int = 1;
+//        for str in currentRunner.time.splits{
+//            if(str != ""){
+//            splits += String(i) + ". " + str + "\n"
+//            i+=1
+//            }
+//        }
+//        if(i == 1){
+//            return "Runner has no splits"
+//        }
+//        return splits
+//    }
     
     
 //    func start(){

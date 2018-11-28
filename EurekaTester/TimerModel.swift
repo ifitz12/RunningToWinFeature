@@ -14,6 +14,7 @@ import UIKit
 class TimerModel{
 
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
+    var timeString = ""
     
     func createEntry(runner: RunnerModel.Runner){
         self.currentRunner = runner
@@ -23,6 +24,28 @@ class TimerModel{
         
         return self.currentRunner
     }
+    
+//    func addSplit(runnerForm: UIButton){
+//        currentRunner.time.splits.append(timeString)
+//        
+//    }
+//    
+//    func runnerData(runnerForm: UIButton) -> String{
+//        
+//        var splits = ""
+//        var i: Int = 1;
+//        for str in currentRunner.time.splits{
+//            if(str != ""){
+//                splits += String(i) + ". " + str + "\n"
+//                i+=1
+//            }
+//        }
+//        if(i == 1){
+//            return "Runner has no splits"
+//        }
+//        return splits
+//    }
+    
     
     func start(){
 
@@ -46,9 +69,6 @@ class TimerModel{
         currentRunner.time.status = false
         //print("stopped: ")
         //print(currentRunner.time)
-        
-        //runners.updateTimeElement(runner: currentRunner)
-        
     }
     
     @objc func updateCounter(){   //runner: [String: RunnerModel.Runner], runnerCell: UIButton){
@@ -76,7 +96,7 @@ class TimerModel{
         let strMilliseconds = String(format: "%02d", milliseconds)
         
         let total = strMinutes + ":" + strSeconds + "." + strMilliseconds
-        ///timeString = total
+        timeString = total
         currentRunner.cell.baseRow.baseValue = total
         currentRunner.cell.formCell()?.update()
         
