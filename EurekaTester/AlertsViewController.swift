@@ -193,8 +193,6 @@ class AlertsViewController: UIViewController{
         //currentRunner.time.splits.append(timeString)
         let time = timerList[currentRunner.lastName]?.timeString
         timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
-        print("split added for: ")
-        print(timerList[currentRunner.lastName]?.currentRunner)
     }
     
     func runnerData(runnerForm: UIButton) -> String{

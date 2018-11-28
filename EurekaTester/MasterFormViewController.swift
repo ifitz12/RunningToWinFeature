@@ -148,24 +148,39 @@ class MasterFormViewController: FormViewController{
                                     
                     
                                         }.cellSetup{ cell, row in
+                                            //cell.height = {100}
                                             var buttons = self.createButtons()
                                             cell.addSubview(buttons[0])
                                             cell.addSubview(buttons[1])
                                             cell.addSubview(buttons[3])
                                             self.buttonList.append(buttons[0])
                                             self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-                                        }
+                                        }.cellUpdate({ cell, row in
+                                            
+                                            //row.value.f = UIFont(name: "HelveticaNeue", size: 10.0)
+                                            
+                                        })
                                         
                                 }
             }
             
-            +++ Section(){
-                $0.tag = "Button"
-                $0.hidden = "$segments != 'Runners'"
+            +++ Section(){ section in
+                section.tag = "Button"
+                section.hidden = "$segments != 'Runners'"
+//                var header = HeaderFooterView<UILabel>(.class)
+//                //header.height = { 100.0 }
+//                header.onSetupView = {view, _ in
+//                    view.textColor = .red
+//                    view.text = "testLabel"
+//                    view.font = UIFont.boldSystemFont(ofSize: 50)
+//                }
+//                section.header = header
             }
             <<< ButtonRow(){ row in
                 row.title = "Start Team 1"
                 row.baseCell.addSubview(buttons[2])
+                
+                //row.section?.header =
                 //row.baseCell.bringSubviewToFront(buttons[2])
                 
                 }.onCellSelection{[weak self] cell, row  in
@@ -177,6 +192,7 @@ class MasterFormViewController: FormViewController{
                         //row.select(animated: false, scrollPosition: .none)
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.pauseColor
+                    
                         buttons[2].backgroundColor = self!.pauseColor
                         //self?.stop()
                     }
@@ -188,7 +204,12 @@ class MasterFormViewController: FormViewController{
                         buttons[2].backgroundColor = self!.startColor
                         
                     }
-                }
+                }.cellUpdate({ cell, row in
+                    
+                    cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 18.0)
+                    cell.textLabel?.textColor = .black
+
+                })
                     +++ Section(){
                         $0.tag = "music_s"
                         $0.hidden = "$segments != 'Stats'"
@@ -238,6 +259,9 @@ class MasterFormViewController: FormViewController{
         
         reset.setTitle("RESET", for: .normal)
         reset.addTarget(self, action: #selector(self.resetAction), for: .touchUpInside)
+        reset.layer.borderWidth = 1.0
+        reset.layer.borderColor = UIColor.black.cgColor
+        
         
         splitData.backgroundColor = .gray
         splitData.setTitle("Data", for: .normal)
@@ -311,7 +335,8 @@ class MasterFormViewController: FormViewController{
         let strMilliseconds = String(format: "%02d", milliseconds)
         
         let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
-        
+     
+      
         mainStopwatch!.title = currentTime
         mainStopwatch?.reload()
         
