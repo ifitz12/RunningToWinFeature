@@ -15,6 +15,8 @@ class AlertsViewController: UIViewController{
     var teamName: String = ""
     var firstName: String = ""
     var lastName: String = ""
+    let startColor = UIColor(hexString: "#7DFF8F")
+    let pauseColor = UIColor(hexString: "#FDFF66")
     //var runnerList: Dictionary<String, [RunnerModel.Runner]>? = nil
     var runners: RunnerModel = RunnerModel() //RunnerModel(list: runnerList)
     var currentRunner = RunnerModel.Runner()
@@ -44,7 +46,6 @@ class AlertsViewController: UIViewController{
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
                 self.viewDidAppear(true)
                 self.present(alert, animated: true, completion: nil)
-                
             }
                 
             else{
@@ -118,7 +119,7 @@ class AlertsViewController: UIViewController{
     }
     
    private func runnerInList(runner: RunnerModel.Runner) -> Bool{
-        var name = runner.lastName
+        let name = runner.lastName
         for i in timerList{
             if(i.key == name){
                 return true
@@ -139,6 +140,21 @@ class AlertsViewController: UIViewController{
     }
     }
     
+    func runnerIsStarted(runners: [UIButton]) -> Bool{
+        
+        for runner in runners{
+            
+            if runner.formCell()?.backgroundColor == startColor{
+                return true
+            }
+            
+        }
+        
+        
+        
+        return false
+    }
+    
     
     func startTimer(runnerForm: UIButton){
         
@@ -146,7 +162,7 @@ class AlertsViewController: UIViewController{
         
         if(!runnerInList(runner: currentRunner)){
             let newRun: TimerModel = TimerModel()
-            newRun.createEntry(runner: currentRunner)
+            newRun.createEntry(runner: currentRunner, runnerButton: runnerForm)
             timerList[currentRunner.lastName] = newRun
             print(timerList)
         }
@@ -160,7 +176,6 @@ class AlertsViewController: UIViewController{
     func stopTimer(runnerForm: UIButton){
         
         if(runnerHasChanged(runnerForm: runnerForm)){
-            
             currentRunner = setRunner(runner: runnerForm)
         }
         
@@ -201,6 +216,83 @@ class AlertsViewController: UIViewController{
         return splits
     }
     
+    func startAll(runners: [UIButton]){
+        
+        for runner in runners{
+            
+            if(runner.backgroundColor == UIColor.red ){
+                currentRunner = setRunner(runner: runner)
+                timerList[currentRunner.lastName]?.reset()
+                timerList[currentRunner.lastName]?.start()
+                print("RUNNER RESET")
+            }else{
+            
+            currentRunner = setRunner(runner: runner)
+            if(!runnerInList(runner: currentRunner)){
+                let newRun: TimerModel = TimerModel()
+                newRun.createEntry(runner: currentRunner, runnerButton: runner)
+                timerList[currentRunner.lastName] = newRun
+            }
+            runner.backgroundColor = .red
+            runner.setTitleColor(.white, for: .normal)
+            runner.setTitle("STOP", for: .normal)
+            runner.formCell()?.backgroundColor = startColor
+            timerList[currentRunner.lastName]?.start()
+            }
+        }
+        
+    }
     
+    func stopAll(runners: [UIButton]){
+        
+        
+        
+        for runner in runners{
+            currentRunner = setRunner(runner: runner)
+            if(!runnerInList(runner: currentRunner)){
+                let newRun: TimerModel = TimerModel()
+                newRun.createEntry(runner: currentRunner, runnerButton: runner)
+                timerList[currentRunner.lastName] = newRun
+            }
+            runner.backgroundColor = .green
+            runner.formCell()?.backgroundColor = pauseColor
+            runner.setTitleColor(.black, for: .normal)
+            runner.setTitle("GO", for: .normal)
+            timerList[currentRunner.lastName]?.stop()
+            self.runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
+            
+        }
+        
+        
+    }
+    
+    func resetAll(runners: [UIButton]){
+        if(timerList.isEmpty){
+            print("can't reset timers that haven't been started")
+        }
+        else{
+            stopAll(runners: runners)
+            for runner in runners{
+                currentRunner = setRunner(runner: runner)
+                
+                timerList[currentRunner.lastName]?.currentRunner.time.timer?.invalidate()
+                weak var t: Timer?
+                let resetSplits: [String] = []
+                timerList[currentRunner.lastName]?.currentRunner.time.timer = t
+                timerList[currentRunner.lastName]?.currentRunner.time.time = 0
+                timerList[currentRunner.lastName]?.currentRunner.time.startTime = 0
+                timerList[currentRunner.lastName]?.currentRunner.time.elapsed = 0
+                timerList[currentRunner.lastName]?.currentRunner.time.splits = resetSplits
+                
+                runner.formCell()?.baseRow.baseValue = "00:00.00"
+                runner.formCell()?.baseRow.baseCell.backgroundColor = .white
+                runner.formCell()?.update()
+            }
+        }
+}
 
 }
+    
+    
+    
+

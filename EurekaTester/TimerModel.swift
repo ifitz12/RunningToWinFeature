@@ -14,10 +14,14 @@ import UIKit
 class TimerModel{
 
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
+    var button: UIButton = UIButton()
+    let pauseColor = UIColor(hexString: "#FDFF66")
+    let startColor = UIColor(hexString: "#7DFF8F")
     var timeString = ""
     
-    func createEntry(runner: RunnerModel.Runner){
+    func createEntry(runner: RunnerModel.Runner, runnerButton: UIButton){
         self.currentRunner = runner
+        self.button = runnerButton
     }
     
     func getEntry() -> RunnerModel.Runner{
@@ -29,15 +33,20 @@ class TimerModel{
     
     
     func start(){
-
+        button.backgroundColor = .red
+        button.formCell()?.backgroundColor = startColor
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("STOP", for: .normal)
+        
         currentRunner.time.startTime = Date().timeIntervalSinceReferenceDate - currentRunner.time.elapsed
         currentRunner.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         
         
         // Set Start/Stop button to true
         currentRunner.time.status = true
-        //print("started: " )
-        //print(currentRunner.time)
+       
+        currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = startColor
+        currentRunner.cell.formCell()?.update()
     }
     
     func stop()  {
@@ -50,6 +59,31 @@ class TimerModel{
         currentRunner.time.status = false
         //print("stopped: ")
         //print(currentRunner.time)
+    }
+    
+    func reset(){
+        
+        button.backgroundColor = .green
+        button.formCell()?.backgroundColor = pauseColor
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("GO", for: .normal)
+        
+    
+        //self.stop()
+        currentRunner.time.timer?.invalidate()
+        weak var t: Timer?
+        currentRunner.time.timer = t
+        currentRunner.time.time = 0
+        currentRunner.time.startTime = 0
+        currentRunner.time.elapsed = 0
+        let splits: [String] = []
+        currentRunner.time.splits = splits
+        
+        
+        currentRunner.cell.formCell()?.baseRow.baseValue = "00:00.00"
+        currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = .white
+        currentRunner.cell.formCell()?.update()
+        
     }
     
     @objc func updateCounter(){   //runner: [String: RunnerModel.Runner], runnerCell: UIButton){
