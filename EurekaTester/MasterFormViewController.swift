@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import Eureka
-//import FloatLabelRow
+import FloatLabelRow
 
 
 class MasterFormViewController: FormViewController{
@@ -56,14 +56,18 @@ class MasterFormViewController: FormViewController{
     @objc func resetAction(sender: UIButton!){
         print("button tapped")
         self.reset(resetAll: true)
-        
     }
+    
     @objc func dataAction(sender: UIButton!) {
         let runner = masterView.alerts.currentRunner
-        let alert = UIAlertController(title: masterView.alerts.runners.getFullName(button: sender) , message: masterView.alerts.runnerData(runnerForm: sender), preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
+//        let alert = UIAlertController(title: masterView.alerts.runners.getFullName(button: sender) , message: masterView.alerts.runnerData(runnerForm: sender), preferredStyle: .alert)
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//        alert.addAction(cancelAction)
+//        self.present(alert, animated: true, completion: nil)
+        
+        (sender.formCell()?.subviews[5] as! UITextField).font = UIFont.systemFont(ofSize: 12.0)
+        
+        (sender.formCell()?.subviews[5] as! UITextField).insertText("who day")
     }
 
     
@@ -77,6 +81,8 @@ class MasterFormViewController: FormViewController{
         super.viewDidLoad()
         super.viewDidLayoutSubviews()
         var buttons = createButtons()
+        var textField = createTextField()
+       
         buttons[2].setTitleColor(.black, for: .normal)
         animateScroll = true
         
@@ -141,13 +147,14 @@ class MasterFormViewController: FormViewController{
                                 // Telling the section where to insert the new row
                                 $0.multivaluedRowToInsertAt = { index in
                                    
-                                    return TextRow() { row in
-                                        row.title = " "
-                                        row.titlePercentage = 0.20
-                                        row.value = "00:00.00"
-//                                    return TextFloatLabelRow() { row in
+//                                    return TextRow() { row in
 //                                        row.title = " "
+//                                        row.titlePercentage = 0.20
 //                                        row.value = "00:00.00"
+                                    return TextFloatLabelRow() { row in
+                                        row.title = " "
+                                        row.value = "00:00.00"
+                                        
 //
                                         }.cellSetup{ cell, row in
                                             //cell.height = {100}
@@ -155,12 +162,22 @@ class MasterFormViewController: FormViewController{
                                             cell.addSubview(buttons[0])
                                             cell.addSubview(buttons[1])
                                             cell.addSubview(buttons[3])
+                                            cell.addSubview(buttons[4])
+                                            cell.addSubview(textField)
                                             self.buttonList.append(buttons[0])
                                             self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-                                        }.cellUpdate({ cell, row in
                                             
-                                            //cell.height = {100}
-                                            //cell.textLabel?.textColor = UIColor.black  //font = UIFont.systemFont(ofSize:)
+                                        }.cellUpdate({ cell, row in
+                                         
+                                            cell.height = {100}
+                                            //cell.textLabel?.font = UIFont.systemFont(ofSize: 20.0)
+                                            let myString = "00:00.00"
+                                            let myAttribute = [ NSAttributedString.Key.font: UIFont(name: "Chalkduster", size: 18.0)! ]
+                                            let myAttrString = NSAttributedString(string: myString, attributes: myAttribute)
+                                            
+                                            // set attributed text on a UILabel
+                                            //myLabel.attributedText = myAttrString
+                                            row.value = myAttrString.string
                                             
                                         })
                                         
@@ -239,17 +256,17 @@ class MasterFormViewController: FormViewController{
     /// - Returns: An array of UIButtons
     func createButtons() -> [UIButton]{
         
-        let start = UIButton(frame: CGRect(x: 220, y: 10, width: 40, height: 20))
-        let split = UIButton(frame: CGRect(x: 160, y: 10, width: 40, height: 20))
+        let title = UIButton(frame: CGRect(x: 5, y: 5, width: 60, height: 20))
+        
+        let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 40))
+        let split = UIButton(frame: CGRect(x: 250, y: 60, width: 80, height: 40))
         let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 43))
-        let splitData = UIButton(frame: CGRect(x:100 , y: 10, width: 40, height: 20))
+        let splitData = UIButton(frame: CGRect(x:5 , y: 70, width: 40, height: 20))
         
         start.backgroundColor = .green
         start.setTitle("GO", for: .normal)
         start.setTitleColor(.black, for: .normal)
         start.titleLabel?.font = .systemFont(ofSize: 12)
-        
-        
         start.addTarget(self, action: #selector(self.startAction), for: .touchUpInside)
         
         split.backgroundColor = .blue
@@ -262,15 +279,29 @@ class MasterFormViewController: FormViewController{
         reset.layer.borderWidth = 1.0
         reset.layer.borderColor = UIColor.black.cgColor
         
-        
         splitData.backgroundColor = .gray
         splitData.setTitle("Data", for: .normal)
         splitData.titleLabel?.font = .systemFont(ofSize: 12)
         splitData.addTarget(self, action: #selector(self.dataAction), for: .touchUpInside)
 
-        return [start, split, reset, splitData]
+        title.backgroundColor = .orange
+        title.setTitle("", for: .normal)
+        title.titleLabel?.font = .systemFont(ofSize: 12)
+        title.setTitleColor(.black, for: .normal)
+    
+        return [start, split, reset, splitData, title]
         
     }
+    
+    func createTextField() -> UITextField {
+    let sampleTextField =  UITextField(frame: CGRect(x: 95, y: 10, width: 150, height: 85))
+        sampleTextField.layer.borderWidth = 1.0
+        sampleTextField.layer.borderColor = UIColor.black.cgColor
+        
+        return sampleTextField
+    }
+    
+    
     
     func start() {
         masterView.alerts.startAll(runners: buttonList)

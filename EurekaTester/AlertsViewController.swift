@@ -41,9 +41,6 @@ class AlertsViewController: UIViewController{
             self.firstName = (alertController.textFields?[0].text)!.trimmingCharacters(in: [" ", "."])
             self.lastName = (alertController.textFields?[1].text)!.trimmingCharacters(in: [" ", "."])
             
-            print(self.firstName)
-            print(self.lastName)
-            
             if(self.firstName == "" || self.lastName == ""){
                 let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
@@ -52,7 +49,8 @@ class AlertsViewController: UIViewController{
             }
                 
             else{
-                cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
+                (cell.subviews[4] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
+                //cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
                 self.runners.createRunner(fName: self.firstName, lName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
 
                 cell.update()
@@ -117,8 +115,9 @@ class AlertsViewController: UIViewController{
 
     private func setRunner(runner: UIButton) -> RunnerModel.Runner{
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
-        var name = runner.formCell()?.baseRow.title?.split(separator: " ")
-        
+        //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
+        var name = (runner.formCell()!.subviews[4] as? UIButton)?.currentTitle?.split(separator: " ")
+       
         
         let fname = name![0].lowercased()
         let lname = name![1].lowercased()
@@ -251,8 +250,6 @@ class AlertsViewController: UIViewController{
     }
     
     func stopAll(runners: [UIButton]){
-        
-        
         
         for runner in runners{
             currentRunner = setRunner(runner: runner)

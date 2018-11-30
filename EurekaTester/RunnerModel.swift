@@ -51,7 +51,7 @@ struct RunnerModel {
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
     
-    printRunnerList()
+  
     
     }
     func printRunnerList() {
@@ -73,7 +73,7 @@ struct RunnerModel {
     
     func getFullName(button: UIButton) -> String{
         let team = button.formCell()?.baseRow.section?.tag!
-        var name = button.formCell()?.textLabel?.text?.split(separator: " ")
+        var name = (button.formCell()!.subviews[4] as? UIButton)?.currentTitle?.split(separator: " ")
         let fname = name![0].lowercased()
         let lname = name![1].lowercased()
         let run = getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: lname)
