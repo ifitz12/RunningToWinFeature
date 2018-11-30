@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Eureka
+//import FloatLabelRow
 
 
 class MasterFormViewController: FormViewController{
@@ -22,24 +23,29 @@ class MasterFormViewController: FormViewController{
     var mainStopwatch: ButtonRow? = nil
     var masterView: MasterHomeViewController = MasterHomeViewController()
     var count: Int = 0
+    let startColor = UIColor(hexString: "#7DFF8F")
+    let pauseColor = UIColor(hexString: "#FDFF66")
+    var teamName = "team1"
+    var buttonList: [UIButton] = []
 
     
     @objc func startAction(sender: UIButton!) {
         if(sender.backgroundColor == .green){
             sender.backgroundColor = .red
-            sender.formCell()?.backgroundColor = .green
+            sender.setTitleColor(.white, for: .normal)
+            sender.setTitle("STOP", for: .normal)
+            sender.formCell()?.backgroundColor = startColor
             masterView.alerts.startTimer(runnerForm: sender)
         }
         else{
             sender.backgroundColor = .green
-            sender.formCell()?.backgroundColor = .white
+            sender.formCell()?.backgroundColor = pauseColor
+            sender.setTitleColor(.black, for: .normal)
+            sender.setTitle("GO", for: .normal)
             masterView.alerts.stopTimer(runnerForm: sender)
         }
 
     }
-    
-    
-    
     
     
     @objc func splitAction(sender: UIButton!) {
@@ -49,17 +55,17 @@ class MasterFormViewController: FormViewController{
     
     @objc func resetAction(sender: UIButton!){
         print("button tapped")
-        self.reset()
+        self.reset(resetAll: true)
         
     }
     @objc func dataAction(sender: UIButton!) {
-        
+        let runner = masterView.alerts.currentRunner
         let alert = UIAlertController(title: masterView.alerts.runners.getFullName(button: sender) , message: masterView.alerts.runnerData(runnerForm: sender), preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(cancelAction)
         self.present(alert, animated: true, completion: nil)
     }
-    
+
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,7 +101,7 @@ class MasterFormViewController: FormViewController{
                                 }
                                 
         
-                form = Section("Team 1:")
+            form = Section(teamName)
             <<< SegmentedRow<String>("segments"){
                 $0.options = ["Runners", "Stats"]
                 $0.value = "Runners"
@@ -121,7 +127,7 @@ class MasterFormViewController: FormViewController{
                                     header: "",
                                     footer: ""){
                                 $0.hidden = "$segments != 'Runners'"
-                                $0.tag = "Team1"
+                                $0.tag = teamName
                                 $0.showInsertIconInAddButton = false
                                 
                                 $0.addButtonProvider = { section in
@@ -139,46 +145,74 @@ class MasterFormViewController: FormViewController{
                                         row.title = " "
                                         row.titlePercentage = 0.20
                                         row.value = "00:00.00"
-                                    
-                    
+//                                    return TextFloatLabelRow() { row in
+//                                        row.title = " "
+//                                        row.value = "00:00.00"
+//
                                         }.cellSetup{ cell, row in
+                                            //cell.height = {100}
                                             var buttons = self.createButtons()
                                             cell.addSubview(buttons[0])
                                             cell.addSubview(buttons[1])
                                             cell.addSubview(buttons[3])
+                                            self.buttonList.append(buttons[0])
                                             self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-                                        }
+                                        }.cellUpdate({ cell, row in
+                                            
+                                            //cell.height = {100}
+                                            //cell.textLabel?.textColor = UIColor.black  //font = UIFont.systemFont(ofSize:)
+                                            
+                                        })
                                         
                                 }
             }
             
-            +++ Section(){
-                $0.tag = "Button"
-                $0.hidden = "$segments != 'Runners'"
+            +++ Section(){ section in
+                section.tag = "Button"
+                section.hidden = "$segments != 'Runners'"
+//                var header = HeaderFooterView<UILabel>(.class)
+//                //header.height = { 100.0 }
+//                header.onSetupView = {view, _ in
+//                    view.textColor = .red
+//                    view.text = "testLabel"
+//                    view.font = UIFont.boldSystemFont(ofSize: 50)
+//                }
+//                section.header = header
             }
             <<< ButtonRow(){ row in
                 row.title = "Start Team 1"
                 row.baseCell.addSubview(buttons[2])
-                row.baseCell.bringSubviewToFront(buttons[2])
+                
+                //row.section?.header =
+                //row.baseCell.bringSubviewToFront(buttons[2])
                 
                 }.onCellSelection{[weak self] cell, row  in
                     print("hey!!!")
+                    
                     self?.mainStopwatch = row
                     if(self!.status == 1){
                         self?.stop()
+                        //row.select(animated: false, scrollPosition: .none)
                         cell.textLabel?.textColor = UIColor.black
-                        cell.backgroundColor = UIColor.yellow
-                        buttons[2].backgroundColor = UIColor.yellow
+                        cell.backgroundColor = self!.pauseColor
+                    
+                        buttons[2].backgroundColor = self!.pauseColor
+                        //self?.stop()
                     }
                     else if (self!.status == 0){
                         self?.start()
-                        
+                        //row.select(animated: false, scrollPosition: .none)
                         cell.textLabel?.textColor = UIColor.black
-                        cell.backgroundColor = UIColor.green
-                        buttons[2].backgroundColor = UIColor.green
+                        cell.backgroundColor = self!.startColor
+                        buttons[2].backgroundColor = self!.startColor
                         
                     }
-                }
+                }.cellUpdate({ cell, row in
+                    
+                    cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 18.0)
+                    cell.textLabel?.textColor = .black
+
+                })
                     +++ Section(){
                         $0.tag = "music_s"
                         $0.hidden = "$segments != 'Stats'"
@@ -198,9 +232,6 @@ class MasterFormViewController: FormViewController{
         
     }
     
-    func buttonTapped(cell: ButtonCellOf<String>, row: ButtonRow) {
-        print("tapped!")
-    }
     
     
     /// A function to create buttons that will be used throughout the form
@@ -215,17 +246,26 @@ class MasterFormViewController: FormViewController{
         
         start.backgroundColor = .green
         start.setTitle("GO", for: .normal)
+        start.setTitleColor(.black, for: .normal)
+        start.titleLabel?.font = .systemFont(ofSize: 12)
+        
+        
         start.addTarget(self, action: #selector(self.startAction), for: .touchUpInside)
         
         split.backgroundColor = .blue
-        split.setTitle("S", for: .normal)
+        split.setTitle("Split", for: .normal)
+        split.titleLabel?.font = .systemFont(ofSize: 12)
         split.addTarget(self, action: #selector(self.splitAction), for: .touchUpInside)
         
         reset.setTitle("RESET", for: .normal)
         reset.addTarget(self, action: #selector(self.resetAction), for: .touchUpInside)
+        reset.layer.borderWidth = 1.0
+        reset.layer.borderColor = UIColor.black.cgColor
+        
         
         splitData.backgroundColor = .gray
-        splitData.setTitle("D", for: .normal)
+        splitData.setTitle("Data", for: .normal)
+        splitData.titleLabel?.font = .systemFont(ofSize: 12)
         splitData.addTarget(self, action: #selector(self.dataAction), for: .touchUpInside)
 
         return [start, split, reset, splitData]
@@ -233,7 +273,10 @@ class MasterFormViewController: FormViewController{
     }
     
     func start() {
-        
+        masterView.alerts.startAll(runners: buttonList)
+//        if(masterView.alerts.runnerIsStarted(runners: buttonList)){
+//            self.reset(resetAll: false)
+//        }
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
         self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
@@ -243,8 +286,7 @@ class MasterFormViewController: FormViewController{
     }
     
     func stop() {
-        
-        
+        masterView.alerts.stopAll(runners: buttonList)
         self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
         self.timer?.invalidate()
         
@@ -253,8 +295,10 @@ class MasterFormViewController: FormViewController{
         print(self.elapsed)
     }
     
-    func reset(){
-        
+    func reset(resetAll: Bool){
+        if(resetAll){
+        masterView.alerts.resetAll(runners: buttonList)
+        }
         //Reseting timer attributes
         self.timer?.invalidate()
         weak var t: Timer?
@@ -291,7 +335,8 @@ class MasterFormViewController: FormViewController{
         let strMilliseconds = String(format: "%02d", milliseconds)
         
         let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
-        
+     
+      
         mainStopwatch!.title = currentTime
         mainStopwatch?.reload()
         

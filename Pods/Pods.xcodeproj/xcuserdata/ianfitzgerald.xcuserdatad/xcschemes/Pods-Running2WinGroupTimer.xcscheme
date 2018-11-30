@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EBD7E5766D1B1F2F70969AF5571AECD6"
-               BuildableName = "Pods_EurekaTester.framework"
-               BlueprintName = "Pods-EurekaTester"
+               BlueprintIdentifier = "A3287EEA2A3B09EF428AF4A768414B64"
+               BuildableName = "Pods_Running2WinGroupTimer.framework"
+               BlueprintName = "Pods-Running2WinGroupTimer"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EBD7E5766D1B1F2F70969AF5571AECD6"
-            BuildableName = "Pods_EurekaTester.framework"
-            BlueprintName = "Pods-EurekaTester"
+            BlueprintIdentifier = "A3287EEA2A3B09EF428AF4A768414B64"
+            BuildableName = "Pods_Running2WinGroupTimer.framework"
+            BlueprintName = "Pods-Running2WinGroupTimer"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

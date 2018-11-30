@@ -51,7 +51,7 @@ struct RunnerModel {
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
     
-    
+    printRunnerList()
     
     }
     func printRunnerList() {
@@ -108,11 +108,7 @@ struct RunnerModel {
         
         
         for i in 0...size!-1{
-//            print(runnersByTeam![i])
-//            print(runnersByTeam![i].firstName)
-//            print(String(runnersByTeam![i].lastName.first!))
-//            print(first)
-//            print(last)
+
             if(runnersByTeam![i].firstName == first && String(runnersByTeam![i].lastName.first!) == last){
                 return runnersByTeam![i]
             }

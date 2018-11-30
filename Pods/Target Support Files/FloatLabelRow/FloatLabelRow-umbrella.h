@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_EurekaTesterVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_EurekaTesterVersionString[];
+FOUNDATION_EXPORT double FloatLabelRowVersionNumber;
+FOUNDATION_EXPORT const unsigned char FloatLabelRowVersionString[];
 
