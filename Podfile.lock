@@ -1,16 +1,30 @@
 PODS:
   - Eureka (4.3.0)
+  - FloatLabelRow (1.0.0):
+    - Eureka (>= 3.0)
 
 DEPENDENCIES:
   - Eureka
+  - FloatLabelRow (from `https://github.com/larsacus/FloatLabelRow`, branch `ExposeColorProperties`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Eureka
 
+EXTERNAL SOURCES:
+  FloatLabelRow:
+    :branch: ExposeColorProperties
+    :git: https://github.com/larsacus/FloatLabelRow
+
+CHECKOUT OPTIONS:
+  FloatLabelRow:
+    :commit: 14d37b60100b9d74b2b71c2e2cdc5d03e228fef3
+    :git: https://github.com/larsacus/FloatLabelRow
+
 SPEC CHECKSUMS:
   Eureka: 6d711cb30ca333b4bc893110285a722ae3840114
+  FloatLabelRow: 3c512fc96bf24acc534100b2dfa0c670ff71ed45
 
-PODFILE CHECKSUM: 93eb6e87bdecd6e9a189a0821012b4e46d45fb15
+PODFILE CHECKSUM: 65886e998dad75c824072117a406a5e76da46c44
 
 COCOAPODS: 1.5.3

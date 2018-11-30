@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		164718D14942A85478779BB1 /* Pods_Running2WinGroupTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9571D8CE7124EBF6AF3D53CA /* Pods_Running2WinGroupTimer.framework */; };
 		BB613A918D9AA0463FACE946 /* Pods_EurekaTesterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01406F29195A4DD3BEA63D00 /* Pods_EurekaTesterTests.framework */; };
 		DD8A12C81D11B57053B5D562 /* Pods_EurekaTester.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2775EC301C99BE160723E84 /* Pods_EurekaTester.framework */; };
+		E5ADE2C01636923EB76C2F73 /* Pods_Running2WinGroupTimerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEE9E3D6AA81D0B11AC6D670 /* Pods_Running2WinGroupTimerTests.framework */; };
 		FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB42191F85D00715784 /* MasterHomeViewController.swift */; };
 		FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB62198BE8500715784 /* RunnerModel.swift */; };
 		FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB82198D67200715784 /* AlertsViewController.swift */; };
@@ -48,10 +50,16 @@
 
 /* Begin PBXFileReference section */
 		01406F29195A4DD3BEA63D00 /* Pods_EurekaTesterTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EurekaTesterTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1998A65BEC11E7E6F28C82CB /* Pods-Running2WinGroupTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		20B41CDE7B4940A7DCAF07E3 /* Pods-Running2WinGroupTimer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer.release.xcconfig"; sourceTree = "<group>"; };
 		30F228724590508DE537EFA0 /* Pods-EurekaTesterTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EurekaTesterTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-EurekaTesterTests/Pods-EurekaTesterTests.release.xcconfig"; sourceTree = "<group>"; };
+		5968502F20D257C4FC8A7490 /* Pods-Running2WinGroupTimerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimerTests/Pods-Running2WinGroupTimerTests.release.xcconfig"; sourceTree = "<group>"; };
 		644059AE9423B961571EE78C /* Pods-EurekaTester.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EurekaTester.release.xcconfig"; path = "Pods/Target Support Files/Pods-EurekaTester/Pods-EurekaTester.release.xcconfig"; sourceTree = "<group>"; };
 		72CD963265424730070688CC /* Pods-EurekaTesterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EurekaTesterTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EurekaTesterTests/Pods-EurekaTesterTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9571D8CE7124EBF6AF3D53CA /* Pods_Running2WinGroupTimer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Running2WinGroupTimer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AED9086A314436C59D4B790C /* Pods-EurekaTester.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EurekaTester.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EurekaTester/Pods-EurekaTester.debug.xcconfig"; sourceTree = "<group>"; };
+		BDC3F8AB22061599D6F68B27 /* Pods-Running2WinGroupTimerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimerTests/Pods-Running2WinGroupTimerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DEE9E3D6AA81D0B11AC6D670 /* Pods_Running2WinGroupTimerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Running2WinGroupTimerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2775EC301C99BE160723E84 /* Pods_EurekaTester.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EurekaTester.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD667FB42191F85D00715784 /* MasterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterHomeViewController.swift; sourceTree = "<group>"; };
 		FD667FB62198BE8500715784 /* RunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerModel.swift; sourceTree = "<group>"; };
@@ -77,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DD8A12C81D11B57053B5D562 /* Pods_EurekaTester.framework in Frameworks */,
+				164718D14942A85478779BB1 /* Pods_Running2WinGroupTimer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +94,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB613A918D9AA0463FACE946 /* Pods_EurekaTesterTests.framework in Frameworks */,
+				E5ADE2C01636923EB76C2F73 /* Pods_Running2WinGroupTimerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +108,10 @@
 				644059AE9423B961571EE78C /* Pods-EurekaTester.release.xcconfig */,
 				72CD963265424730070688CC /* Pods-EurekaTesterTests.debug.xcconfig */,
 				30F228724590508DE537EFA0 /* Pods-EurekaTesterTests.release.xcconfig */,
+				1998A65BEC11E7E6F28C82CB /* Pods-Running2WinGroupTimer.debug.xcconfig */,
+				20B41CDE7B4940A7DCAF07E3 /* Pods-Running2WinGroupTimer.release.xcconfig */,
+				BDC3F8AB22061599D6F68B27 /* Pods-Running2WinGroupTimerTests.debug.xcconfig */,
+				5968502F20D257C4FC8A7490 /* Pods-Running2WinGroupTimerTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -107,6 +121,8 @@
 			children = (
 				F2775EC301C99BE160723E84 /* Pods_EurekaTester.framework */,
 				01406F29195A4DD3BEA63D00 /* Pods_EurekaTesterTests.framework */,
+				9571D8CE7124EBF6AF3D53CA /* Pods_Running2WinGroupTimer.framework */,
+				DEE9E3D6AA81D0B11AC6D670 /* Pods_Running2WinGroupTimerTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -266,16 +282,18 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EurekaTester/Pods-EurekaTester-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Eureka/Eureka.framework",
+				"${BUILT_PRODUCTS_DIR}/FloatLabelRow/FloatLabelRow.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Eureka.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FloatLabelRow.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EurekaTester/Pods-EurekaTester-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		663819CD2725845CC286B213 /* [CP] Check Pods Manifest.lock */ = {
@@ -289,7 +307,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EurekaTesterTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Running2WinGroupTimerTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -307,7 +325,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-EurekaTester-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-Running2WinGroupTimer-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -488,7 +506,7 @@
 		};
 		FDE8F5D62181144800E56B93 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AED9086A314436C59D4B790C /* Pods-EurekaTester.debug.xcconfig */;
+			baseConfigurationReference = 1998A65BEC11E7E6F28C82CB /* Pods-Running2WinGroupTimer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -507,7 +525,7 @@
 		};
 		FDE8F5D72181144800E56B93 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 644059AE9423B961571EE78C /* Pods-EurekaTester.release.xcconfig */;
+			baseConfigurationReference = 20B41CDE7B4940A7DCAF07E3 /* Pods-Running2WinGroupTimer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -526,7 +544,7 @@
 		};
 		FDE8F5D92181144800E56B93 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72CD963265424730070688CC /* Pods-EurekaTesterTests.debug.xcconfig */;
+			baseConfigurationReference = BDC3F8AB22061599D6F68B27 /* Pods-Running2WinGroupTimerTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -547,7 +565,7 @@
 		};
 		FDE8F5DA2181144800E56B93 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 30F228724590508DE537EFA0 /* Pods-EurekaTesterTests.release.xcconfig */;
+			baseConfigurationReference = 5968502F20D257C4FC8A7490 /* Pods-Running2WinGroupTimerTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";

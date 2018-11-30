@@ -41,6 +41,9 @@ class AlertsViewController: UIViewController{
             self.firstName = (alertController.textFields?[0].text)!.trimmingCharacters(in: [" ", "."])
             self.lastName = (alertController.textFields?[1].text)!.trimmingCharacters(in: [" ", "."])
             
+            print(self.firstName)
+            print(self.lastName)
+            
             if(self.firstName == "" || self.lastName == ""){
                 let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
@@ -86,6 +89,7 @@ class AlertsViewController: UIViewController{
             
             //getting the input values from user
             self.teamName = (alertController.textFields?[0].text)!
+            
         }
         
         //the cancel action doing nothing
@@ -106,10 +110,16 @@ class AlertsViewController: UIViewController{
         print(cancelAction)
         return alertController
     }
+    
+    func newTeamName() -> String {
+        return self.teamName
+    }
 
     private func setRunner(runner: UIButton) -> RunnerModel.Runner{
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
-        var name = runner.formCell()?.textLabel?.text?.split(separator: " ")
+        var name = runner.formCell()?.baseRow.title?.split(separator: " ")
+        
+        
         let fname = name![0].lowercased()
         let lname = name![1].lowercased()
         self.teamName = team!
@@ -157,7 +167,6 @@ class AlertsViewController: UIViewController{
     
     
     func startTimer(runnerForm: UIButton){
-        
         currentRunner = setRunner(runner: runnerForm)
         
         if(!runnerInList(runner: currentRunner)){

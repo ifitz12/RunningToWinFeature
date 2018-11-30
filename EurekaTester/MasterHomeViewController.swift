@@ -15,16 +15,13 @@ import UIKit
 class MasterHomeViewController: UIViewController{
 
     let alerts: AlertsViewController = AlertsViewController()
-    //let form: MasterFormViewController = MasterFormViewController()
+    
     
     @IBAction func newTeam(_ sender: UIButton) {
         self.viewDidAppear(true)
         self.present(self.alerts.showNewTeamDialog(), animated: true, completion: nil)
         
     }
-    
-    
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -35,13 +32,5 @@ class MasterHomeViewController: UIViewController{
         super.viewDidLoad()
             
     }
-    
-    func showAlert(controller: UIAlertController){
-        self.viewDidAppear(true)
-        self.present(controller, animated: true, completion: nil)
-        
-    }
-    
-    
-    
+   
 }

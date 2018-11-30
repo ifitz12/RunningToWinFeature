@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Eureka
+//import FloatLabelRow
 
 
 class MasterFormViewController: FormViewController{
@@ -48,7 +49,6 @@ class MasterFormViewController: FormViewController{
     
     
     @objc func splitAction(sender: UIButton!) {
-        
         masterView.alerts.addSplit(runnerForm: sender)
     }
     
@@ -101,7 +101,7 @@ class MasterFormViewController: FormViewController{
                                 }
                                 
         
-                form = Section(teamName)
+            form = Section(teamName)
             <<< SegmentedRow<String>("segments"){
                 $0.options = ["Runners", "Stats"]
                 $0.value = "Runners"
@@ -145,8 +145,10 @@ class MasterFormViewController: FormViewController{
                                         row.title = " "
                                         row.titlePercentage = 0.20
                                         row.value = "00:00.00"
-                                    
-                    
+//                                    return TextFloatLabelRow() { row in
+//                                        row.title = " "
+//                                        row.value = "00:00.00"
+//
                                         }.cellSetup{ cell, row in
                                             //cell.height = {100}
                                             var buttons = self.createButtons()
@@ -157,7 +159,8 @@ class MasterFormViewController: FormViewController{
                                             self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
                                         }.cellUpdate({ cell, row in
                                             
-                                            //row.value.f = UIFont(name: "HelveticaNeue", size: 10.0)
+                                            //cell.height = {100}
+                                            //cell.textLabel?.textColor = UIColor.black  //font = UIFont.systemFont(ofSize:)
                                             
                                         })
                                         
@@ -229,9 +232,6 @@ class MasterFormViewController: FormViewController{
         
     }
     
-    func buttonTapped(cell: ButtonCellOf<String>, row: ButtonRow) {
-        print("tapped!")
-    }
     
     
     /// A function to create buttons that will be used throughout the form

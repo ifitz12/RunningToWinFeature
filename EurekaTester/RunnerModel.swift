@@ -51,7 +51,7 @@ struct RunnerModel {
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
     
-    
+    printRunnerList()
     
     }
     func printRunnerList() {
