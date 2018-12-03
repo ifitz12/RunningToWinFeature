@@ -62,6 +62,7 @@ struct RunnerModel {
                     let runner = run.value[i]
                     print(runner.membership + ": " + runner.firstName + " " + runner.lastName +  " - " )
                     print("Time: \(runner.time.time) Elapsed: \(runner.time.elapsed) \n")
+                    print("Splits: \(runner.time.splits) ")
                     
                 }
                 
@@ -93,6 +94,32 @@ struct RunnerModel {
             }
         }
         return false
+        
+    }
+    
+    func getSplits(key: String) -> [String]{
+        var allSplits: [String] = []
+        var str = ""
+        var workingStr = ""
+        var counter = 0;
+        var num = 1
+        
+        for r in masterRunnerList![key]!{
+            workingStr = r.firstName.capitalized + " " +  r.lastName.capitalized + "\n" + "\n"
+            //str = ""
+            print("werk string = " + workingStr)
+            for time in r.time.splits{
+                
+                workingStr.append(String(num) + ". " + time + "\n")
+                num+=1
+            }
+            num = 1
+            allSplits.append(workingStr)
+            
+        }
+        
+       //// print(allSpltis)
+        return allSplits
         
     }
     

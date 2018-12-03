@@ -29,8 +29,6 @@ class AlertsViewController: UIViewController{
       
     }
     
-    
-    
     func showNewRunnerDialog(cell: Cell<String>) -> UIAlertController{
         let alertController = UIAlertController(title: "New Runner", message: "", preferredStyle: .alert)
         
@@ -49,7 +47,7 @@ class AlertsViewController: UIViewController{
             }
                 
             else{
-                (cell.subviews[4] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
+                (cell.subviews[3] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
                 //cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
                 self.runners.createRunner(fName: self.firstName, lName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
 
@@ -116,7 +114,7 @@ class AlertsViewController: UIViewController{
     private func setRunner(runner: UIButton) -> RunnerModel.Runner{
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
         //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
-        var name = (runner.formCell()!.subviews[4] as? UIButton)?.currentTitle?.split(separator: " ")
+        var name = (runner.formCell()!.subviews[3] as? UIButton)?.currentTitle?.split(separator: " ")
        
         
         let fname = name![0].lowercased()
@@ -158,9 +156,7 @@ class AlertsViewController: UIViewController{
             }
             
         }
-        
-        
-        
+
         return false
     }
     
@@ -200,8 +196,13 @@ class AlertsViewController: UIViewController{
         }
         //currentRunner.time.splits.append(timeString)
         let time = timerList[currentRunner.lastName]?.timeString
+        
         timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
+        runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
+        
     }
+    
+    
     
     func runnerData(runnerForm: UIButton) -> String{
         if(runnerHasChanged(runnerForm: runnerForm)){
