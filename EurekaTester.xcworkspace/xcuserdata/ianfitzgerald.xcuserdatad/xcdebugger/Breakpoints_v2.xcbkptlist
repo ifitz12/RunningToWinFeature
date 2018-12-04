@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/RunnerModel.swift"
-            timestampString = "565567609.717514"
+            timestampString = "565577013.944909"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/RunnerModel.swift"
-            timestampString = "565567609.717627"
+            timestampString = "565577013.944975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "54"
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "565567609.717703"
+            timestampString = "565577013.945027"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
             <Locations>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/AlertsViewController.swift"
-            timestampString = "565567609.7182831"
+            timestampString = "565577013.945089"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "showNewRunnerDialog(cell:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "565567609.7183599"
+            timestampString = "565577013.945546"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
             landmarkName = "startAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,13 +122,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "565567609.718852"
+            timestampString = "565577013.9456069"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
-            landmarkName = "MasterFormViewController"
-            landmarkType = "3">
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EurekaTester/AlertsViewController.swift"
+            timestampString = "565577013.945663"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "startAll(runners:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EurekaTester/AlertsViewController.swift"
+            timestampString = "565577013.945944"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "startAll(runners:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

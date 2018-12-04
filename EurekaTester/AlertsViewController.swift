@@ -10,8 +10,15 @@ import Foundation
 import UIKit
 import Eureka
 
+
+protocol AlertsViewControllerDelegate: class {
+    func deleteFromButtonList(cell: Cell<String>)
+}
+
+
 class AlertsViewController: UIViewController{
 
+    weak var delegate: AlertsViewControllerDelegate?
     var teamName: String = ""
     var firstName: String = ""
     var lastName: String = ""
@@ -47,17 +54,26 @@ class AlertsViewController: UIViewController{
             }
                 
             else{
+                
                 (cell.subviews[3] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
+                
+                UIView.animate(withDuration: 1, delay: 0,
+                                           usingSpringWithDamping: 0.6,
+                                           initialSpringVelocity: 0.3,
+                                           options: [], animations: {
+                                            cell.subviews[3].center.x += self.view.bounds.width
+                                            
+                }, completion: nil)
                 //cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
                 self.runners.createRunner(fName: self.firstName, lName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
-
                 cell.update()
             }
         }
         
         //the cancel action doing nothing
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            cell.baseRow.title = "Runner"
+            cell.baseRow.section?.remove(at: cell.baseRow.indexPath!.row)
+            self.delegate?.deleteFromButtonList(cell: cell)
             cell.update()
         }
         
@@ -112,6 +128,7 @@ class AlertsViewController: UIViewController{
     }
 
     private func setRunner(runner: UIButton) -> RunnerModel.Runner{
+        runners.printRunnerList()
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
         //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
         var name = (runner.formCell()!.subviews[3] as? UIButton)?.currentTitle?.split(separator: " ")

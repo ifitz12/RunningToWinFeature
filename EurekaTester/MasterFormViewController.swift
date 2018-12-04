@@ -12,8 +12,9 @@ import Eureka
 import FloatLabelRow
 
 
-class MasterFormViewController: FormViewController{
+class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
+
     
     weak var timer: Timer?
     var startTime: Double = 0
@@ -36,7 +37,6 @@ class MasterFormViewController: FormViewController{
             sender.setTitle("STOP", for: .normal)
             sender.formCell()?.backgroundColor = startColor
             masterView.alerts.startTimer(runnerForm: sender)
-            
             UIButton.animate(withDuration: 0.2,
                              animations: {
                                 sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
@@ -121,6 +121,7 @@ class MasterFormViewController: FormViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         super.viewDidLayoutSubviews()
+        masterView.alerts.delegate = self
         var buttons = createButtons()
         //var textField = createTextField()
        
@@ -163,6 +164,7 @@ class MasterFormViewController: FormViewController{
                 }.onChange{[weak self] row in
                     if(row.value == true){
                         row.title = "Relay started!"
+                        //row.baseCell.addSubview(<#T##view: UIView##UIView#>)
                         row.updateCell()
                     }
                     else{
@@ -183,7 +185,6 @@ class MasterFormViewController: FormViewController{
                                     return ButtonRow(){ row in
                                         row.title = "Add New Runner"
                                         }
-                                    
                                 }
                             
                                 // Telling the section where to insert the new row
@@ -196,7 +197,8 @@ class MasterFormViewController: FormViewController{
                                     return TextFloatLabelRow() { row in
                                         row.title = " "
                                         row.value = "00:00.00"
-
+                                        
+                                        
                                         }.cellSetup{ cell, row in
                                             var buttons = self.createButtons()
                                             cell.addSubview(buttons[0])
@@ -211,6 +213,7 @@ class MasterFormViewController: FormViewController{
                                             cell.height = {80}
                                             cell.textField?.font = UIFont(name: "HelveticaNeue", size: 18.0)
                                             cell.textField?.textColor = .black
+                                            
                                         
                                         })
                                         
@@ -275,13 +278,14 @@ class MasterFormViewController: FormViewController{
     }
     
     
-    
+
     /// A function to create buttons that will be used throughout the form
     ///
     /// - Returns: An array of UIButtons
     func createButtons() -> [UIButton]{
         
         let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 30))
+        
         
         let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 30))
         let split = UIButton(frame: CGRect(x: 250, y: 45, width: 80, height: 25))
@@ -315,7 +319,7 @@ class MasterFormViewController: FormViewController{
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         title.layer.shadowOpacity = 0.5
-        //title.layer.shadowPath = shadowPath.CGPath
+        title.center.x -= view.bounds.width
         title.setTitleColor(.black, for: .normal)
     
         return [start, split, reset, splitData, title]
@@ -393,7 +397,21 @@ class MasterFormViewController: FormViewController{
         mainStopwatch?.reload()
         
     }
-
+    
+    
+    
+    ///DELEGATE METHODS
+    
+    func deleteFromButtonList(cell: Cell<String>) {
+        for b in buttonList{
+            if(b.formCell() == cell){
+                buttonList.removeLast()
+            }
+        }
+    }
+    
+    
+    
 }
     
 
