@@ -13,6 +13,8 @@ import Eureka
 
 protocol AlertsViewControllerDelegate: class {
     func deleteFromButtonList(cell: Cell<String>)
+    func animateStart(cell: Cell<String>)
+    func animateSplit(cell: Cell<String>)
 }
 
 
@@ -57,13 +59,18 @@ class AlertsViewController: UIViewController{
                 
                 (cell.subviews[3] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
                 
-                UIView.animate(withDuration: 1, delay: 0,
+                UIView.animate(withDuration: 0.8, delay: 0,
                                            usingSpringWithDamping: 0.6,
                                            initialSpringVelocity: 0.3,
                                            options: [], animations: {
                                             cell.subviews[3].center.x += self.view.bounds.width
                                             
                 }, completion: nil)
+                cell.baseRow.baseValue = "00:00.00"
+               
+                self.delegate?.animateStart(cell: cell)
+                self.delegate?.animateSplit(cell: cell)
+                
                 //cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
                 self.runners.createRunner(fName: self.firstName, lName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
                 cell.update()
@@ -80,15 +87,17 @@ class AlertsViewController: UIViewController{
         //adding textfields to our dialog box
         alertController.addTextField { (textField) in
             textField.placeholder = "First Name"
+            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
         }
         alertController.addTextField { (textField) in
             textField.placeholder = "Last Name"
+            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
         }
         
         //adding the action to dialogbox
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        
+        confirmAction.isEnabled = false
         //finally presenting the dialog box
         return alertController
     }
@@ -228,7 +237,7 @@ class AlertsViewController: UIViewController{
         }
         var splits = ""
         var i: Int = 1;
-        for str in (timerList[currentRunner.lastName]?.currentRunner.time.splits)!{//currentRunner.time.splits{
+        for str in (timerList[currentRunner.lastName]?.currentRunner.time.splits)!{
             if(str != ""){
             splits += String(i) + ". " + str + "\n"
             i+=1
@@ -311,8 +320,30 @@ class AlertsViewController: UIViewController{
                 runner.formCell()?.update()
             }
         }
+    }
+    
 }
 
+// Input validation
+extension UIAlertController {
+ 
+    func isLastNameEmpty(lastname: String) -> Bool {
+        print("last = " + String(lastname.isEmpty))
+        return !lastname.isEmpty
+    }
+    func isFirstNameEmpty(firstname: String) -> Bool{
+        print("first  = " + String(firstname.isEmpty))
+    
+        return !firstname.isEmpty
+    }
+    
+    @objc func textDidChangeInLoginAlert() {
+        if let lastname = textFields?[1].text,
+            let firstname = textFields?[0].text,
+            let action = actions.first {
+            action.isEnabled = isLastNameEmpty(lastname: lastname) && isFirstNameEmpty(firstname: firstname)
+        }
+    }
 }
     
     

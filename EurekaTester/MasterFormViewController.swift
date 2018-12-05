@@ -14,8 +14,8 @@ import FloatLabelRow
 
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
-
     
+
     weak var timer: Timer?
     var startTime: Double = 0
     var time: Double = 0
@@ -37,7 +37,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.setTitle("STOP", for: .normal)
             sender.formCell()?.backgroundColor = startColor
             masterView.alerts.startTimer(runnerForm: sender)
-            UIButton.animate(withDuration: 0.2,
+            UIButton.animate(withDuration: 0.1,
                              animations: {
                                 sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
             },
@@ -55,7 +55,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.setTitle("GO", for: .normal)
             masterView.alerts.stopTimer(runnerForm: sender)
             
-            UIButton.animate(withDuration: 0.2,
+            UIButton.animate(withDuration: 0.1,
                              animations: {
                                 sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
             },
@@ -123,35 +123,34 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         super.viewDidLayoutSubviews()
         masterView.alerts.delegate = self
         var buttons = createButtons()
-        //var textField = createTextField()
        
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
         animateScroll = true
         
         form +++
-            MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
-                               header: "Multivalued TextField",
-                               footer: ".Insert adds a 'Add Item' (Add New Tag) button row as last cell.") {
-                                $0.addButtonProvider = { section in
-                                    
-                                    return ButtonRow(){
-                                        $0.title = "Add New Tag"
-                                    }
-                                }
-                                $0.multivaluedRowToInsertAt = { index in
-                                    return NameRow() {
-                                        $0.placeholder = "Tag Name"
-                                    }
-                                }
-                                $0 <<< NameRow() {
-                                    $0.placeholder = "Tag Name"
-                                    
-                                }
-                                
-        
-            form = Section(teamName)
-            <<< SegmentedRow<String>("segments"){
+//            MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+//                               header: "Multivalued TextField",
+//                               footer: ".Insert adds a 'Add Item' (Add New Tag) button row as last cell.") {
+//                                $0.addButtonProvider = { section in
+//
+//                                    return ButtonRow(){
+//                                        $0.title = "Add New Tag"
+//                                    }
+//                                }
+//                                $0.multivaluedRowToInsertAt = { index in
+//                                    return NameRow() {
+//                                        $0.placeholder = "Tag Name"
+//                                    }
+//                                }
+//                                $0 <<< NameRow() {
+//                                    $0.placeholder = "Tag Name"
+//
+//                                }
+//
+//
+//            form = Section(teamName)
+             SegmentedRow<String>("segments"){
                 $0.options = ["Runners", "Stats"]
                 $0.value = "Runners"
                 $0.title = "Team 1:"
@@ -173,67 +172,14 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                     }
             }
             
-            +++  MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
-                                    header: "",
-                                    footer: ""){
-                                $0.hidden = "$segments != 'Runners'"
-                                $0.tag = teamName
-                                $0.showInsertIconInAddButton = false
-                                
-                                $0.addButtonProvider = { section in
-                                    print(section.values())
-                                    return ButtonRow(){ row in
-                                        row.title = "Add New Runner"
-                                        }
-                                }
-                            
-                                // Telling the section where to insert the new row
-                                $0.multivaluedRowToInsertAt = { index in
-                                   
-//                                    return TextRow() { row in
-//                                        row.title = " "
-//                                        row.titlePercentage = 0.20
-//                                        row.value = "00:00.00"
-                                    return TextFloatLabelRow() { row in
-                                        row.title = " "
-                                        row.value = "00:00.00"
-                                        
-                                        
-                                        }.cellSetup{ cell, row in
-                                            var buttons = self.createButtons()
-                                            cell.addSubview(buttons[0])
-                                            cell.addSubview(buttons[1])
-                                            //cell.addSubview(buttons[3])
-                                            cell.addSubview(buttons[4])
-                                            self.buttonList.append(buttons[0])
-                                            self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-                                            
-                                        }.cellUpdate({ cell, row in
-                                         
-                                            cell.height = {80}
-                                            cell.textField?.font = UIFont(name: "HelveticaNeue", size: 18.0)
-                                            cell.textField?.textColor = .black
-                                            
-                                        
-                                        })
-                                        
-                                }
-            }
-            
-            +++ Section(){ section in
-                section.tag = "Button"
-                section.hidden = "$segments != 'Runners'"
-
-            }
             <<< ButtonRow(){ row in
                 row.title = "Start Team 1"
                 row.baseCell.addSubview(buttons[2])
                 row.baseCell.addSubview(buttons[3])
                 
-                
                 }.onCellSelection{[weak self] cell, row  in
-                    print("hey!!!")
                     
+                    print("START CLICKED")
                     self?.mainStopwatch = row
                     if(self!.status == 1){
                         self?.stop()
@@ -256,41 +202,117 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                     
                     cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
                     cell.textLabel?.textColor = .black
-
+                    
                 })
-                    +++ Section(){
-                        $0.tag = "music_s"
-                        $0.hidden = "$segments != 'Stats'"
-                    }
-                    <<< createSelectorRow(teamName: "Team 1")
-                    <<< TextRow(){
-                        $0.title = "Test"
-                                }
-                                
-    }
-        }
     
-    func createSelectorRow(teamName: String) -> MultipleSelectorRow<String>{
-        return MultipleSelectorRow<String>() {
-            $0.title = teamName
-        }
+            
+            +++  MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+                                    header: "",
+                                    footer: ""){
+                                $0.hidden = "$segments != 'Runners'"
+                                $0.tag = teamName
+                                $0.showInsertIconInAddButton = false
+                                
+                                $0.addButtonProvider = { section in
+                                    print(section.values())
+                                    return ButtonRow(){ row in
+                                        row.title = "Add New Runner"
+                                        
+                                        }
+                                }
+                            
+                                // Telling the section where to insert the new row
+                                $0.multivaluedRowToInsertAt = { index in
+                                   
+                                    return TextFloatLabelRow() { row in
+                                        row.title = " "
+                                        
+                                        
+                                        }.cellSetup{ cell, row in
+                                            var buttons = self.createButtons()
+                                            cell.addSubview(buttons[0])
+                                            cell.addSubview(buttons[1])
+                                            //cell.addSubview(buttons[3])
+                                            cell.addSubview(buttons[4])
+                                            self.buttonList.append(buttons[0])
+                                            self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
+                                            
+                                        }.cellUpdate({ cell, row in
+                                            
+                                            cell.height = {80}
+                                            cell.textField?.font = UIFont(name: "HelveticaNeue", size: 20.0)
+                                            cell.textField?.textColor = .black
+                                            
+                                        })
+                                    
+                                        }
+                }
+                
+//            +++ Section(){ section in
+//                section.tag = "Button"
+//                section.hidden = "$segments != 'Runners'"
+//
+//            }
+//            <<< ButtonRow(){ row in
+//                row.title = "Start Team 1"
+//                row.baseCell.addSubview(buttons[2])
+//                row.baseCell.addSubview(buttons[3])
+//
+//                }.onCellSelection{[weak self] cell, row  in
+//
+//                    print("START CLICKED")
+//                    self?.mainStopwatch = row
+//                    if(self!.status == 1){
+//                        self?.stop()
+//
+//                        cell.textLabel?.textColor = UIColor.black
+//                        cell.backgroundColor = self!.pauseColor
+//                        buttons[2].backgroundColor = self!.pauseColor
+//                        buttons[3].backgroundColor = self!.pauseColor
+//
+//                    }
+//                    else if (self!.status == 0){
+//                        self?.start()
+//
+//                        cell.textLabel?.textColor = UIColor.black
+//                        cell.backgroundColor = self!.startColor
+//                        buttons[2].backgroundColor = self!.startColor
+//                        buttons[3].backgroundColor = self!.startColor
+//                    }
+//                }.cellUpdate({ cell, row in
+//
+//                    cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+//                    cell.textLabel?.textColor = .black
+//
+//                })
+        
         
     }
+       // }
+    
+//    func createSelectorRow(teamName: String) -> MultipleSelectorRow<String>{
+//        return MultipleSelectorRow<String>() {
+//            $0.title = teamName
+//        }
+//        
+//    }
     
     
-
     /// A function to create buttons that will be used throughout the form
     ///
     /// - Returns: An array of UIButtons
     func createButtons() -> [UIButton]{
         
         let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 30))
-        
-        
-        let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 30))
+        let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 25))
         let split = UIButton(frame: CGRect(x: 250, y: 45, width: 80, height: 25))
         let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 48))
         let splitData = UIButton(frame: CGRect(x:275 , y: 0, width: 100, height: 48))
+        
+        //Setting up positions for animations
+        title.center.x -= view.bounds.width
+        start.center.x += view.bounds.width
+        split.center.x += view.bounds.width
         
         start.backgroundColor = .green
         start.setTitle("GO", for: .normal)
@@ -319,20 +341,15 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         title.layer.shadowOpacity = 0.5
-        title.center.x -= view.bounds.width
         title.setTitleColor(.black, for: .normal)
     
         return [start, split, reset, splitData, title]
         
     }
    
-   
-    
     func start() {
         masterView.alerts.startAll(runners: buttonList)
-//        if(masterView.alerts.runnerIsStarted(runners: buttonList)){
-//            self.reset(resetAll: false)
-//        }
+
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
         self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
@@ -393,8 +410,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
      
       
-        mainStopwatch!.title = currentTime
-        mainStopwatch?.reload()
+       mainStopwatch!.title = currentTime
+       mainStopwatch?.reload()
+        
         
     }
     
@@ -410,6 +428,25 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         }
     }
     
+    func animateStart(cell: Cell<String>) {
+        UIView.animate(withDuration: 0.8, delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.3,
+                       options: [], animations: {
+                        cell.subviews[2].center.x -= self.view.bounds.width
+                        
+        }, completion: nil)
+    }
+    
+    func animateSplit(cell: Cell<String>) {
+        UIView.animate(withDuration: 0.8, delay: 0.1,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.3,
+                       options: [], animations: {
+                        cell.subviews[1].center.x -= self.view.bounds.width
+                        
+        }, completion: nil)
+    }
     
     
 }
