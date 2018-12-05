@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_EurekaTesterTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_EurekaTesterTestsVersionString[];
+FOUNDATION_EXPORT double Pods_Running2WinGroupTimerTestsVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_Running2WinGroupTimerTestsVersionString[];
 
