@@ -226,8 +226,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                    
                                     return TextFloatLabelRow() { row in
                                         row.title = " "
-                                        
-                                        
+
+//                                    return LabelRow() { row in
+//                                        row.title = " "
+////
                                         }.cellSetup{ cell, row in
                                             var buttons = self.createButtons()
                                             cell.addSubview(buttons[0])
@@ -240,8 +242,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                         }.cellUpdate({ cell, row in
                                             
                                             cell.height = {80}
-                                            cell.textField?.font = UIFont(name: "HelveticaNeue", size: 20.0)
-                                            cell.textField?.textColor = .black
+//                                            cell.textField?.font = UIFont(name: "HelveticaNeue", size: 20.0)
+//                                            cell.textField?.textColor = .black
+                                            
+                                            cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20.0)
+                                            cell.textLabel!.textColor = .black
+                                            
+                                            //cell.textLabel.
                                             
                                         })
                                     
