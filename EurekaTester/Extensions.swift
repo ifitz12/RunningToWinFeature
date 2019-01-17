@@ -8,6 +8,8 @@
 
 import Foundation
 import UIKit
+
+/// Allows UIColor to be set as hexidecimal colors
 extension UIColor {
     
     convenience init(hexString: String, alpha: CGFloat = 1.0) {

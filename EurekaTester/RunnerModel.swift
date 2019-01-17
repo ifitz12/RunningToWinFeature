@@ -35,7 +35,7 @@ struct RunnerModel {
     }
     
     
-    
+    /// Initializing the master runner list. Each new runner gets an entry with the following initializers
     var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
     
     
@@ -50,10 +50,10 @@ struct RunnerModel {
             
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
-    
-    printRunnerList()
-    
     }
+    
+    
+    ///Debug function for looking at all current runners
     func printRunnerList() {
         print("ALL RUNNERS ============================================= ")
         for i in 0...masterRunnerList!.count-2 {
@@ -62,9 +62,8 @@ struct RunnerModel {
                     let runner = run.value[i]
                     print(runner.membership + ": " + runner.firstName + " " + runner.lastName +  " - " )
                     print("Time: \(runner.time.time) Elapsed: \(runner.time.elapsed) \n")
-                    
+                    print("Splits: \(runner.time.splits) ")
                 }
-                
             }
         }
         print("=============================================================")
@@ -73,7 +72,7 @@ struct RunnerModel {
     
     func getFullName(button: UIButton) -> String{
         let team = button.formCell()?.baseRow.section?.tag!
-        var name = button.formCell()?.textLabel?.text?.split(separator: " ")
+        var name = (button.formCell()!.subviews[4] as? UIButton)?.currentTitle?.split(separator: " ")
         let fname = name![0].lowercased()
         let lname = name![1].lowercased()
         let run = getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: lname)
@@ -93,6 +92,32 @@ struct RunnerModel {
             }
         }
         return false
+    }
+    
+    
+    func getSplits(key: String) -> [String]{
+        var allSplits: [String] = []
+        var str = ""
+        var workingStr = ""
+        var counter = 0;
+        var num = 1
+        
+        for r in masterRunnerList![key]!{
+            workingStr = r.firstName.capitalized + " " +  r.lastName.capitalized + "\n" + "\n"
+            //str = ""
+            print("werk string = " + workingStr)
+            for time in r.time.splits{
+                
+                workingStr.append(String(num) + ". " + time + "\n")
+                num+=1
+            }
+            num = 1
+            allSplits.append(workingStr)
+            
+        }
+        
+       //// print(allSpltis)
+        return allSplits
         
     }
     
@@ -119,12 +144,10 @@ struct RunnerModel {
         
     }
     
-    
-    
     mutating func updateTimeElement(runner: RunnerModel.Runner){
         let team = runner.membership.lowercased()
         let fName = runner.firstName.lowercased()
-        let lName = runner.lastName //.first!).lowercased()
+        let lName = runner.lastName
         
         var count = 0
         for run in masterRunnerList![team]!{
