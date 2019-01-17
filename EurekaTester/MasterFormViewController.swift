@@ -227,9 +227,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                     return TextFloatLabelRow() { row in
                                         row.title = " "
 
-//                                    return LabelRow() { row in
-//                                        row.title = " "
-////
+
                                         }.cellSetup{ cell, row in
                                             var buttons = self.createButtons()
                                             cell.addSubview(buttons[0])

@@ -11,8 +11,10 @@ import UIKit
 
 
 
+/// For tracking all of the individual timers for each runner
 class TimerModel{
 
+    //Setting the current runner to be used throughout the iteration
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
     var button: UIButton = UIButton()
     let pauseColor = UIColor(hexString: "#FDFF66")
@@ -31,7 +33,7 @@ class TimerModel{
     
 
     
-    
+    /// Start funtion for an individual timer, called by StartAll() for each runner
     func start(){
         button.backgroundColor = .red
         button.formCell()?.backgroundColor = startColor
@@ -57,8 +59,6 @@ class TimerModel{
         
         // Set Start/Stop button to false
         currentRunner.time.status = false
-        //print("stopped: ")
-        //print(currentRunner.time)
     }
     
     func reset(){
@@ -68,8 +68,6 @@ class TimerModel{
         button.setTitleColor(.black, for: .normal)
         button.setTitle("GO", for: .normal)
         
-    
-        //self.stop()
         currentRunner.time.timer?.invalidate()
         weak var t: Timer?
         currentRunner.time.timer = t
@@ -86,17 +84,13 @@ class TimerModel{
         
     }
     
-    @objc func updateCounter(){   //runner: [String: RunnerModel.Runner], runnerCell: UIButton){
-        //var hold = currentRunner
-        
-        //var run = runner.
+    @objc func updateCounter(){
         // Calculate total time since timer started in seconds
         currentRunner.time.time = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         
         // Calculate minutes
         let minutes = UInt64(currentRunner.time.time / 60.0)
         currentRunner.time.time -= (TimeInterval(minutes) * 60)
-        
         
         // Calculate seconds
         let seconds = UInt64(currentRunner.time.time)
@@ -118,9 +112,5 @@ class TimerModel{
         
         
     }
-    
-    
-    
-    
-    
+   
 }

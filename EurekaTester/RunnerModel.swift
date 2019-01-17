@@ -35,7 +35,7 @@ struct RunnerModel {
     }
     
     
-    
+    /// Initializing the master runner list. Each new runner gets an entry with the following initializers
     var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
     
     
@@ -50,10 +50,10 @@ struct RunnerModel {
             
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
-    
-  
-    
     }
+    
+    
+    ///Debug function for looking at all current runners
     func printRunnerList() {
         print("ALL RUNNERS ============================================= ")
         for i in 0...masterRunnerList!.count-2 {
@@ -63,9 +63,7 @@ struct RunnerModel {
                     print(runner.membership + ": " + runner.firstName + " " + runner.lastName +  " - " )
                     print("Time: \(runner.time.time) Elapsed: \(runner.time.elapsed) \n")
                     print("Splits: \(runner.time.splits) ")
-                    
                 }
-                
             }
         }
         print("=============================================================")
@@ -94,8 +92,8 @@ struct RunnerModel {
             }
         }
         return false
-        
     }
+    
     
     func getSplits(key: String) -> [String]{
         var allSplits: [String] = []
@@ -146,12 +144,10 @@ struct RunnerModel {
         
     }
     
-    
-    
     mutating func updateTimeElement(runner: RunnerModel.Runner){
         let team = runner.membership.lowercased()
         let fName = runner.firstName.lowercased()
-        let lName = runner.lastName //.first!).lowercased()
+        let lName = runner.lastName
         
         var count = 0
         for run in masterRunnerList![team]!{

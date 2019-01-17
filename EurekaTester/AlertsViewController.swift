@@ -38,16 +38,19 @@ class AlertsViewController: UIViewController{
       
     }
     
+    
+    /// Presenting the new runner dialog box
     func showNewRunnerDialog(cell: Cell<String>) -> UIAlertController{
         let alertController = UIAlertController(title: "New Runner", message: "", preferredStyle: .alert)
         
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             
-            //getting the input values from user
-            self.firstName = (alertController.textFields?[0].text)!.trimmingCharacters(in: [" ", "."])
-            self.lastName = (alertController.textFields?[1].text)!.trimmingCharacters(in: [" ", "."])
+            var name = (alertController.textFields?[0].text)!.split(separator: " ")
             
+            self.firstName = name[0].trimmingCharacters(in: ["."])
+            self.lastName = name[1].trimmingCharacters(in: ["."])
+
             if(self.firstName == "" || self.lastName == ""){
                 let alert = UIAlertController(title: "Alert", message: "Message", preferredStyle: UIAlertController.Style.alert)
                 alert.addAction(UIAlertAction(title: "Click", style: UIAlertAction.Style.default, handler: nil))
@@ -70,8 +73,6 @@ class AlertsViewController: UIViewController{
                
                 self.delegate?.animateStart(cell: cell)
                 self.delegate?.animateSplit(cell: cell)
-                
-                //cell.baseRow.title = self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + "."
                 self.runners.createRunner(fName: self.firstName, lName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
                 cell.update()
             }
@@ -86,22 +87,27 @@ class AlertsViewController: UIViewController{
         
         //adding textfields to our dialog box
         alertController.addTextField { (textField) in
-            textField.placeholder = "First Name"
-            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
+            textField.placeholder = "Full Name"
+            
+           
+//            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
         }
-        alertController.addTextField { (textField) in
-            textField.placeholder = "Last Name"
-            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
-        }
+//        alertController.addTextField { (textField) in
+//            textField.placeholder = "Last Name"
+//            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
+//        }
         
         //adding the action to dialogbox
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        confirmAction.isEnabled = false
+        //confirmAction.isEnabled = false
+        
         //finally presenting the dialog box
         return alertController
     }
 
+    
+    /// Presenting the new team dialog box
     func showNewTeamDialog() -> UIAlertController{
         let alertController = UIAlertController(title: "New Team", message: "", preferredStyle: .alert)
         
@@ -136,13 +142,14 @@ class AlertsViewController: UIViewController{
         return self.teamName
     }
 
+    
+    /// Local function used to set the current runner in focus
     private func setRunner(runner: UIButton) -> RunnerModel.Runner{
         runners.printRunnerList()
         let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
         //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
         var name = (runner.formCell()!.subviews[3] as? UIButton)?.currentTitle?.split(separator: " ")
        
-        
         let fname = name![0].lowercased()
         let lname = name![1].lowercased()
         self.teamName = team!
@@ -151,6 +158,7 @@ class AlertsViewController: UIViewController{
     
     }
     
+    /// Local function used for checking if a runner has an initialized timer associated with them
    private func runnerInList(runner: RunnerModel.Runner) -> Bool{
         let name = runner.lastName
         for i in timerList{
@@ -162,6 +170,8 @@ class AlertsViewController: UIViewController{
         return false
     }
 
+    /// Local function that serves as a workaround for a bug that was
+    /// causing timers to not match up with their respective runners
     private func runnerHasChanged(runnerForm: UIButton) -> Bool {
         let dummy = setRunner(runner: runnerForm)
         
@@ -173,20 +183,8 @@ class AlertsViewController: UIViewController{
     }
     }
     
-    func runnerIsStarted(runners: [UIButton]) -> Bool{
-        
-        for runner in runners{
-            
-            if runner.formCell()?.backgroundColor == startColor{
-                return true
-            }
-            
-        }
-
-        return false
-    }
-    
-    
+   
+    /// Start timer for individual runner
     func startTimer(runnerForm: UIButton){
         currentRunner = setRunner(runner: runnerForm)
         
@@ -203,6 +201,7 @@ class AlertsViewController: UIViewController{
         print(currentRunner.firstName)
         }
     
+    /// Stop timer for individual runner
     func stopTimer(runnerForm: UIButton){
         
         if(runnerHasChanged(runnerForm: runnerForm)){
@@ -215,7 +214,7 @@ class AlertsViewController: UIViewController{
         print(currentRunner.firstName)
     }
     
-    
+    /// Add split for individual runner
     func addSplit(runnerForm: UIButton){
         if(runnerHasChanged(runnerForm: runnerForm)){
             currentRunner = setRunner(runner: runnerForm)
@@ -229,7 +228,8 @@ class AlertsViewController: UIViewController{
     }
     
     
-    
+    ///***NOT CURRENTLY USED***
+    /// Was used for individual split data buttons attached to each runner cell
     func runnerData(runnerForm: UIButton) -> String{
         if(runnerHasChanged(runnerForm: runnerForm)){
             
@@ -249,8 +249,8 @@ class AlertsViewController: UIViewController{
         return splits
     }
     
+    /// Starts all runners within a team
     func startAll(runners: [UIButton]){
-        
         for runner in runners{
             
             if(runner.backgroundColor == UIColor.red ){
@@ -276,8 +276,8 @@ class AlertsViewController: UIViewController{
         
     }
     
+    /// Stops all runners within a team
     func stopAll(runners: [UIButton]){
-        
         for runner in runners{
             currentRunner = setRunner(runner: runner)
             if(!runnerInList(runner: currentRunner)){
@@ -297,6 +297,7 @@ class AlertsViewController: UIViewController{
         
     }
     
+    /// Resets all runners within a team
     func resetAll(runners: [UIButton]){
         if(timerList.isEmpty){
             print("can't reset timers that haven't been started")
@@ -324,26 +325,38 @@ class AlertsViewController: UIViewController{
     
 }
 
+
+
+///***STILL IN DEVELOPMENT***
+/// Input validation extension for dialog boxes
+
 // Input validation
 extension UIAlertController {
  
-    func isLastNameEmpty(lastname: String) -> Bool {
-        print("last = " + String(lastname.isEmpty))
-        return !lastname.isEmpty
-    }
+//    func isLastNameEmpty(lastname: String?) -> Bool {
+//        //print("last = " + String(lastname.isEmpty))
+//        if let lname = lastname {//.split(separator: " "){
+//        let l = lname.split(separator: " ")
+//        return !l[1].isEmpty
+//        }
+//        return true
+//    }
     func isFirstNameEmpty(firstname: String) -> Bool{
         print("first  = " + String(firstname.isEmpty))
-    
-        return !firstname.isEmpty
+        let fname = firstname.split(separator: " ")
+
+        return !fname[0].isEmpty
     }
+
+//    @objc func textDidChangeInLoginAlert() {
+//       let name =  (textFields?[0].text)
+//
+//            //let firstname = name[1]
+//            let action = actions.first
+//        action?.isEnabled = isLastNameEmpty(lastname: (name ?? nil)!) && isFirstNameEmpty(firstname: (name ?? nil)!)
+//
+//    }
     
-    @objc func textDidChangeInLoginAlert() {
-        if let lastname = textFields?[1].text,
-            let firstname = textFields?[0].text,
-            let action = actions.first {
-            action.isEnabled = isLastNameEmpty(lastname: lastname) && isFirstNameEmpty(firstname: firstname)
-        }
-    }
 }
     
     
