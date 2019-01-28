@@ -87,10 +87,9 @@ class AlertsViewController: UIViewController{
         
         //adding textfields to our dialog box
         alertController.addTextField { (textField) in
+            confirmAction.isEnabled = false
             textField.placeholder = "Full Name"
-            
-           
-//            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
+            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
         }
 //        alertController.addTextField { (textField) in
 //            textField.placeholder = "Last Name"
@@ -326,36 +325,28 @@ class AlertsViewController: UIViewController{
 }
 
 
-
-///***STILL IN DEVELOPMENT***
-/// Input validation extension for dialog boxes
-
 // Input validation
 extension UIAlertController {
- 
-//    func isLastNameEmpty(lastname: String?) -> Bool {
-//        //print("last = " + String(lastname.isEmpty))
-//        if let lname = lastname {//.split(separator: " "){
-//        let l = lname.split(separator: " ")
-//        return !l[1].isEmpty
-//        }
-//        return true
-//    }
-    func isFirstNameEmpty(firstname: String) -> Bool{
-        print("first  = " + String(firstname.isEmpty))
-        let fname = firstname.split(separator: " ")
 
-        return !fname[0].isEmpty
+    func isFullName(name: String) -> Bool{
+      
+        let fname = name.split(separator: " ")
+        if (fname.count != 0 && fname.count > 1 && fname.count < 3){
+        return true
+        }
+        else{
+            return false
+        }
+        
     }
 
-//    @objc func textDidChangeInLoginAlert() {
-//       let name =  (textFields?[0].text)
-//
-//            //let firstname = name[1]
-//            let action = actions.first
-//        action?.isEnabled = isLastNameEmpty(lastname: (name ?? nil)!) && isFirstNameEmpty(firstname: (name ?? nil)!)
-//
-//    }
+    @objc func textDidChangeInLoginAlert() {
+       let name =  (textFields?[0].text)
+
+            let action = actions.first
+    action?.isEnabled = isFullName(name: name!)
+
+    }
     
 }
     
