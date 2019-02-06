@@ -16,6 +16,10 @@ class MasterHomeViewController: UIViewController{
 
     let alerts: AlertsViewController = AlertsViewController()
     
+    //NEW
+    @IBOutlet weak var editButton: UIBarButtonItem!
+   
+    
     
     @IBAction func newTeam(_ sender: UIButton) {
         self.viewDidAppear(true)
@@ -29,6 +33,7 @@ class MasterHomeViewController: UIViewController{
     }
         
         override func viewDidLoad() {
+            
         super.viewDidLoad()
             
     }

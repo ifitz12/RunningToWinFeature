@@ -6,8 +6,8 @@ target 'Running2WinGroupTimer' do
   use_frameworks!
 
   # Pods for EurekaTester
-	pod 'Eureka'
-	pod 'FloatLabelRow', :git => 'https://github.com/larsacus/FloatLabelRow', :branch => 'ExposeColorProperties'
+	pod 'Eureka', '~> 4.3.1'
+	
 	
   target 'Running2WinGroupTimerTests' do
     inherit! :search_paths

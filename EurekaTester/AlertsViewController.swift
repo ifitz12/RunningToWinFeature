@@ -20,7 +20,10 @@ protocol AlertsViewControllerDelegate: class {
 
 class AlertsViewController: UIViewController{
 
+    
+    
     weak var delegate: AlertsViewControllerDelegate?
+    
     var teamName: String = ""
     var firstName: String = ""
     var lastName: String = ""
@@ -69,7 +72,10 @@ class AlertsViewController: UIViewController{
                                             cell.subviews[3].center.x += self.view.bounds.width
                                             
                 }, completion: nil)
-                cell.baseRow.baseValue = "00:00.00"
+                cell.baseRow.title = "00:00.00"
+                cell.textLabel?.font = .systemFont(ofSize: 18)
+                //start.titleLabel?.font = .systemFont(ofSize: 12)
+                //cell.baseRow.baseValue = "00:00.00"
                
                 self.delegate?.animateStart(cell: cell)
                 self.delegate?.animateSplit(cell: cell)
@@ -165,7 +171,7 @@ class AlertsViewController: UIViewController{
                 return true
             }
        }
-        
+    
         return false
     }
 
@@ -337,7 +343,6 @@ extension UIAlertController {
         else{
             return false
         }
-        
     }
 
     @objc func textDidChangeInLoginAlert() {

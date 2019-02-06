@@ -9,13 +9,15 @@
 import Foundation
 import UIKit
 import Eureka
-import FloatLabelRow
+
 
 
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
-    
+ 
 
+    
+    
     weak var timer: Timer?
     var startTime: Double = 0
     var time: Double = 0
@@ -224,8 +226,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                 // Telling the section where to insert the new row
                                 $0.multivaluedRowToInsertAt = { index in
                                    
-                                    return TextFloatLabelRow() { row in
+                                    return TextRow() { row in
                                         row.title = " "
+                                        
 
 
                                         }.cellSetup{ cell, row in
