@@ -15,9 +15,6 @@ import Eureka
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
  
-
-    
-    
     weak var timer: Timer?
     var startTime: Double = 0
     var time: Double = 0
@@ -311,7 +308,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     /// - Returns: An array of UIButtons
     func createButtons() -> [UIButton]{
         
-        let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 30))
+        let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 20))
         let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 25))
         let split = UIButton(frame: CGRect(x: 250, y: 45, width: 80, height: 25))
         let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 48))

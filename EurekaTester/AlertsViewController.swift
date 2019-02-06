@@ -321,7 +321,7 @@ class AlertsViewController: UIViewController{
                 timerList[currentRunner.lastName]?.currentRunner.time.elapsed = 0
                 timerList[currentRunner.lastName]?.currentRunner.time.splits = resetSplits
                 
-                runner.formCell()?.baseRow.baseValue = "00:00.00"
+                runner.formCell()?.baseRow.title = "00:00.00"
                 runner.formCell()?.baseRow.baseCell.backgroundColor = .white
                 runner.formCell()?.update()
             }
