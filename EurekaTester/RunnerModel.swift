@@ -102,6 +102,8 @@ struct RunnerModel {
         var counter = 0;
         var num = 1
         
+        
+        if(masterRunnerList![key] != nil){
         for r in masterRunnerList![key]!{
             workingStr = r.firstName.capitalized + " " +  r.lastName.capitalized + "\n" + "\n"
             //str = ""
@@ -114,6 +116,7 @@ struct RunnerModel {
             num = 1
             allSplits.append(workingStr)
             
+        }
         }
         
        //// print(allSpltis)

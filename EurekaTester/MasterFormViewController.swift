@@ -83,13 +83,11 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         let runner = masterView.alerts.currentRunner
         let splits = masterView.alerts.runners.getSplits(key: "team1")
         var masterString = ""
-        print("splits = " + splits[0])
         
+       
         for i in splits{
             masterString.append(i)
-
         }
-        
         let messageText = NSMutableAttributedString(
             string: masterString,
             attributes: [
@@ -97,7 +95,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 NSAttributedString.Key.foregroundColor: UIColor.black
             ]
         )
-   
+        
         
         let alert = UIAlertController(title: "Alert", message: "", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Close", style: UIAlertAction.Style.default, handler: nil))
