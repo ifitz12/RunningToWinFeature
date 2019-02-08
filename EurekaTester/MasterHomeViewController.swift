@@ -10,8 +10,6 @@ import Foundation
 import UIKit
 
 
-
-
 class MasterHomeViewController: UIViewController{
 
     let alerts: AlertsViewController = AlertsViewController()

@@ -22,6 +22,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     var status: Int = 0
     var mainStopwatch: ButtonRow? = nil
     var masterView: MasterHomeViewController = MasterHomeViewController()
+    var runnerHandler: RunnerHandler = RunnerHandler() //RunnerHandler()
     var count: Int = 0
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
@@ -35,7 +36,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.setTitleColor(.white, for: .normal)
             sender.setTitle("STOP", for: .normal)
             sender.formCell()?.backgroundColor = startColor
-            masterView.alerts.startTimer(runnerForm: sender)
+            runnerHandler.startTimer(runnerForm: sender)
             UIButton.animate(withDuration: 0.1,
                              animations: {
                                 sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
@@ -52,7 +53,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.formCell()?.backgroundColor = pauseColor
             sender.setTitleColor(.black, for: .normal)
             sender.setTitle("GO", for: .normal)
-            masterView.alerts.stopTimer(runnerForm: sender)
+            runnerHandler.stopTimer(runnerForm: sender)
             
             UIButton.animate(withDuration: 0.1,
                              animations: {
@@ -69,7 +70,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     
     @objc func splitAction(sender: UIButton!) {
-        masterView.alerts.addSplit(runnerForm: sender)
+        runnerHandler.addSplit(runnerForm: sender)
     }
     
     
@@ -80,8 +81,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     @objc func dataAction(sender: UIButton!) {
         
-        let runner = masterView.alerts.currentRunner
-        let splits = masterView.alerts.runners.getSplits(key: "team1")
+        let runner = runnerHandler.currentRunner
+        let splits = runnerHandler.runners.getSplits(key: "team1")
         var masterString = ""
         
        
@@ -118,7 +119,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         super.viewDidLayoutSubviews()
-        masterView.alerts.delegate = self
+        masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
+       // masterView.alerts.runnerDelegate = self as? AlertsViewControllerRunnerDelegate
         var buttons = createButtons()
        
         buttons[2].setTitleColor(.black, for: .normal)
@@ -126,27 +128,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         animateScroll = true
         
         form +++
-//            MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
-//                               header: "Multivalued TextField",
-//                               footer: ".Insert adds a 'Add Item' (Add New Tag) button row as last cell.") {
-//                                $0.addButtonProvider = { section in
-//
-//                                    return ButtonRow(){
-//                                        $0.title = "Add New Tag"
-//                                    }
-//                                }
-//                                $0.multivaluedRowToInsertAt = { index in
-//                                    return NameRow() {
-//                                        $0.placeholder = "Tag Name"
-//                                    }
-//                                }
-//                                $0 <<< NameRow() {
-//                                    $0.placeholder = "Tag Name"
-//
-//                                }
-//
-//
-//            form = Section(teamName)
+
              SegmentedRow<String>("segments"){
                 $0.options = ["Runners", "Stats"]
                 $0.value = "Runners"
@@ -351,7 +333,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
    
     func start() {
-        masterView.alerts.startAll(runners: buttonList)
+        runnerHandler.startAll(runners: buttonList)
 
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
         self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
@@ -362,7 +344,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func stop() {
-        masterView.alerts.stopAll(runners: buttonList)
+        runnerHandler.stopAll(runners: buttonList)
         self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
         self.timer?.invalidate()
         
@@ -373,7 +355,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     func reset(resetAll: Bool){
         if(resetAll){
-        masterView.alerts.resetAll(runners: buttonList)
+        runnerHandler.resetAll(runners: buttonList)
         }
         //Reseting timer attributes
         self.timer?.invalidate()
