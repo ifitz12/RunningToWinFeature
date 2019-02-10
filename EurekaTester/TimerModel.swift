@@ -9,8 +9,6 @@
 import Foundation
 import UIKit
 
-
-
 /// For tracking all of the individual timers for each runner
 class TimerModel{
 
@@ -31,8 +29,6 @@ class TimerModel{
         return self.currentRunner
     }
     
-
-    
     /// Start funtion for an individual timer, called by StartAll() for each runner
     func start(){
         button.backgroundColor = .red
@@ -52,8 +48,7 @@ class TimerModel{
     }
     
     func stop()  {
-        
-        
+
         currentRunner.time.elapsed = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         currentRunner.time.timer?.invalidate()
         
@@ -77,7 +72,7 @@ class TimerModel{
         let splits: [String] = []
         currentRunner.time.splits = splits
         
-        currentRunner.cell.formCell()?.baseRow.title  = "00:00.00"
+        currentRunner.cell.baseRow.title  = "00:00.00"
        // currentRunner.cell.formCell()?.baseRow.baseValue = "00:00.00"
         currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = .white
         currentRunner.cell.formCell()?.update()

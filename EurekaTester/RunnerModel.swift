@@ -12,7 +12,7 @@ import Eureka
 
 
 struct RunnerModel {
-    
+
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
     var currentCell: BaseCell = BaseCell()
     
@@ -39,7 +39,7 @@ struct RunnerModel {
     var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
     
     
-   mutating func createRunner(fName: String, lName: String, membership: String, cell: BaseCell){
+  mutating func createRunner(fName: String, lName: String, membership: String, cell: BaseCell){
         let lower = membership.lowercased()
     
         if(teamInDictionary(team: membership)){
@@ -102,6 +102,8 @@ struct RunnerModel {
         var counter = 0;
         var num = 1
         
+        
+        if(masterRunnerList![key] != nil){
         for r in masterRunnerList![key]!{
             workingStr = r.firstName.capitalized + " " +  r.lastName.capitalized + "\n" + "\n"
             //str = ""
@@ -114,6 +116,7 @@ struct RunnerModel {
             num = 1
             allSplits.append(workingStr)
             
+        }
         }
         
        //// print(allSpltis)
