@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import Eureka
 
-class RunnerHandler: UIViewController, AlertsViewControllerRunnerDelegate {
+class RunnerHandler {
     
     var timerList: Dictionary<String, TimerModel> = [:]
     var currentRunner = RunnerModel.Runner()
@@ -19,19 +19,8 @@ class RunnerHandler: UIViewController, AlertsViewControllerRunnerDelegate {
     let pauseColor = UIColor(hexString: "#FDFF66")
     var timeString = ""
     let alerts: AlertsViewController = AlertsViewController()
-   // alerts.runnerDelegate = self
-func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell) {
-    print("fired!")
-        runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
-    }
-    
-    override func viewDidLoad(){
-        alerts.runnerDelegate = self
-    }
+  
    
-        
-    
-    
 /// Local function used to set the current runner in focus
 private func setRunner(runner: UIButton) -> RunnerModel.Runner{
     //runners.printRunnerList()
@@ -81,7 +70,7 @@ func startTimer(runnerForm: UIButton){
         let newRun: TimerModel = TimerModel()
         newRun.createEntry(runner: currentRunner, runnerButton: runnerForm)
         timerList[currentRunner.lastName] = newRun
-        print(timerList)
+        
     }
     print(timerList)
     timerList[currentRunner.lastName]?.start()
@@ -205,7 +194,7 @@ func resetAll(runners: [UIButton]){
             timerList[currentRunner.lastName]?.currentRunner.time.elapsed = 0
             timerList[currentRunner.lastName]?.currentRunner.time.splits = resetSplits
 
-            runner.formCell()?.baseRow.baseValue = "00:00.00"
+            runner.formCell()?.baseRow.title = "00:00.00"
             runner.formCell()?.baseRow.baseCell.backgroundColor = .white
             runner.formCell()?.update()
         }

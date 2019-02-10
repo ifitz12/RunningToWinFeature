@@ -12,9 +12,7 @@ import Eureka
 
 
 struct RunnerModel {
-    
-    
-    
+
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
     var currentCell: BaseCell = BaseCell()
     

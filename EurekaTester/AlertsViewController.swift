@@ -11,22 +11,22 @@ import UIKit
 import Eureka
 
 
-protocol AlertsViewControllerDelegate{
+protocol AlertsViewControllerDelegate: class {
     func deleteFromButtonList(cell: Cell<String>)
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
-    
-}
-
-protocol AlertsViewControllerRunnerDelegate {
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
 }
+
+//protocol AlertsViewControllerRunnerDelegate {
+//    func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
+//}
 
 
 class AlertsViewController: UIViewController{
 
     var delegate: AlertsViewControllerDelegate?
-    var runnerDelegate: AlertsViewControllerRunnerDelegate?
+    //var runnerDelegate: AlertsViewControllerRunnerDelegate?
     
     var teamName: String = ""
     var firstName: String = ""
@@ -70,13 +70,13 @@ class AlertsViewController: UIViewController{
                                             
                 }, completion: nil)
                 cell.baseRow.title = "00:00.00"
-                cell.textLabel?.font = .systemFont(ofSize: 18)
+                cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20.0)
                 //start.titleLabel?.font = .systemFont(ofSize: 12)
                 //cell.baseRow.baseValue = "00:00.00"
                
                 self.delegate?.animateStart(cell: cell)
                 self.delegate?.animateSplit(cell: cell)
-                self.runnerDelegate?.newRunner(firstName: self.firstName, lastName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
+                self.delegate?.newRunner(firstName: self.firstName, lastName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
                 cell.update()
             }
         }
