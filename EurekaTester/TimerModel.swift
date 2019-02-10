@@ -77,7 +77,7 @@ class TimerModel{
         let splits: [String] = []
         currentRunner.time.splits = splits
         
-        currentRunner.cell.formCell()?.baseRow.title  = "00:00.00"
+        currentRunner.cell.baseRow.title  = "00:00.00"
        // currentRunner.cell.formCell()?.baseRow.baseValue = "00:00.00"
         currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = .white
         currentRunner.cell.formCell()?.update()
