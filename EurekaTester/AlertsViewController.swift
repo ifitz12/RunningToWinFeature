@@ -94,11 +94,7 @@ class AlertsViewController: UIViewController{
             textField.placeholder = "Full Name"
             textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
         }
-//        alertController.addTextField { (textField) in
-//            textField.placeholder = "Last Name"
-//            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInLoginAlert), for: .editingChanged)
-//        }
-        
+
         //adding the action to dialogbox
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)

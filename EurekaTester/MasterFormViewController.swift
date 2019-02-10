@@ -14,9 +14,6 @@ import Eureka
 
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
-    
-    
- 
     weak var timer: Timer?
     var startTime: Double = 0
     var time: Double = 0
@@ -24,7 +21,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     var status: Int = 0
     var mainStopwatch: ButtonRow? = nil
     var masterView: MasterHomeViewController = MasterHomeViewController()
-    var runnerHandler: RunnerHandler = RunnerHandler() //RunnerHandler()
+    var runnerHandler: RunnerHandler = RunnerHandler()
     var count: Int = 0
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
@@ -127,7 +124,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
        
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
-        animateScroll = true
+        animateScroll = false
         
         form +++
 
@@ -282,8 +279,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         runnerHandler.startAll(runners: buttonList)
 
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-        //let queue = DispatchQueue(label: "mainTimer")
-       // queue.async {
+        
             self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         
         // Set Start/Stop button to true
@@ -344,13 +340,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
      
       
        mainStopwatch!.title = currentTime
-       mainStopwatch?.reload()
-        
-        
+       
+    DispatchQueue.main.async{
+       self.mainStopwatch?.updateCell()
+        }
     }
     
-    
-    
+
     ///DELEGATE METHODS
     
     func deleteFromButtonList(cell: Cell<String>) {
