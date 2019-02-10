@@ -172,7 +172,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         
                     }
                     else if (self!.status == 0){
-                        self?.start()
+                       
+                            self?.start()
                         
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.startColor
@@ -281,7 +282,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         runnerHandler.startAll(runners: buttonList)
 
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-        self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        //let queue = DispatchQueue(label: "mainTimer")
+       // queue.async {
+            self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
         
         // Set Start/Stop button to true
         self.status = 1
