@@ -72,12 +72,13 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Timer" id="H8z-pN-RrX">
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="An3-CG-DJW"/>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="An3-CG-DJW">
+                            <connections>
+                                <action selector="editButton:" destination="BYZ-38-t0r" id="cRE-w3-vNv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="editButton" destination="An3-CG-DJW" id="G4U-Ax-Ifq"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -15,7 +15,12 @@ class MasterHomeViewController: UIViewController {
     let alerts: AlertsViewController = AlertsViewController()
    
 
-    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBAction func editButton(_ sender: UIBarButtonItem) {
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: [sender: (Any).self])
+        
+    }
+    
     
     
     convenience init() {
@@ -34,6 +39,11 @@ class MasterHomeViewController: UIViewController {
       
     }
 
+    
+    override func viewDidLoad() {
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: nil)
+    }
     
 
 }

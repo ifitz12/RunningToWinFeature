@@ -234,6 +234,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
         masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
         //masterView.delegate = self
         //masterView.setButton()
         tableView.isEditing = false
@@ -471,7 +472,15 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
 
-    ///DELEGATE METHODS
+    ///DELEGATE AND NOTIFICATION METHODS
+    
+    @objc func editForm(_ n:Notification){
+        if let check = n.userInfo?.first!.key{
+            let button = check as! UIBarButtonItem
+            tableView.setEditing(!tableView.isEditing, animated: true)
+            button.title = tableView.isEditing ? "Done" : "Edit"
+        }
+    }
     
     @objc func newTeam(_ n:Notification) {
         print("Fired!")
