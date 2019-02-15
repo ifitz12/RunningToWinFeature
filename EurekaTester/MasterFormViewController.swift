@@ -13,6 +13,8 @@ import Eureka
 
 
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
+
+    
     
     weak var timer: Timer?
     var startTime: Double = 0
@@ -27,7 +29,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     let pauseColor = UIColor(hexString: "#FDFF66")
     var teamName = "team1"
     var buttonList: [UIButton] = []
-
+    
     
     @objc func startAction(sender: UIButton!) {
         if(sender.backgroundColor == .green){
@@ -112,22 +114,30 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        //masterView.editButton.target = self
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         super.viewDidLayoutSubviews()
+        
+        //masterView.editButton.action = #selector(editPressed(sender:))
         masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
+        //masterView.delegate = self
+        //masterView.setButton()
+        tableView.isEditing = false
+        animateScroll = true
        // masterView.alerts.runnerDelegate = self as? AlertsViewControllerRunnerDelegate
         var buttons = createButtons()
+        
+
        
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
-        animateScroll = false
+        
         
         form +++
-
+            
              SegmentedRow<String>("segments"){
                 $0.options = ["Runners", "Stats"]
                 $0.value = "Runners"
@@ -141,7 +151,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 }.onChange{[weak self] row in
                     if(row.value == true){
                         row.title = "Relay started!"
-                        //row.baseCell.addSubview(<#T##view: UIView##UIView#>)
                         row.updateCell()
                     }
                     else{
@@ -222,10 +231,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                         }
         }
         
-        
+     
     }
-
     
+
     /// A function to create buttons that will be used throughout the form
     ///
     /// - Returns: An array of UIButtons
@@ -279,9 +288,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         runnerHandler.startAll(runners: buttonList)
 
         self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-        
+        DispatchQueue.main.async{
             self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        
+        }
         // Set Start/Stop button to true
         self.status = 1
         
@@ -349,6 +358,16 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
     ///DELEGATE METHODS
     
+    
+    
+    func editPressed(sender: UIBarButtonItem){
+        //masterView.editButton.title = tableView.isEditing ? "Done" : "Edit"
+        print("YO")
+        tableView.setEditing(!self.tableView.isEditing, animated: true)
+        sender.title = self.tableView.isEditing ? "Done" : "Edit"
+        
+    }
+    
     func deleteFromButtonList(cell: Cell<String>) {
         for b in buttonList{
             if(b.formCell() == cell){
@@ -358,6 +377,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func animateStart(cell: Cell<String>) {
+//        masterView.editButton.target = self
+//        masterView.sendSignal(button: masterView.editButton)
+//
+      
         UIView.animate(withDuration: 0.8, delay: 0,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.3,

@@ -18,16 +18,11 @@ protocol AlertsViewControllerDelegate: class {
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
 }
 
-//protocol AlertsViewControllerRunnerDelegate {
-//    func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
-//}
 
 
 class AlertsViewController: UIViewController{
 
-    var delegate: AlertsViewControllerDelegate?
-    //var runnerDelegate: AlertsViewControllerRunnerDelegate?
-    
+    weak var delegate: AlertsViewControllerDelegate?
     var teamName: String = ""
     var firstName: String = ""
     var lastName: String = ""
