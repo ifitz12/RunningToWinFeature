@@ -13,7 +13,7 @@ import Eureka
 
 
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
-
+    
     
     
     weak var timer: Timer?
@@ -110,44 +110,22 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         print(masterString)
     }
 
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //masterView.editButton.target = self
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        super.viewDidLayoutSubviews()
-        
-        //masterView.editButton.action = #selector(editPressed(sender:))
-        masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
-        //masterView.delegate = self
-        //masterView.setButton()
-        tableView.isEditing = false
-        animateScroll = true
-       // masterView.alerts.runnerDelegate = self as? AlertsViewControllerRunnerDelegate
+    private func addSection(teamName: String) -> Section{
+        let tag1 = teamName + "Switch"
+        let tag2 = teamName + "Segmented"
         var buttons = createButtons()
-        
-
-       
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
-        
-        
-        form +++
-            
-             SegmentedRow<String>("segments"){
-                $0.options = ["Runners", "Stats"]
-                $0.value = "Runners"
-                $0.title = "Team 1:"
-            }
-            
-            <<< SwitchRow("switch"){ row in
-                row.title = "Relay"
-                row.hidden = "$segments != 'Runners'"
-                
+//     let section = SegmentedRow<String>("segmented"){
+//            $0.options = ["Runners", "Stats"]
+//            $0.value = "Runners"
+//        $0.title = teamName + ": "
+//            }
+
+            let section = SwitchRow(tag1){ row in
+                row.title = teamName + "                              Relay"
+                //row.hidden = "$segmented != 'Runners'"
+
                 }.onChange{[weak self] row in
                     if(row.value == true){
                         row.title = "Relay started!"
@@ -158,29 +136,29 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         row.updateCell()
                     }
             }
-            
+
             <<< ButtonRow(){ row in
-                row.title = "Start Team 1"
+                row.title = "Start Team " + teamName.uppercased()
                 row.baseCell.addSubview(buttons[2])
                 row.baseCell.addSubview(buttons[3])
-                
+
                 }.onCellSelection{[weak self] cell, row  in
-                    
+
                     print("START CLICKED")
                     self?.mainStopwatch = row
                     if(self!.status == 1){
                         self?.stop()
-                        
+
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.pauseColor
                         buttons[2].backgroundColor = self!.pauseColor
                         buttons[3].backgroundColor = self!.pauseColor
-                        
+
                     }
                     else if (self!.status == 0){
-                       
-                            self?.start()
-                        
+
+                        self?.start()
+
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.startColor
                         buttons[2].backgroundColor = self!.startColor
@@ -189,48 +167,185 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 }.cellUpdate({ cell, row in
                     cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
                     cell.textLabel?.textColor = .black
-                    
+
                 })
+
+        return section
+        
+    }
     
-            
-            +++  MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
-                                    header: "",
-                                    footer: ""){
-                                $0.hidden = "$segments != 'Runners'"
-                                $0.tag = teamName
-                                        $0.showInsertIconInAddButton = false
+    private func createMultivaluedSection(teamName: String) -> Section{
+        let tag1 = teamName + "Switch"
+      let section = MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+                           header: "",
+                           footer: ""){
+                            //$0.hidden = "$segmented != 'Runners'"
+                            $0.tag = teamName
+                            $0.showInsertIconInAddButton = false
+                            
+                            $0.addButtonProvider = { section in
+                                print(section.values())
+                                return ButtonRow(){ row in
+                                    row.title = "Add New Runner"
+                                    
+                                }
+                            }
+                            
+                            // Telling the section where to insert the new row
+                            $0.multivaluedRowToInsertAt = { index in
+                                
+                                return TextRow() { row in
+                                    row.title = " "
+                                    }.cellSetup{ cell, row in
+                                        var buttons = self.createButtons()
+                                        cell.addSubview(buttons[0])
+                                        cell.addSubview(buttons[1])
+                                        cell.addSubview(buttons[4])
+                                        self.buttonList.append(buttons[0])
+                                        self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
                                         
-                                        $0.addButtonProvider = { section in
-                                            print(section.values())
-                                            return ButtonRow(){ row in
-                                                row.title = "Add New Runner"
-                                                
-                                            }
-                                        }
+                                    }.cellUpdate({ cell, row in
                                         
-                                        // Telling the section where to insert the new row
-                                        $0.multivaluedRowToInsertAt = { index in
-                                            
-                                            return TextRow() { row in
-                                                row.title = " "
-                                                }.cellSetup{ cell, row in
-                                                    var buttons = self.createButtons()
-                                                    cell.addSubview(buttons[0])
-                                                    cell.addSubview(buttons[1])
-                                                    cell.addSubview(buttons[4])
-                                                    self.buttonList.append(buttons[0])
-                                                    self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-                                                    
-                                                }.cellUpdate({ cell, row in
-                                                    
-                                                    cell.height = {80}
-                                                    
-                                                    
-                                                })
-                                            
-                                        }
+                                        cell.height = {80}
+                                        
+                                        
+                                    })
+                                
+                            }
         }
         
+        
+        return section
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //masterView.editButton.target = self
+    }
+    
+    func setDelegate(){
+        masterView.alerts.delegate = self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        super.viewDidLayoutSubviews()
+        
+        masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
+        NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
+        //masterView.delegate = self
+        //masterView.setButton()
+        tableView.isEditing = false
+        animateScroll = true
+        // masterView.alerts.runnerDelegate = self as? AlertsViewControllerRunnerDelegate
+        //var buttons = createButtons()
+        var buttons = createButtons()
+
+       
+        buttons[2].setTitleColor(.black, for: .normal)
+        buttons[3].setTitleColor(.black, for: .normal)
+        
+
+       // form +++ addSection(teamName: "Hey")
+        //form +++ createMultivaluedSection(teamName: "Hey")
+        
+        
+        
+//        form +++
+//            SegmentedRow<String>("segments"){
+//                $0.options = ["Runners", "Stats"]
+//                $0.value = "Runners"
+//                $0.title = "Team 1:"
+//            }
+//
+//            <<< SwitchRow("switch"){ row in
+//                row.title = "Relay"
+//                row.hidden = "$segments != 'Runners'"
+//
+//                }.onChange{[weak self] row in
+//                    if(row.value == true){
+//                        row.title = "Relay started!"
+//                        row.updateCell()
+//                    }
+//                    else{
+//                        row.title = "Relay"
+//                        row.updateCell()
+//                    }
+//            }
+//
+//            <<< ButtonRow(){ row in
+//                row.title = "Start Team 1"
+//                row.baseCell.addSubview(buttons[2])
+//                row.baseCell.addSubview(buttons[3])
+//
+//                }.onCellSelection{[weak self] cell, row  in
+//
+//                    print("START CLICKED")
+//                    self?.mainStopwatch = row
+//                    if(self!.status == 1){
+//                        self?.stop()
+//
+//                        cell.textLabel?.textColor = UIColor.black
+//                        cell.backgroundColor = self!.pauseColor
+//                        buttons[2].backgroundColor = self!.pauseColor
+//                        buttons[3].backgroundColor = self!.pauseColor
+//
+//                    }
+//                    else if (self!.status == 0){
+//
+//                            self?.start()
+//
+//                        cell.textLabel?.textColor = UIColor.black
+//                        cell.backgroundColor = self!.startColor
+//                        buttons[2].backgroundColor = self!.startColor
+//                        buttons[3].backgroundColor = self!.startColor
+//                    }
+//                }.cellUpdate({ cell, row in
+//                    cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
+//                    cell.textLabel?.textColor = .black
+//
+//                })
+//
+//
+//            +++  MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+//                                    header: "",
+//                                    footer: ""){
+//                                $0.hidden = "$segments != 'Runners'"
+//                                $0.tag = teamName
+//                                        $0.showInsertIconInAddButton = false
+//
+//                                        $0.addButtonProvider = { section in
+//                                            print(section.values())
+//                                            return ButtonRow(){ row in
+//                                                row.title = "Add New Runner"
+//
+//                                            }
+//                                        }
+//
+//                                        // Telling the section where to insert the new row
+//                                        $0.multivaluedRowToInsertAt = { index in
+//
+//                                            return TextRow() { row in
+//                                                row.title = " "
+//                                                }.cellSetup{ cell, row in
+//                                                    var buttons = self.createButtons()
+//                                                    cell.addSubview(buttons[0])
+//                                                    cell.addSubview(buttons[1])
+//                                                    cell.addSubview(buttons[4])
+//                                                    self.buttonList.append(buttons[0])
+//                                                    self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
+//
+//                                                }.cellUpdate({ cell, row in
+//
+//                                                    cell.height = {80}
+//
+//
+//                                                })
+//
+//                                        }
+//        }
+//        
      
     }
     
@@ -358,7 +473,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
     ///DELEGATE METHODS
     
-    
+    @objc func newTeam(_ n:Notification) {
+        print("Fired!")
+        let team = n.userInfo!.first!.key.base
+        form +++ addSection(teamName: team as! String)
+        form +++ createMultivaluedSection(teamName: team as! String)
+        
+    }
     
     func editPressed(sender: UIBarButtonItem){
         //masterView.editButton.title = tableView.isEditing ? "Done" : "Edit"

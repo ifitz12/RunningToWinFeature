@@ -16,13 +16,14 @@ protocol AlertsViewControllerDelegate: class {
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
+    
 }
 
 
-
 class AlertsViewController: UIViewController{
-
+    
     weak var delegate: AlertsViewControllerDelegate?
+  
     var teamName: String = ""
     var firstName: String = ""
     var lastName: String = ""
@@ -68,7 +69,7 @@ class AlertsViewController: UIViewController{
                 cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20.0)
                 //start.titleLabel?.font = .systemFont(ofSize: 12)
                 //cell.baseRow.baseValue = "00:00.00"
-               
+                
                 self.delegate?.animateStart(cell: cell)
                 self.delegate?.animateSplit(cell: cell)
                 self.delegate?.newRunner(firstName: self.firstName, lastName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
@@ -100,16 +101,18 @@ class AlertsViewController: UIViewController{
     }
 
     
+    
     /// Presenting the new team dialog box
     func showNewTeamDialog() -> UIAlertController{
-        let alertController = UIAlertController(title: "New Team", message: "", preferredStyle: .alert)
         
+        let alertController = UIAlertController(title: "New Team", message: "", preferredStyle: .alert)
+         // present(alertController, animated: true, completion: nil)
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             
             //getting the input values from user
             self.teamName = (alertController.textFields?[0].text)!
-            
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: [self.teamName: (Any).self])
         }
         
         //the cancel action doing nothing
@@ -127,14 +130,12 @@ class AlertsViewController: UIViewController{
         alertController.addAction(cancelAction)
         alertController.addAction(importAction)
         
-        print(cancelAction)
         return alertController
     }
     
     func newTeamName() -> String {
         return self.teamName
     }
-
 }
 
 
