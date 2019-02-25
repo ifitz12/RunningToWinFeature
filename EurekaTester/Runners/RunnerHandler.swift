@@ -10,15 +10,26 @@ import Foundation
 import UIKit
 import Eureka
 
-class RunnerHandler {
+struct RunnerHandler {
+    
+    var teamName: String = ""
+    var currentRunner:RunnerModel.Runner //RunnerModel.Runner()
+    var runners: RunnerModel
+    
+    init(team: String){
+        self.teamName = team
+        self.runners = RunnerModel(team: team)
+        self.currentRunner = RunnerModel.Runner()
+    }
+    
     
     var timerList: Dictionary<String, TimerModel> = [:]
-    var currentRunner = RunnerModel.Runner()
-    var runners: RunnerModel = RunnerModel()
+    //var currentRunner = RunnerModel.Runner()
+    //var runners: RunnerModel = RunnerModel()
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
     var timeString = ""
-    let alerts: AlertsViewController = AlertsViewController()
+    //let alerts: AlertsViewController = AlertsViewController()
   
    
 /// Local function used to set the current runner in focus
@@ -32,6 +43,8 @@ private func setRunner(runner: UIButton) -> RunnerModel.Runner{
     let lname = name![1].lowercased()
     //self.teamName = team!
     let d = lname.split(separator: ".")
+    print("set runner")
+    print(runners.getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: String(d[0])))
     return runners.getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: String(d[0]))
 
 }
@@ -63,7 +76,7 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
 
 
 /// Start timer for individual runner
-func startTimer(runnerForm: UIButton){
+mutating func startTimer(runnerForm: UIButton){
     currentRunner = setRunner(runner: runnerForm)
 
     if(!runnerInList(runner: currentRunner)){
@@ -72,15 +85,13 @@ func startTimer(runnerForm: UIButton){
         timerList[currentRunner.lastName] = newRun
         
     }
-    print(timerList)
     timerList[currentRunner.lastName]?.start()
 
-    print("start clicked")
-    print(currentRunner.firstName)
+    
 }
 
 /// Stop timer for individual runner
-func stopTimer(runnerForm: UIButton){
+    mutating func stopTimer(runnerForm: UIButton){
 
     if(runnerHasChanged(runnerForm: runnerForm)){
         currentRunner = setRunner(runner: runnerForm)
@@ -88,12 +99,11 @@ func stopTimer(runnerForm: UIButton){
 
     timerList[currentRunner.lastName]?.stop()
     runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
-    print("stop clicked")
-    print(currentRunner.firstName)
+    
 }
 
 /// Add split for individual runner
-func addSplit(runnerForm: UIButton){
+    mutating func addSplit(runnerForm: UIButton){
     if(runnerHasChanged(runnerForm: runnerForm)){
         currentRunner = setRunner(runner: runnerForm)
     }
@@ -108,7 +118,7 @@ func addSplit(runnerForm: UIButton){
 
 ///***NOT CURRENTLY USED***
 /// Was used for individual split data buttons attached to each runner cell
-func runnerData(runnerForm: UIButton) -> String{
+    mutating func runnerData(runnerForm: UIButton) -> String{
     if(runnerHasChanged(runnerForm: runnerForm)){
 
         currentRunner = setRunner(runner: runnerForm)
@@ -128,14 +138,16 @@ func runnerData(runnerForm: UIButton) -> String{
 }
 
 /// Starts all runners within a team
-func startAll(runners: [UIButton]){
+    mutating func startAll(runners: [UIButton]){
     for runner in runners{
-
+        print("current Runner")
+        print(timerList[currentRunner.lastName])
         if(runner.backgroundColor == UIColor.red ){
             currentRunner = setRunner(runner: runner)
+            
             timerList[currentRunner.lastName]?.reset()
             timerList[currentRunner.lastName]?.start()
-            print("RUNNER RESET")
+            
         }else{
 
             currentRunner = setRunner(runner: runner)
@@ -155,8 +167,11 @@ func startAll(runners: [UIButton]){
 }
 
 /// Stops all runners within a team
-func stopAll(runners: [UIButton]){
+    mutating func stopAll(runners: [UIButton]){
+        
+        
     for runner in runners{
+        
         currentRunner = setRunner(runner: runner)
         if(!runnerInList(runner: currentRunner)){
             let newRun: TimerModel = TimerModel()
@@ -176,7 +191,7 @@ func stopAll(runners: [UIButton]){
 }
 
 /// Resets all runners within a team
-func resetAll(runners: [UIButton]){
+    mutating func resetAll(runners: [UIButton]){
     if(timerList.isEmpty){
         print("can't reset timers that haven't been started")
     }

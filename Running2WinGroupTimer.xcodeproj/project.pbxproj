@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		4238FE776DD1956A9656E91F /* Pods_Running2WinGroupTimerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B53D61548EB02151331F901 /* Pods_Running2WinGroupTimerTests.framework */; };
 		D477F2C1EC06DC284F58EB4B /* Pods_Running2WinGroupTimer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1259BAD86F4B8D4E56D9CC2F /* Pods_Running2WinGroupTimer.framework */; };
+		FD0B49AD22234E9100090D16 /* TeamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49AC22234E9100090D16 /* TeamHandler.swift */; };
+		FD0B49B022237A9900090D16 /* MainStopwatchTimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49AF22237A9900090D16 /* MainStopwatchTimerModel.swift */; };
+		FD0B49B222245E1800090D16 /* MainStopwatchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49B122245E1800090D16 /* MainStopwatchHandler.swift */; };
+		FD0B49B42224954D00090D16 /* MainStopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49B32224954D00090D16 /* MainStopwatch.swift */; };
 		FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB42191F85D00715784 /* MasterHomeViewController.swift */; };
 		FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB62198BE8500715784 /* RunnerModel.swift */; };
 		FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB82198D67200715784 /* AlertsViewController.swift */; };
 		FD667FBB219F450100715784 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBA219F450100715784 /* TimerModel.swift */; };
 		FD667FBD21AF097B00715784 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBC21AF097B00715784 /* Extensions.swift */; };
 		FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */; };
+		FDD05C4222174C7B00625C41 /* FormButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD05C4122174C7B00625C41 /* FormButtons.swift */; };
 		FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BB2181144600E56B93 /* AppDelegate.swift */; };
 		FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BD2181144600E56B93 /* ViewController.swift */; };
 		FDE8F5C12181144600E56B93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDE8F5BF2181144600E56B93 /* Main.storyboard */; };
@@ -54,12 +59,17 @@
 		8B53D61548EB02151331F901 /* Pods_Running2WinGroupTimerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Running2WinGroupTimerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B53772D859EFE392A0E2C461 /* Pods-Running2WinGroupTimer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer.release.xcconfig"; sourceTree = "<group>"; };
 		B8449B7DF341800F5C655D1A /* Pods-Running2WinGroupTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Running2WinGroupTimer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Running2WinGroupTimer/Pods-Running2WinGroupTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		FD0B49AC22234E9100090D16 /* TeamHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamHandler.swift; sourceTree = "<group>"; };
+		FD0B49AF22237A9900090D16 /* MainStopwatchTimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatchTimerModel.swift; sourceTree = "<group>"; };
+		FD0B49B122245E1800090D16 /* MainStopwatchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatchHandler.swift; sourceTree = "<group>"; };
+		FD0B49B32224954D00090D16 /* MainStopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatch.swift; sourceTree = "<group>"; };
 		FD667FB42191F85D00715784 /* MasterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterHomeViewController.swift; sourceTree = "<group>"; };
 		FD667FB62198BE8500715784 /* RunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerModel.swift; sourceTree = "<group>"; };
 		FD667FB82198D67200715784 /* AlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
 		FD667FBA219F450100715784 /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		FD667FBC21AF097B00715784 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerHandler.swift; sourceTree = "<group>"; };
+		FDD05C4122174C7B00625C41 /* FormButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormButtons.swift; sourceTree = "<group>"; };
 		FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Running2WinGroupTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE8F5BB2181144600E56B93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDE8F5BD2181144600E56B93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +123,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		FD0B49AB22234D9C00090D16 /* Runners */ = {
+			isa = PBXGroup;
+			children = (
+				FD667FB62198BE8500715784 /* RunnerModel.swift */,
+				FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */,
+				FD667FBA219F450100715784 /* TimerModel.swift */,
+				FD0B49AC22234E9100090D16 /* TeamHandler.swift */,
+				FD0B49AF22237A9900090D16 /* MainStopwatchTimerModel.swift */,
+				FD0B49B122245E1800090D16 /* MainStopwatchHandler.swift */,
+				FD0B49B32224954D00090D16 /* MainStopwatch.swift */,
+			);
+			path = Runners;
+			sourceTree = "<group>";
+		};
 		FDE8F5AF2181144600E56B93 = {
 			isa = PBXGroup;
 			children = (
@@ -136,7 +160,7 @@
 		FDE8F5BA2181144600E56B93 /* EurekaTester */ = {
 			isa = PBXGroup;
 			children = (
-				FD667FB62198BE8500715784 /* RunnerModel.swift */,
+				FD0B49AB22234D9C00090D16 /* Runners */,
 				FDE8F5BB2181144600E56B93 /* AppDelegate.swift */,
 				FDE8F5BD2181144600E56B93 /* ViewController.swift */,
 				FDE8F5BF2181144600E56B93 /* Main.storyboard */,
@@ -146,9 +170,8 @@
 				FD667FB42191F85D00715784 /* MasterHomeViewController.swift */,
 				FDE8F5DB2181153F00E56B93 /* MasterFormViewController.swift */,
 				FD667FB82198D67200715784 /* AlertsViewController.swift */,
-				FD667FBA219F450100715784 /* TimerModel.swift */,
 				FD667FBC21AF097B00715784 /* Extensions.swift */,
-				FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */,
+				FDD05C4122174C7B00625C41 /* FormButtons.swift */,
 			);
 			path = EurekaTester;
 			sourceTree = "<group>";
@@ -328,11 +351,16 @@
 				FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */,
 				FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */,
 				FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */,
+				FD0B49B42224954D00090D16 /* MainStopwatch.swift in Sources */,
 				FD667FBD21AF097B00715784 /* Extensions.swift in Sources */,
 				FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */,
 				FD667FBB219F450100715784 /* TimerModel.swift in Sources */,
+				FD0B49AD22234E9100090D16 /* TeamHandler.swift in Sources */,
+				FD0B49B022237A9900090D16 /* MainStopwatchTimerModel.swift in Sources */,
+				FDD05C4222174C7B00625C41 /* FormButtons.swift in Sources */,
 				FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */,
 				FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */,
+				FD0B49B222245E1800090D16 /* MainStopwatchHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

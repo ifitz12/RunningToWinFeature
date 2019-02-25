@@ -13,8 +13,12 @@ import Eureka
 
 struct RunnerModel {
 
-    var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
-    var currentCell: BaseCell = BaseCell()
+    var teamName: String = ""
+    
+    init(team: String){
+        self.teamName = team
+    }
+    
     
     struct timeElements{
         weak var timer: Timer?
@@ -26,6 +30,7 @@ struct RunnerModel {
     }
     
     struct Runner {
+        
         var firstName: String = ""
         var lastName: String = ""
         var membership: String = ""

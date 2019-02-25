@@ -10,34 +10,59 @@ import Foundation
 import UIKit
 import Eureka
 
-
-
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
     
     
     
-    weak var timer: Timer?
-    var startTime: Double = 0
-    var time: Double = 0
-    var elapsed: Double = 0
-    var status: Int = 0
-    var mainStopwatch: ButtonRow? = nil
+    
     var masterView: MasterHomeViewController = MasterHomeViewController()
-    var runnerHandler: RunnerHandler = RunnerHandler()
+    var teamHandler: TeamHandler = TeamHandler()
+    var stopwatchHandler: MainStopwatchHandler = MainStopwatchHandler()
+    //var runnerHandler: RunnerHandler = RunnerHandler()
     var count: Int = 0
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
     var teamName = "team1"
-    var buttonList: [UIButton] = []
+    var buttonList: [String: [UIButton]]  = [:]
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
+    func setDelegate(){
+        masterView.alerts.delegate = self
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        super.viewDidLayoutSubviews()
+        tableView.isEditing = false
+        animateScroll = true
+        masterView.alerts.delegate = self
+        
+        //Observers for
+        NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "newTeamSender"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
+        
+        
+        var buttons = createButtons()
+        buttons[2].setTitleColor(.black, for: .normal)
+        buttons[3].setTitleColor(.black, for: .normal)
+    }
     
     
     @objc func startAction(sender: UIButton!) {
+        
+        let team = sender.formCell()?.baseRow.section!.tag
+        
         if(sender.backgroundColor == .green){
             sender.backgroundColor = .red
             sender.setTitleColor(.white, for: .normal)
             sender.setTitle("STOP", for: .normal)
             sender.formCell()?.backgroundColor = startColor
-            runnerHandler.startTimer(runnerForm: sender)
+            teamHandler.runnnerHandlers[team!]?.startTimer(runnerForm: sender)
+           // runnerHandler.startTimer(runnerForm: sender)
             UIButton.animate(withDuration: 0.1,
                              animations: {
                                 sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96)
@@ -54,7 +79,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.formCell()?.backgroundColor = pauseColor
             sender.setTitleColor(.black, for: .normal)
             sender.setTitle("GO", for: .normal)
-            runnerHandler.stopTimer(runnerForm: sender)
+            teamHandler.runnnerHandlers[team!]?.stopTimer(runnerForm: sender)
+           // runnerHandler.stopTimer(runnerForm: sender)
             
             UIButton.animate(withDuration: 0.1,
                              animations: {
@@ -71,23 +97,27 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     
     @objc func splitAction(sender: UIButton!) {
-        runnerHandler.addSplit(runnerForm: sender)
+        let team = sender.formCell()?.baseRow.section!.tag!
+        teamHandler.runnnerHandlers[team!]?.addSplit(runnerForm: sender)
+       // runnerHandler.addSplit(runnerForm: sender)
     }
     
     
-    @objc func resetAction(sender: UIButton!){
-        print("button tapped")
-        self.reset(resetAll: true)
-    }
+//    @objc func resetAction(sender: UIButton!){
+//        print("button tapped")
+//        self.reset(resetAll: true)
+//    }
     
     @objc func dataAction(sender: UIButton!) {
-        
-        let runner = runnerHandler.currentRunner
-        let splits = runnerHandler.runners.getSplits(key: "team1")
+        let team = sender.formCell()?.baseRow.section!.tag!
+        //let runner = teamHandler.runnnerHandlers[team!]?.currentRunner
+        let splits = teamHandler.runnnerHandlers[team!]?.runners.getSplits(key: team!)
+        //let runner = runnerHandler.currentRunner
+        //let splits = runnerHandler.runners.getSplits(key: "team1")
         var masterString = ""
         
        
-        for i in splits{
+        for i in splits!{
             masterString.append(i)
         }
         let messageText = NSMutableAttributedString(
@@ -106,25 +136,30 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         self.present(alert, animated: true, completion: nil)
         
         masterString = ""
-        print("HERE")
-        print(masterString)
+        
+    }
+    
+    func startAllTeam(team: String){
+        teamHandler.stopwatchHandlers[team]?.startTimer(team: team)
+        teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team]!)
+    }
+    
+    func stopAllTeam(team: String){
+        teamHandler.stopwatchHandlers[team]?.stopTimer(team: team)
+        teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
     }
 
     private func addSection(teamName: String) -> Section{
         let tag1 = teamName + "Switch"
-        let tag2 = teamName + "Segmented"
+        
+        teamHandler.newEntry(team: teamName)
         var buttons = createButtons()
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
-//     let section = SegmentedRow<String>("segmented"){
-//            $0.options = ["Runners", "Stats"]
-//            $0.value = "Runners"
-//        $0.title = teamName + ": "
-//            }
 
             let section = SwitchRow(tag1){ row in
                 row.title = teamName + "                              Relay"
-                //row.hidden = "$segmented != 'Runners'"
+               
 
                 }.onChange{[weak self] row in
                     if(row.value == true){
@@ -138,26 +173,39 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             }
 
             <<< ButtonRow(){ row in
-                row.title = "Start Team " + teamName.uppercased()
+                row.tag = teamName
+                
+                row.title = "Start Team " + teamName.capitalized
                 row.baseCell.addSubview(buttons[2])
                 row.baseCell.addSubview(buttons[3])
-
+                self.newTimer(team: teamName, sender: row.baseCell)
+                
+                let resetSwipeAction = SwipeAction(style: .normal, title: "Reset"){ (action, row, completionHandler) in
+                    self.teamHandler.stopwatchHandlers[teamName]?.mainTimerList[teamName]?.reset(resetAll: true, team: teamName)
+                    
+                    completionHandler?(true)
+                }
+                row.leadingSwipe.actions.append(resetSwipeAction)
                 }.onCellSelection{[weak self] cell, row  in
-
-                    print("START CLICKED")
-                    self?.mainStopwatch = row
-                    if(self!.status == 1){
-                        self?.stop()
+                    row.tag = teamName
+                    
+                    //self?.teamHandler.stopwatchHandlers[teamName]?.currentTimer = self!.buttonTimers[teamName]!
+                    //self!.currentTimer.mainStopwatch = row
+                    
+                    //self?.mainStopwatch = row
+                    if(self!.teamHandler.stopwatchHandlers[teamName]?.currentTimer.time.status == 1){
+                  //  if(self!.status == 1){
+                        self?.stopAllTeam(team: teamName)
 
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.pauseColor
                         buttons[2].backgroundColor = self!.pauseColor
                         buttons[3].backgroundColor = self!.pauseColor
-
+                        
                     }
-                    else if (self!.status == 0){
+                    else if(self!.teamHandler.stopwatchHandlers[teamName]?.currentTimer.time.status == 0){
 
-                        self?.start()
+                        self?.startAllTeam(team: teamName)
 
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.startColor
@@ -165,6 +213,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         buttons[3].backgroundColor = self!.startColor
                     }
                 }.cellUpdate({ cell, row in
+                    row.tag = teamName
                     cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
                     cell.textLabel?.textColor = .black
 
@@ -175,7 +224,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     private func createMultivaluedSection(teamName: String) -> Section{
-        let tag1 = teamName + "Switch"
+        
       let section = MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
                            header: "",
                            footer: ""){
@@ -184,7 +233,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                             $0.showInsertIconInAddButton = false
                             
                             $0.addButtonProvider = { section in
-                                print(section.values())
+                                
                                 return ButtonRow(){ row in
                                     row.title = "Add New Runner"
                                     
@@ -198,14 +247,25 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                     row.title = " "
                                     }.cellSetup{ cell, row in
                                         var buttons = self.createButtons()
+                                        
+                                        //Adding buttons to runner cell
                                         cell.addSubview(buttons[0])
                                         cell.addSubview(buttons[1])
-                                        cell.addSubview(buttons[4])
-                                        self.buttonList.append(buttons[0])
+                                        cell.addSubview(buttons[3])
+                                        
+                                        //Handling button list additions
+                                        if(self.buttonList[teamName] == nil){
+                                        self.buttonList[teamName] = [buttons[0]]
+                                        }
+                                        else{
+                                            self.buttonList[teamName]?.append(buttons[0])
+                                        }
+                                        
+                                        //Animating button appearence
                                         self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
                                         
+                                    //Adjusting cell size
                                     }.cellUpdate({ cell, row in
-                                        
                                         cell.height = {80}
                                         
                                         
@@ -219,175 +279,45 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        //masterView.editButton.target = self
-    }
-    
-    func setDelegate(){
-        masterView.alerts.delegate = self
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        super.viewDidLayoutSubviews()
-        
-        masterView.alerts.delegate = self //as? AlertsViewControllerDelegate
-        NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "notificationName"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
-        //masterView.delegate = self
-        //masterView.setButton()
-        tableView.isEditing = false
-        animateScroll = true
-        // masterView.alerts.runnerDelegate = self as? AlertsViewControllerRunnerDelegate
-        //var buttons = createButtons()
-        var buttons = createButtons()
-
-       
-        buttons[2].setTitleColor(.black, for: .normal)
-        buttons[3].setTitleColor(.black, for: .normal)
-        
-
-       // form +++ addSection(teamName: "Hey")
-        //form +++ createMultivaluedSection(teamName: "Hey")
-        
-        
-        
-//        form +++
-//            SegmentedRow<String>("segments"){
-//                $0.options = ["Runners", "Stats"]
-//                $0.value = "Runners"
-//                $0.title = "Team 1:"
-//            }
-//
-//            <<< SwitchRow("switch"){ row in
-//                row.title = "Relay"
-//                row.hidden = "$segments != 'Runners'"
-//
-//                }.onChange{[weak self] row in
-//                    if(row.value == true){
-//                        row.title = "Relay started!"
-//                        row.updateCell()
-//                    }
-//                    else{
-//                        row.title = "Relay"
-//                        row.updateCell()
-//                    }
-//            }
-//
-//            <<< ButtonRow(){ row in
-//                row.title = "Start Team 1"
-//                row.baseCell.addSubview(buttons[2])
-//                row.baseCell.addSubview(buttons[3])
-//
-//                }.onCellSelection{[weak self] cell, row  in
-//
-//                    print("START CLICKED")
-//                    self?.mainStopwatch = row
-//                    if(self!.status == 1){
-//                        self?.stop()
-//
-//                        cell.textLabel?.textColor = UIColor.black
-//                        cell.backgroundColor = self!.pauseColor
-//                        buttons[2].backgroundColor = self!.pauseColor
-//                        buttons[3].backgroundColor = self!.pauseColor
-//
-//                    }
-//                    else if (self!.status == 0){
-//
-//                            self?.start()
-//
-//                        cell.textLabel?.textColor = UIColor.black
-//                        cell.backgroundColor = self!.startColor
-//                        buttons[2].backgroundColor = self!.startColor
-//                        buttons[3].backgroundColor = self!.startColor
-//                    }
-//                }.cellUpdate({ cell, row in
-//                    cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
-//                    cell.textLabel?.textColor = .black
-//
-//                })
-//
-//
-//            +++  MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
-//                                    header: "",
-//                                    footer: ""){
-//                                $0.hidden = "$segments != 'Runners'"
-//                                $0.tag = teamName
-//                                        $0.showInsertIconInAddButton = false
-//
-//                                        $0.addButtonProvider = { section in
-//                                            print(section.values())
-//                                            return ButtonRow(){ row in
-//                                                row.title = "Add New Runner"
-//
-//                                            }
-//                                        }
-//
-//                                        // Telling the section where to insert the new row
-//                                        $0.multivaluedRowToInsertAt = { index in
-//
-//                                            return TextRow() { row in
-//                                                row.title = " "
-//                                                }.cellSetup{ cell, row in
-//                                                    var buttons = self.createButtons()
-//                                                    cell.addSubview(buttons[0])
-//                                                    cell.addSubview(buttons[1])
-//                                                    cell.addSubview(buttons[4])
-//                                                    self.buttonList.append(buttons[0])
-//                                                    self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
-//
-//                                                }.cellUpdate({ cell, row in
-//
-//                                                    cell.height = {80}
-//
-//
-//                                                })
-//
-//                                        }
-//        }
-//        
-     
-    }
     
 
     /// A function to create buttons that will be used throughout the form
     ///
     /// - Returns: An array of UIButtons
     func createButtons() -> [UIButton]{
-        
+
         let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 20))
         let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 25))
         let split = UIButton(frame: CGRect(x: 250, y: 45, width: 80, height: 25))
-        let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 48))
+        //let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 48))
         let splitData = UIButton(frame: CGRect(x:275 , y: 0, width: 100, height: 48))
-        
+
         //Setting up positions for animations
         title.center.x -= view.bounds.width
         start.center.x += view.bounds.width
         split.center.x += view.bounds.width
-        
+
         start.backgroundColor = .green
         start.setTitle("GO", for: .normal)
         start.setTitleColor(.black, for: .normal)
         start.titleLabel?.font = .systemFont(ofSize: 12)
         start.addTarget(self, action: #selector(self.startAction), for: .touchUpInside)
-        
+
         split.backgroundColor = .blue
         split.setTitle("Split", for: .normal)
         split.titleLabel?.font = .systemFont(ofSize: 12)
         split.addTarget(self, action: #selector(self.splitAction), for: .touchUpInside)
-        
-        reset.setTitle("RESET", for: .normal)
-        reset.addTarget(self, action: #selector(self.resetAction), for: .touchUpInside)
-        reset.layer.borderWidth = 1.0
-        reset.layer.borderColor = UIColor.black.cgColor
-        
+
+//        reset.setTitle("RESET", for: .normal)
+//        reset.addTarget(self, action: #selector(self.resetAction), for: .touchUpInside)
+//        reset.layer.borderWidth = 1.0
+//        reset.layer.borderColor = UIColor.black.cgColor
+
         splitData.setTitle("Data", for: .normal)
         splitData.layer.borderWidth = 1.0
         splitData.layer.borderColor = UIColor.black.cgColor
         splitData.addTarget(self, action: #selector(self.dataAction), for: .touchUpInside)
-    
+
         title.backgroundColor = .orange
         title.setTitle("", for: .normal)
         title.layer.masksToBounds = false
@@ -395,82 +325,117 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         title.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
         title.layer.shadowOpacity = 0.5
         title.setTitleColor(.black, for: .normal)
-    
-        return [start, split, reset, splitData, title]
-        
-    }
-   
-    func start() {
-        runnerHandler.startAll(runners: buttonList)
 
-        self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-        DispatchQueue.main.async{
-            self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        }
-        // Set Start/Stop button to true
-        self.status = 1
-        
+        return [start, split, splitData, title]
+
     }
     
-    func stop() {
-        runnerHandler.stopAll(runners: buttonList)
-        self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
-        self.timer?.invalidate()
-        
-        // Set Start/Stop button to false
-        self.status = 0
-        print(self.elapsed)
-    }
-    
-    func reset(resetAll: Bool){
-        if(resetAll){
-        runnerHandler.resetAll(runners: buttonList)
-        }
-        //Reseting timer attributes
-        self.timer?.invalidate()
-        weak var t: Timer?
-        self.timer = t
-        self.time = 0
-        self.startTime = 0
-        self.elapsed = 0
-        self.status = 0
-        
-        mainStopwatch?.title = "00:00.00"
-        mainStopwatch?.cell.backgroundColor = .white
-        mainStopwatch?.updateCell()
-    }
-    
-    @objc func update() {
-        
-        // Calculate total time since timer started in seconds
-        time = Date().timeIntervalSinceReferenceDate - startTime
-        
-        // Calculate minutes
-        let minutes = UInt64(time / 60.0)
-        time -= (TimeInterval(minutes) * 60)
-        
-        // Calculate seconds
-        let seconds = UInt64(time)
-        time -= TimeInterval(seconds)
-        
-        // Calculate milliseconds
-        let milliseconds = UInt64(time * 100)
-        
-        // Format time vars with leading zero
-        let strMinutes = String(format: "%02d", minutes)
-        let strSeconds = String(format: "%02d", seconds)
-        let strMilliseconds = String(format: "%02d", milliseconds)
-        
-        let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
-     
-      
-       mainStopwatch!.title = currentTime
-       
-    DispatchQueue.main.async{
-       self.mainStopwatch?.updateCell()
-        }
-    }
-    
+   
+   
+//    func start(team: String) {
+//        
+//        teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team.lowercased()]!)
+//        
+//        self.currentTimer.startTime = Date().timeIntervalSinceReferenceDate - self.currentTimer.elapsed
+//       // self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
+//        DispatchQueue.main.async{
+//            self.currentTimer.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//            //self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
+//        }
+//        // Set Start/Stop button to true
+//        self.currentTimer.status = 1
+//        //self.status = 1
+//        self.buttonTimers[team] = currentTimer
+//        
+//    }
+//    
+//    func stop(team: String) {
+//        
+//        teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
+//        
+//        self.currentTimer.elapsed = Date().timeIntervalSinceReferenceDate - self.currentTimer.startTime
+//        //self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
+//        self.currentTimer.timer?.invalidate()
+//        //self.timer?.invalidate()
+//        
+//        // Set Start/Stop button to false
+//        self.currentTimer.status = 0
+//        //self.status = 0
+//        self.buttonTimers[team] = currentTimer
+//        
+//    }
+//    
+//    func reset(resetAll: Bool, team: String){
+//        if(resetAll){
+//            teamHandler.runnnerHandlers[team]?.resetAll(runners: buttonList[team]!)
+//            //runnerHandler.resetAll(runners: buttonList[team]!)
+//        }
+//        //Reseting timer attributes
+//        self.currentTimer.timer?.invalidate()
+//        weak var t: Timer?
+//        self.currentTimer.timer = t
+//        self.currentTimer.time = 0
+//        self.currentTimer.startTime = 0
+//        self.currentTimer.elapsed = 0
+//        self.currentTimer.status = 0
+//        
+//        self.currentTimer.mainStopwatch?.title = "00:00.00"
+//        self.currentTimer.mainStopwatch?.cell.backgroundColor = .white
+//        self.currentTimer.mainStopwatch?.updateCell()
+//        
+//        
+//        
+////        self.timer?.invalidate()
+////        weak var t: Timer?
+////        self.timer = t
+////        self.time = 0
+////        self.startTime = 0
+////        self.elapsed = 0
+////        self.status = 0
+////
+////        mainStopwatch?.title = "00:00.00"
+////        mainStopwatch?.cell.backgroundColor = .white
+////        mainStopwatch?.updateCell()
+//    }
+//    
+//    @objc func update() {
+//        
+//        
+//        // Calculate total time since timer started in seconds
+//        
+//        self.currentTimer.time = Date().timeIntervalSinceReferenceDate - self.currentTimer.startTime
+//       // time = Date().timeIntervalSinceReferenceDate - startTime
+//        
+//        // Calculate minutes
+//        let minutes = UInt64(self.currentTimer.time / 60.0)
+//        self.currentTimer.time -= (TimeInterval(minutes) * 60)
+//        
+//        // Calculate seconds
+//        let seconds = UInt64(self.currentTimer.time)
+//        self.currentTimer.time -= TimeInterval(seconds)
+//        
+//        // Calculate milliseconds
+//        let milliseconds = UInt64(self.currentTimer.time * 100)
+//        
+//        // Format time vars with leading zero
+//        let strMinutes = String(format: "%02d", minutes)
+//        let strSeconds = String(format: "%02d", seconds)
+//        let strMilliseconds = String(format: "%02d", milliseconds)
+//        
+//        let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
+//        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!] = currentTimer
+//        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.title = currentTime
+//      self.currentTimer.mainStopwatch?.title = currentTime
+//        
+//       //mainStopwatch!.title = currentTime
+//       
+//    DispatchQueue.main.async{
+//        //self.buttonTimers[(self.currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.updateCell()
+//        self.currentTimer.mainStopwatch?.updateCell()
+//       //self.mainStopwatch?.updateCell()
+//        }
+//    }
+//    
 
     ///DELEGATE AND NOTIFICATION METHODS
     
@@ -483,7 +448,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     @objc func newTeam(_ n:Notification) {
-        print("Fired!")
+        
         let team = n.userInfo!.first!.key.base
         form +++ addSection(teamName: team as! String)
         form +++ createMultivaluedSection(teamName: team as! String)
@@ -492,19 +457,19 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     func editPressed(sender: UIBarButtonItem){
         //masterView.editButton.title = tableView.isEditing ? "Done" : "Edit"
-        print("YO")
+        
         tableView.setEditing(!self.tableView.isEditing, animated: true)
         sender.title = self.tableView.isEditing ? "Done" : "Edit"
         
     }
     
-    func deleteFromButtonList(cell: Cell<String>) {
-        for b in buttonList{
-            if(b.formCell() == cell){
-                buttonList.removeLast()
-            }
-        }
-    }
+//    func deleteFromButtonList(cell: Cell<String>) {
+//        for b in buttonList{
+//            if(b.formCell() == cell){
+//                buttonList.removeLast()
+//            }
+//        }
+//    }
     
     func animateStart(cell: Cell<String>) {
 //        masterView.editButton.target = self
@@ -531,7 +496,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell) {
-        runnerHandler.runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
+        teamHandler.runnnerHandlers[membership]?.runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
+       // runnerHandler.runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
+    }
+    
+    private func newTimer(team: String, sender: BaseCell){
+        
+        teamHandler.stopwatchHandlers[team]?.timers.createTimer(team: team, sender: sender)
     }
     
 }

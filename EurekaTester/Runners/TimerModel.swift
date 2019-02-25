@@ -12,17 +12,21 @@ import UIKit
 /// For tracking all of the individual timers for each runner
 class TimerModel{
 
+   
     //Setting the current runner to be used throughout the iteration
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
     var button: UIButton = UIButton()
+    var teamName: String = ""
     let pauseColor = UIColor(hexString: "#FDFF66")
     let startColor = UIColor(hexString: "#7DFF8F")
     var timeString = ""
     
     func createEntry(runner: RunnerModel.Runner, runnerButton: UIButton){
+        
         self.currentRunner = runner
         self.button = runnerButton
     }
+    
     
     func getEntry() -> RunnerModel.Runner{
         
@@ -31,6 +35,7 @@ class TimerModel{
     
     /// Start funtion for an individual timer, called by StartAll() for each runner
     func start(){
+        
         button.backgroundColor = .red
         button.formCell()?.backgroundColor = startColor
         button.setTitleColor(.black, for: .normal)
@@ -48,7 +53,7 @@ class TimerModel{
     }
     
     func stop()  {
-
+        
         currentRunner.time.elapsed = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         currentRunner.time.timer?.invalidate()
         
@@ -81,6 +86,8 @@ class TimerModel{
     
     @objc func updateCounter(){
         // Calculate total time since timer started in seconds
+        print("Single Runner")
+        print(currentRunner.membership)
         currentRunner.time.time = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         
         // Calculate minutes

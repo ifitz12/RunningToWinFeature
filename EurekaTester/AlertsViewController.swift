@@ -12,7 +12,7 @@ import Eureka
 
 
 protocol AlertsViewControllerDelegate: class {
-    func deleteFromButtonList(cell: Cell<String>)
+    //func deleteFromButtonList(cell: Cell<String>)
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
@@ -80,7 +80,7 @@ class AlertsViewController: UIViewController{
         //the cancel action doing nothing
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
             cell.baseRow.section?.remove(at: cell.baseRow.indexPath!.row)
-            self.delegate?.deleteFromButtonList(cell: cell)
+  ///////          self.delegate?.deleteFromButtonList(cell: cell)
             cell.update()
         }
         
@@ -112,7 +112,7 @@ class AlertsViewController: UIViewController{
             
             //getting the input values from user
             self.teamName = (alertController.textFields?[0].text)!
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "notificationName"), object: nil, userInfo: [self.teamName: (Any).self])
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newTeamSender"), object: nil, userInfo: [self.teamName: (Any).self])
         }
         
         //the cancel action doing nothing
