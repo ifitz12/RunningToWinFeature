@@ -24,7 +24,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     let pauseColor = UIColor(hexString: "#FDFF66")
     var teamName = "team1"
     var buttonList: [String: [UIButton]]  = [:]
-    
+    var segmentedTags: [String: String] = [:]
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -159,6 +159,36 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
         }
     }
+    
+    func resetAllTeam(team: String){
+        
+        if(buttonList[team] != nil){
+            teamHandler.runnnerHandlers[team]?.resetAll(runners: buttonList[team]!)
+        }
+    }
+    
+    private func addSegmentedRow(teamName: String) -> Section{
+        let tag = teamName + "seg"
+        segmentedTags[teamName] = "$\(tag) == 'Team Options'"
+        let section = SegmentedRow<String>(tag){
+            $0.options = ["Runner Data", "Team Options"]
+            $0.title = teamName.capitalized
+            }
+            
+            //let continents = ["Africa", "Antarctica", "Asia", "Australia", "Europe", "North America", "South America"]
+            
+            <<< ActionSheetRow<String>() {
+                $0.title = "Relay type"
+                $0.options = ["4 x 100", "4 x 200", "4 x 400"]
+                $0.hidden = Condition(stringLiteral: "$\(tag) != 'Team Options'")
+                
+        }
+        
+        
+        
+        
+        return section
+    }
 
     private func addSection(teamName: String) -> Section{
         let tag1 = teamName + "Switch"
@@ -193,7 +223,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 
                 let resetSwipeAction = SwipeAction(style: .normal, title: "Reset"){ (action, row, completionHandler) in
                     self.teamHandler.stopwatchHandler.mainTimerList[teamName]?.reset(resetAll: true, team: teamName)
-                    
+                    self.resetAllTeam(team: teamName)
                     completionHandler?(true)
                 }
                 row.leadingSwipe.actions.append(resetSwipeAction)
@@ -347,110 +377,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
    
    
-//    func start(team: String) {
-//        
-//        teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team.lowercased()]!)
-//        
-//        self.currentTimer.startTime = Date().timeIntervalSinceReferenceDate - self.currentTimer.elapsed
-//       // self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-//        DispatchQueue.main.async{
-//            self.currentTimer.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//            //self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-//        }
-//        // Set Start/Stop button to true
-//        self.currentTimer.status = 1
-//        //self.status = 1
-//        self.buttonTimers[team] = currentTimer
-//        
-//    }
-//    
-//    func stop(team: String) {
-//        
-//        teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
-//        
-//        self.currentTimer.elapsed = Date().timeIntervalSinceReferenceDate - self.currentTimer.startTime
-//        //self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
-//        self.currentTimer.timer?.invalidate()
-//        //self.timer?.invalidate()
-//        
-//        // Set Start/Stop button to false
-//        self.currentTimer.status = 0
-//        //self.status = 0
-//        self.buttonTimers[team] = currentTimer
-//        
-//    }
-//    
-//    func reset(resetAll: Bool, team: String){
-//        if(resetAll){
-//            teamHandler.runnnerHandlers[team]?.resetAll(runners: buttonList[team]!)
-//            //runnerHandler.resetAll(runners: buttonList[team]!)
-//        }
-//        //Reseting timer attributes
-//        self.currentTimer.timer?.invalidate()
-//        weak var t: Timer?
-//        self.currentTimer.timer = t
-//        self.currentTimer.time = 0
-//        self.currentTimer.startTime = 0
-//        self.currentTimer.elapsed = 0
-//        self.currentTimer.status = 0
-//        
-//        self.currentTimer.mainStopwatch?.title = "00:00.00"
-//        self.currentTimer.mainStopwatch?.cell.backgroundColor = .white
-//        self.currentTimer.mainStopwatch?.updateCell()
-//        
-//        
-//        
-////        self.timer?.invalidate()
-////        weak var t: Timer?
-////        self.timer = t
-////        self.time = 0
-////        self.startTime = 0
-////        self.elapsed = 0
-////        self.status = 0
-////
-////        mainStopwatch?.title = "00:00.00"
-////        mainStopwatch?.cell.backgroundColor = .white
-////        mainStopwatch?.updateCell()
-//    }
-//    
-//    @objc func update() {
-//        
-//        
-//        // Calculate total time since timer started in seconds
-//        
-//        self.currentTimer.time = Date().timeIntervalSinceReferenceDate - self.currentTimer.startTime
-//       // time = Date().timeIntervalSinceReferenceDate - startTime
-//        
-//        // Calculate minutes
-//        let minutes = UInt64(self.currentTimer.time / 60.0)
-//        self.currentTimer.time -= (TimeInterval(minutes) * 60)
-//        
-//        // Calculate seconds
-//        let seconds = UInt64(self.currentTimer.time)
-//        self.currentTimer.time -= TimeInterval(seconds)
-//        
-//        // Calculate milliseconds
-//        let milliseconds = UInt64(self.currentTimer.time * 100)
-//        
-//        // Format time vars with leading zero
-//        let strMinutes = String(format: "%02d", minutes)
-//        let strSeconds = String(format: "%02d", seconds)
-//        let strMilliseconds = String(format: "%02d", milliseconds)
-//        
-//        let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
-//        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!] = currentTimer
-//        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.title = currentTime
-//      self.currentTimer.mainStopwatch?.title = currentTime
-//        
-//       //mainStopwatch!.title = currentTime
-//       
-//    DispatchQueue.main.async{
-//        //self.buttonTimers[(self.currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.updateCell()
-//        self.currentTimer.mainStopwatch?.updateCell()
-//       //self.mainStopwatch?.updateCell()
-//        }
-//    }
-//    
+
 
     ///DELEGATE AND NOTIFICATION METHODS
     
