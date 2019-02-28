@@ -13,22 +13,22 @@ import Eureka
 class TeamHandler {
     
     var runnnerHandlers: [String:RunnerHandler] = [:]
-    var stopwatchHandlers: [String:MainStopwatchHandler] = [:]
+    var stopwatchHandler: MainStopwatchHandler = MainStopwatchHandler()
     
-    public func newEntry(team: String){
+    public func newRunnerHandler(team: String){
     
         let newRunnerHandler: RunnerHandler = RunnerHandler(team: team)
         runnnerHandlers[team] = newRunnerHandler
         
-        let newStopwatchHandler: MainStopwatchHandler = MainStopwatchHandler()
-        stopwatchHandlers[team] = newStopwatchHandler
     }
+    
+    
+    
     
     public func printHandlers(){
         print("Runner Handlers: ")
         print(runnnerHandlers)
-        print("Stopwatch Handlers: ")
-        print(stopwatchHandlers)
+        
         
     }
     

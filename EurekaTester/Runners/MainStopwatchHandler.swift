@@ -13,30 +13,46 @@ import Eureka
 struct MainStopwatchHandler{
     
     var mainTimerList: Dictionary<String, MainStopwatch>
+    var mainButonList: Dictionary<String, MainStopwatchTimerModel.Stopwatch>
     var currentTimer: MainStopwatchTimerModel.Stopwatch
-    var timers: MainStopwatchTimerModel
+    
     
     init(){
         self.mainTimerList = [:]
         self.currentTimer = MainStopwatchTimerModel.Stopwatch()
-        self.timers = MainStopwatchTimerModel()
+        self.mainButonList = [:]
     }
-  
     
-    private mutating func setTimer(team: String) -> MainStopwatchTimerModel.Stopwatch{
-  
     
-    return timers.getTimer(team: team)
+    mutating func createMember(team: String, sender: BaseCell){
+        var new: MainStopwatchTimerModel.Stopwatch = MainStopwatchTimerModel.Stopwatch()
+        new.membership = team
+        new.time.mainStopwatch = sender
+        
+        mainButonList[team] = new
         
     }
     
-   
+    mutating func getStopwatch(team: String) -> MainStopwatchTimerModel.Stopwatch{
+        
+        return mainButonList[team]!
+    }
+    
+    mutating func updateTimeElement(timer: MainStopwatchTimerModel.Stopwatch){
+        
+        if(mainButonList[timer.membership] != nil){
+            mainButonList[timer.membership] = timer
+            
+        }
+        
+    }
     
     
     private  func timerInList(team: String) -> Bool{
         let timer = mainTimerList[team]
         
         if(timer == nil){
+            
             return false
         }
         else{
@@ -47,7 +63,7 @@ struct MainStopwatchHandler{
     
     
     private mutating func timerHasChanged(team: String) -> Bool {
-        let dummy = setTimer(team: team)
+        let dummy = getStopwatch(team: team)
         
         if(currentTimer.membership != dummy.membership){
             return true
@@ -59,33 +75,28 @@ struct MainStopwatchHandler{
     
     
     mutating func startTimer(team: String){
-        currentTimer = setTimer(team: team)
         
+        currentTimer = getStopwatch(team: team)
         
         if(!timerInList(team: currentTimer.membership)){
             let newTime: MainStopwatch = MainStopwatch()
             newTime.setCurrent(stopwatch: currentTimer)
-            mainTimerList[team] = newTime
-            
+            mainTimerList[currentTimer.membership] = newTime
         }
-        mainTimerList[currentTimer.membership]?.start(team: currentTimer.membership)
         
-        
-        
+        mainTimerList[currentTimer.membership]?.start()
     }
     
     /// Stop timer for individual runner
     mutating func stopTimer(team: String){
         
         if(timerHasChanged(team: team)){
-            currentTimer = setTimer(team: team)
+            currentTimer = getStopwatch(team: team)
+            
         }
-        mainTimerList[currentTimer.membership]?.stop(team: currentTimer.membership)
         
-        timers.updateTimeElement(timer: mainTimerList[currentTimer.membership]!.getEntry())
+        mainTimerList[currentTimer.membership]?.stop()
+        updateTimeElement(timer: (mainTimerList[currentTimer.membership]?.getEntry())!)
         
     }
-    
-    
-    
 }

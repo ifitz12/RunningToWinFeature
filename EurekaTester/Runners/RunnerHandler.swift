@@ -43,8 +43,7 @@ private func setRunner(runner: UIButton) -> RunnerModel.Runner{
     let lname = name![1].lowercased()
     //self.teamName = team!
     let d = lname.split(separator: ".")
-    print("set runner")
-    print(runners.getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: String(d[0])))
+    
     return runners.getRunner(teamName: team!, runnerFirstName: fname, runnerLastInitial: String(d[0]))
 
 }
@@ -140,8 +139,7 @@ mutating func startTimer(runnerForm: UIButton){
 /// Starts all runners within a team
     mutating func startAll(runners: [UIButton]){
     for runner in runners{
-        print("current Runner")
-        print(timerList[currentRunner.lastName])
+        
         if(runner.backgroundColor == UIColor.red ){
             currentRunner = setRunner(runner: runner)
             

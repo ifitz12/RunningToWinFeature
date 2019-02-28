@@ -8,58 +8,46 @@
 
 import Foundation
 import UIKit
-import Eureka
+
 
 class MainStopwatch{
     
-   
+    let pauseColor = UIColor(hexString: "#FDFF66")
+    let startColor = UIColor(hexString: "#7DFF8F")
     
     var currentTimer: MainStopwatchTimerModel.Stopwatch = MainStopwatchTimerModel.Stopwatch()
     
     
     func setCurrent(stopwatch: MainStopwatchTimerModel.Stopwatch){
-        
         self.currentTimer = stopwatch
         
     }
     
     func getEntry() -> MainStopwatchTimerModel.Stopwatch{
-        
         return self.currentTimer
     }
     
     
-    func start(team: String) {
+    func start() {
         
-        //teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team.lowercased()]!)
+        currentTimer.time.startTime = Date().timeIntervalSinceReferenceDate - currentTimer.time.elapsed
+        currentTimer.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
         
-        self.currentTimer.time.startTime = Date().timeIntervalSinceReferenceDate - self.currentTimer.time.elapsed
-        // self.startTime = Date().timeIntervalSinceReferenceDate - self.elapsed
-        DispatchQueue.main.async{
-            self.currentTimer.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-            //self.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(self.update), userInfo: nil, repeats: true)
-        }
-        // Set Start/Stop button to true
-        self.currentTimer.time.status = 1
-        //self.status = 1
+        currentTimer.time.status = true
         
+        currentTimer.time.mainStopwatch.backgroundColor = startColor
+        currentTimer.time.mainStopwatch.update()
         
     }
     
-    func stop(team: String) {
+    func stop() {
         
-       // teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
-        
-        self.currentTimer.time.elapsed = Date().timeIntervalSinceReferenceDate - self.currentTimer.time.startTime
-        //self.elapsed = Date().timeIntervalSinceReferenceDate - self.startTime
-        self.currentTimer.time.timer?.invalidate()
-        //self.timer?.invalidate()
-        
-        // Set Start/Stop button to false
-        self.currentTimer.time.status = 0
-        //self.status = 0
+        currentTimer.time.elapsed = Date().timeIntervalSinceReferenceDate - currentTimer.time.startTime
+        currentTimer.time.timer?.invalidate()
         
         
+        currentTimer.time.status = false
+      
     }
     
     func reset(resetAll: Bool, team: String){
@@ -68,38 +56,41 @@ class MainStopwatch{
             //runnerHandler.resetAll(runners: buttonList[team]!)
         }
         //Reseting timer attributes
-        self.currentTimer.time.timer?.invalidate()
+        currentTimer.time.timer?.invalidate()
         weak var t: Timer?
-        self.currentTimer.time.timer = t
-        self.currentTimer.time.time = 0
-        self.currentTimer.time.startTime = 0
-        self.currentTimer.time.elapsed = 0
-        self.currentTimer.time.status = 0
+        currentTimer.time.timer = t
+        currentTimer.time.time = 0
+        currentTimer.time.startTime = 0
+        currentTimer.time.elapsed = 0
+        currentTimer.time.status = false
         
-        self.currentTimer.time.mainStopwatch.baseRow.title = "00:00.00"
-        self.currentTimer.time.mainStopwatch.backgroundColor = .white
-        self.currentTimer.time.mainStopwatch.baseRow.updateCell()
+        currentTimer.time.mainStopwatch.baseRow.title = "00:00.00"
+        currentTimer.time.mainStopwatch.backgroundColor = .white
+        currentTimer.time.mainStopwatch.update()
+        
         
     }
     
     @objc func update() {
         
-        
+        print(currentTimer.membership)
+        print(currentTimer.time.time)
+        print(currentTimer.time.timer)
         // Calculate total time since timer started in seconds
         
-        self.currentTimer.time.time = Date().timeIntervalSinceReferenceDate - self.currentTimer.time.startTime
+        currentTimer.time.time = Date().timeIntervalSinceReferenceDate - currentTimer.time.startTime
         // time = Date().timeIntervalSinceReferenceDate - startTime
         
         // Calculate minutes
-        let minutes = UInt64(self.currentTimer.time.time / 60.0)
-        self.currentTimer.time.time -= (TimeInterval(minutes) * 60)
+        let minutes = UInt64(currentTimer.time.time / 60.0)
+        currentTimer.time.time -= (TimeInterval(minutes) * 60)
         
         // Calculate seconds
-        let seconds = UInt64(self.currentTimer.time.time)
-        self.currentTimer.time.time -= TimeInterval(seconds)
+        let seconds = UInt64(currentTimer.time.time)
+        currentTimer.time.time -= TimeInterval(seconds)
         
         // Calculate milliseconds
-        let milliseconds = UInt64(self.currentTimer.time.time * 100)
+        let milliseconds = UInt64(currentTimer.time.time * 100)
         
         // Format time vars with leading zero
         let strMinutes = String(format: "%02d", minutes)
@@ -107,17 +98,12 @@ class MainStopwatch{
         let strMilliseconds = String(format: "%02d", milliseconds)
         
         let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
-        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!] = currentTimer
-        //self.buttonTimers[(currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.title = currentTime
-        self.currentTimer.time.mainStopwatch.baseRow.title = currentTime
-        
+       
+        currentTimer.time.mainStopwatch.baseRow.title = currentTime
+        currentTimer.time.mainStopwatch.update()
         //mainStopwatch!.title = currentTime
         
-        DispatchQueue.main.async{
-            //self.buttonTimers[(self.currentTimer.mainStopwatch?.baseCell.formCell()?.baseRow.section!.tag)!]?.mainStopwatch?.updateCell()
-            self.currentTimer.time.mainStopwatch.update()
-            //self.mainStopwatch?.updateCell()
-        }
+       
     }
     
     

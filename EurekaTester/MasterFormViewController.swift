@@ -17,7 +17,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     var masterView: MasterHomeViewController = MasterHomeViewController()
     var teamHandler: TeamHandler = TeamHandler()
-    var stopwatchHandler: MainStopwatchHandler = MainStopwatchHandler()
+   
     //var runnerHandler: RunnerHandler = RunnerHandler()
     var count: Int = 0
     let startColor = UIColor(hexString: "#7DFF8F")
@@ -140,19 +140,30 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func startAllTeam(team: String){
-        teamHandler.stopwatchHandlers[team]?.startTimer(team: team)
+        
+        if(buttonList[team] == nil){
+        teamHandler.stopwatchHandler.startTimer(team: team)
+        }
+        else{
+        teamHandler.stopwatchHandler.startTimer(team: team)
         teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team]!)
+    }
     }
     
     func stopAllTeam(team: String){
-        teamHandler.stopwatchHandlers[team]?.stopTimer(team: team)
+        if(buttonList[team] == nil){
+        teamHandler.stopwatchHandler.stopTimer(team: team)
+        }
+        else{
+        teamHandler.stopwatchHandler.stopTimer(team: team)
         teamHandler.runnnerHandlers[team]?.stopAll(runners: buttonList[team]!)
+        }
     }
 
     private func addSection(teamName: String) -> Section{
         let tag1 = teamName + "Switch"
         
-        teamHandler.newEntry(team: teamName)
+        teamHandler.newRunnerHandler(team: teamName)
         var buttons = createButtons()
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
@@ -181,7 +192,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 self.newTimer(team: teamName, sender: row.baseCell)
                 
                 let resetSwipeAction = SwipeAction(style: .normal, title: "Reset"){ (action, row, completionHandler) in
-                    self.teamHandler.stopwatchHandlers[teamName]?.mainTimerList[teamName]?.reset(resetAll: true, team: teamName)
+                    self.teamHandler.stopwatchHandler.mainTimerList[teamName]?.reset(resetAll: true, team: teamName)
                     
                     completionHandler?(true)
                 }
@@ -193,17 +204,20 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                     //self!.currentTimer.mainStopwatch = row
                     
                     //self?.mainStopwatch = row
-                    if(self!.teamHandler.stopwatchHandlers[teamName]?.currentTimer.time.status == 1){
-                  //  if(self!.status == 1){
+               
+                    if(cell.backgroundColor == self?.startColor){
+                    //if(self!.teamHandler.stopwatchHandler.getStopwatch(team: teamName).time.status == true){
+                    //if(self!.teamHandler.stopwatchHandler.currentTimer.time.status == true){
+                        
                         self?.stopAllTeam(team: teamName)
 
                         cell.textLabel?.textColor = UIColor.black
                         cell.backgroundColor = self!.pauseColor
                         buttons[2].backgroundColor = self!.pauseColor
                         buttons[3].backgroundColor = self!.pauseColor
-                        
+                        //self?.stopAllTeam(team: teamName)
                     }
-                    else if(self!.teamHandler.stopwatchHandlers[teamName]?.currentTimer.time.status == 0){
+                    else{
 
                         self?.startAllTeam(team: teamName)
 
@@ -211,6 +225,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         cell.backgroundColor = self!.startColor
                         buttons[2].backgroundColor = self!.startColor
                         buttons[3].backgroundColor = self!.startColor
+                         //self?.startAllTeam(team: teamName)
                     }
                 }.cellUpdate({ cell, row in
                     row.tag = teamName
@@ -501,8 +516,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     private func newTimer(team: String, sender: BaseCell){
-        
-        teamHandler.stopwatchHandlers[team]?.timers.createTimer(team: team, sender: sender)
+       
+        teamHandler.stopwatchHandler.createMember(team: team, sender: sender)
     }
     
 }

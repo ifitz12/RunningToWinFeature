@@ -86,8 +86,7 @@ class TimerModel{
     
     @objc func updateCounter(){
         // Calculate total time since timer started in seconds
-        print("Single Runner")
-        print(currentRunner.membership)
+        
         currentRunner.time.time = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         
         // Calculate minutes
