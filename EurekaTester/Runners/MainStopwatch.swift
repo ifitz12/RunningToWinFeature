@@ -73,9 +73,7 @@ class MainStopwatch{
     
     @objc func update() {
         
-        print(currentTimer.membership)
-        print(currentTimer.time.time)
-        print(currentTimer.time.timer)
+    
         // Calculate total time since timer started in seconds
         
         currentTimer.time.time = Date().timeIntervalSinceReferenceDate - currentTimer.time.startTime
@@ -99,8 +97,11 @@ class MainStopwatch{
         
         let currentTime = strMinutes + ":" + strSeconds + "." + strMilliseconds
        
-        currentTimer.time.mainStopwatch.baseRow.title = currentTime
-        currentTimer.time.mainStopwatch.update()
+        //DispatchQueue.main.async {
+        
+            self.currentTimer.time.mainStopwatch.baseRow.title = currentTime
+            self.currentTimer.time.mainStopwatch.update()
+        
         //mainStopwatch!.title = currentTime
         
        

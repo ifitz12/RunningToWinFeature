@@ -30,9 +30,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
     }
     
-    func setDelegate(){
-        masterView.alerts.delegate = self
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,9 +93,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     
-    @objc func splitAction(sender: UIButton!) {
+    @objc func splitAction(sender: UIButton!, textView: UITextView) {
         let team = sender.formCell()?.baseRow.section!.tag!
-        teamHandler.runnnerHandlers[team!]?.addSplit(runnerForm: sender)
+        teamHandler.runnnerHandlers[team!]?.addSplit(runnerForm: sender, textView: textView)
+        print("split pressed")
        // runnerHandler.addSplit(runnerForm: sender)
     }
     
@@ -167,39 +165,34 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         }
     }
     
-    private func addSegmentedRow(teamName: String) -> Section{
-        let tag = teamName + "seg"
-        segmentedTags[teamName] = "$\(tag) == 'Team Options'"
-        let section = SegmentedRow<String>(tag){
-            $0.options = ["Runner Data", "Team Options"]
-            $0.title = teamName.capitalized
-            }
-            
-            //let continents = ["Africa", "Antarctica", "Asia", "Australia", "Europe", "North America", "South America"]
-            
-            <<< ActionSheetRow<String>() {
-                $0.title = "Relay type"
-                $0.options = ["4 x 100", "4 x 200", "4 x 400"]
-                $0.hidden = Condition(stringLiteral: "$\(tag) != 'Team Options'")
-                
-        }
-        
-        
-        
-        
-        return section
-    }
+
 
     private func addSection(teamName: String) -> Section{
         let tag1 = teamName + "Switch"
-        
+        let tag2 = teamName + "seg"
         teamHandler.newRunnerHandler(team: teamName)
         var buttons = createButtons()
         buttons[2].setTitleColor(.black, for: .normal)
         buttons[3].setTitleColor(.black, for: .normal)
 
-            let section = SwitchRow(tag1){ row in
-                row.title = teamName + "                              Relay"
+        segmentedTags[teamName] = "$\(tag2) == 'Team Options'"
+        let section = SegmentedRow<String>(tag2){
+            $0.options = ["Runner Data", "Team Options"]
+            $0.title = teamName.capitalized
+            }
+            
+            
+            <<< ActionSheetRow<String>() {
+                $0.title = "Relay type"
+                $0.options = ["4 x 100", "4 x 200", "4 x 400"]
+                $0.hidden = Condition(stringLiteral: "$\(tag2) != 'Team Options'")
+                
+        }
+        
+    
+            <<< SwitchRow(tag1){ row in
+                row.title = teamName
+                row.hidden = Condition(stringLiteral: "$\(tag2) == 'Team Options'")
                
 
                 }.onChange{[weak self] row in
@@ -215,7 +208,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
             <<< ButtonRow(){ row in
                 row.tag = teamName
-                
+                row.hidden = Condition(stringLiteral: "$\(tag2) == 'Team Options'")
                 row.title = "Start Team " + teamName.capitalized
                 row.baseCell.addSubview(buttons[2])
                 row.baseCell.addSubview(buttons[3])
@@ -292,12 +285,12 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                     row.title = " "
                                     }.cellSetup{ cell, row in
                                         var buttons = self.createButtons()
-                                        
+                                        let textView = self.createTextView()
                                         //Adding buttons to runner cell
                                         cell.addSubview(buttons[0])
                                         cell.addSubview(buttons[1])
                                         cell.addSubview(buttons[3])
-                                        
+                                        cell.addSubview(textView)
                                         //Handling button list additions
                                         if(self.buttonList[teamName] == nil){
                                         self.buttonList[teamName] = [buttons[0]]
@@ -375,6 +368,17 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
     }
     
+    func createTextView() -> UITextView{
+        
+        
+        let textView = UITextView(frame: CGRect(x: 130, y: 0, width: 100, height: 80))
+        textView.backgroundColor = .red
+        
+        
+        
+        return textView
+    }
+    
    
    
 
@@ -392,6 +396,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     @objc func newTeam(_ n:Notification) {
         
         let team = n.userInfo!.first!.key.base
+        //form +++ addSegmentedRow(teamName: team as! String)
         form +++ addSection(teamName: team as! String)
         form +++ createMultivaluedSection(teamName: team as! String)
         

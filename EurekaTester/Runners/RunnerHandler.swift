@@ -102,13 +102,13 @@ mutating func startTimer(runnerForm: UIButton){
 }
 
 /// Add split for individual runner
-    mutating func addSplit(runnerForm: UIButton){
+    mutating func addSplit(runnerForm: UIButton, textView: UITextView){
     if(runnerHasChanged(runnerForm: runnerForm)){
         currentRunner = setRunner(runner: runnerForm)
     }
     //currentRunner.time.splits.append(timeString)
     let time = timerList[currentRunner.lastName]?.timeString
-
+        textView.insertText(time as! String)
     timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
     runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
 
