@@ -93,11 +93,12 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     
-    @objc func splitAction(sender: UIButton!, textView: UITextView) {
+    @objc func splitAction(sender: UIButton!) {
         let team = sender.formCell()?.baseRow.section!.tag!
+        let textView = sender.formCell()?.subviews[4] as! UITextView
         teamHandler.runnnerHandlers[team!]?.addSplit(runnerForm: sender, textView: textView)
-        print("split pressed")
-       // runnerHandler.addSplit(runnerForm: sender)
+        
+       
     }
     
     
@@ -169,7 +170,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
     private func addSection(teamName: String) -> Section{
         let tag1 = teamName + "Switch"
-        let tag2 = teamName + "seg"
+        let tag2 = teamName.replacingOccurrences(of: " ", with: "") + "seg"
         teamHandler.newRunnerHandler(team: teamName)
         var buttons = createButtons()
         buttons[2].setTitleColor(.black, for: .normal)
@@ -191,7 +192,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
     
             <<< SwitchRow(tag1){ row in
-                row.title = teamName
+                row.title = "Relay"
                 row.hidden = Condition(stringLiteral: "$\(tag2) == 'Team Options'")
                
 
@@ -281,7 +282,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                             // Telling the section where to insert the new row
                             $0.multivaluedRowToInsertAt = { index in
                                 
-                                return TextRow() { row in
+                                return LabelRow() { row in
                                     row.title = " "
                                     }.cellSetup{ cell, row in
                                         var buttons = self.createButtons()
@@ -291,6 +292,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                         cell.addSubview(buttons[1])
                                         cell.addSubview(buttons[3])
                                         cell.addSubview(textView)
+                                        
                                         //Handling button list additions
                                         if(self.buttonList[teamName] == nil){
                                         self.buttonList[teamName] = [buttons[0]]
@@ -371,11 +373,11 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     func createTextView() -> UITextView{
         
         
-        let textView = UITextView(frame: CGRect(x: 130, y: 0, width: 100, height: 80))
-        textView.backgroundColor = .red
-        
-        
-        
+        let textView = UITextView(frame: CGRect(x: 140, y: 0, width: 80, height: 80))
+        textView.backgroundColor = .white
+        textView.isEditable = false
+        textView.font = .systemFont(ofSize: 14)
+    
         return textView
     }
     
@@ -433,6 +435,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func animateSplit(cell: Cell<String>) {
+        
         UIView.animate(withDuration: 0.8, delay: 0.1,
                        usingSpringWithDamping: 0.6,
                        initialSpringVelocity: 0.3,

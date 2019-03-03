@@ -108,7 +108,12 @@ mutating func startTimer(runnerForm: UIButton){
     }
     //currentRunner.time.splits.append(timeString)
     let time = timerList[currentRunner.lastName]?.timeString
-        textView.insertText(time as! String)
+        DispatchQueue.main.async {
+        
+        textView.text.append(time! + "\n")
+        let range = NSMakeRange(textView.text.characters.count - 1, 0)
+        textView.scrollRangeToVisible(range)
+        }
     timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
     runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
 
@@ -139,7 +144,7 @@ mutating func startTimer(runnerForm: UIButton){
 /// Starts all runners within a team
     mutating func startAll(runners: [UIButton]){
     for runner in runners{
-        
+        let textField = runner.formCell()?.subviews[4] as! UITextView
         if(runner.backgroundColor == UIColor.red ){
             currentRunner = setRunner(runner: runner)
             
@@ -158,6 +163,7 @@ mutating func startTimer(runnerForm: UIButton){
             runner.setTitleColor(.white, for: .normal)
             runner.setTitle("STOP", for: .normal)
             runner.formCell()?.backgroundColor = startColor
+            textField.backgroundColor = startColor
             timerList[currentRunner.lastName]?.start()
         }
     }
@@ -167,9 +173,8 @@ mutating func startTimer(runnerForm: UIButton){
 /// Stops all runners within a team
     mutating func stopAll(runners: [UIButton]){
         
-        
     for runner in runners{
-        
+        let textField = runner.formCell()?.subviews[4] as! UITextView
         currentRunner = setRunner(runner: runner)
         if(!runnerInList(runner: currentRunner)){
             let newRun: TimerModel = TimerModel()
@@ -180,6 +185,7 @@ mutating func startTimer(runnerForm: UIButton){
         runner.formCell()?.backgroundColor = pauseColor
         runner.setTitleColor(.black, for: .normal)
         runner.setTitle("GO", for: .normal)
+        textField.backgroundColor = pauseColor
         timerList[currentRunner.lastName]?.stop()
         self.runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
 
@@ -197,7 +203,7 @@ mutating func startTimer(runnerForm: UIButton){
         stopAll(runners: runners)
         for runner in runners{
             currentRunner = setRunner(runner: runner)
-
+            let textField = runner.formCell()?.subviews[4] as! UITextView
             timerList[currentRunner.lastName]?.currentRunner.time.timer?.invalidate()
             weak var t: Timer?
             let resetSplits: [String] = []
@@ -206,7 +212,8 @@ mutating func startTimer(runnerForm: UIButton){
             timerList[currentRunner.lastName]?.currentRunner.time.startTime = 0
             timerList[currentRunner.lastName]?.currentRunner.time.elapsed = 0
             timerList[currentRunner.lastName]?.currentRunner.time.splits = resetSplits
-
+            textField.text = ""
+            textField.backgroundColor = .white
             runner.formCell()?.baseRow.title = "00:00.00"
             runner.formCell()?.baseRow.baseCell.backgroundColor = .white
             runner.formCell()?.update()

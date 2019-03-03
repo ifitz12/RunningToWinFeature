@@ -35,12 +35,12 @@ class TimerModel{
     
     /// Start funtion for an individual timer, called by StartAll() for each runner
     func start(){
-        
+        let textField = button.formCell()?.subviews[4] as! UITextView
         button.backgroundColor = .red
         button.formCell()?.backgroundColor = startColor
         button.setTitleColor(.black, for: .normal)
         button.setTitle("STOP", for: .normal)
-        
+        textField.backgroundColor = startColor
         currentRunner.time.startTime = Date().timeIntervalSinceReferenceDate - currentRunner.time.elapsed
         currentRunner.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         
@@ -53,7 +53,8 @@ class TimerModel{
     }
     
     func stop()  {
-        
+        let textField = button.formCell()?.subviews[4] as! UITextView
+        textField.backgroundColor = pauseColor
         currentRunner.time.elapsed = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         currentRunner.time.timer?.invalidate()
         
