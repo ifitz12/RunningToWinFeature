@@ -17,6 +17,7 @@ protocol AlertsViewControllerDelegate: class {
     func animateSplit(cell: Cell<String>)
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
     
+    
 }
 
 
@@ -132,6 +133,9 @@ class AlertsViewController: UIViewController{
         
         return alertController
     }
+    
+    
+    
     
     func newTeamName() -> String {
         return self.teamName

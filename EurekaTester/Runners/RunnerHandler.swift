@@ -56,7 +56,6 @@ private func runnerInList(runner: RunnerModel.Runner) -> Bool{
             return true
         }
     }
-
     return false
 }
 
@@ -75,16 +74,17 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
 
 
 /// Start timer for individual runner
-mutating func startTimer(runnerForm: UIButton){
+    mutating func startTimer(runnerForm: UIButton, relay: Bool){
     currentRunner = setRunner(runner: runnerForm)
-
+        print("timer started")
     if(!runnerInList(runner: currentRunner)){
         let newRun: TimerModel = TimerModel()
         newRun.createEntry(runner: currentRunner, runnerButton: runnerForm)
         timerList[currentRunner.lastName] = newRun
         
     }
-    timerList[currentRunner.lastName]?.start()
+    runnerForm.formCell()?.backgroundColor = startColor
+        timerList[currentRunner.lastName]?.start(relay: relay)
 
     
 }
@@ -95,7 +95,7 @@ mutating func startTimer(runnerForm: UIButton){
     if(runnerHasChanged(runnerForm: runnerForm)){
         currentRunner = setRunner(runner: runnerForm)
     }
-
+    runnerForm.formCell()?.backgroundColor = pauseColor
     timerList[currentRunner.lastName]?.stop()
     runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
     
@@ -143,13 +143,14 @@ mutating func startTimer(runnerForm: UIButton){
 
 /// Starts all runners within a team
     mutating func startAll(runners: [UIButton]){
+        print(self.runners.masterRunnerList)
     for runner in runners{
         let textField = runner.formCell()?.subviews[4] as! UITextView
         if(runner.backgroundColor == UIColor.red ){
             currentRunner = setRunner(runner: runner)
             
             timerList[currentRunner.lastName]?.reset()
-            timerList[currentRunner.lastName]?.start()
+            timerList[currentRunner.lastName]?.start(relay: false)
             
         }else{
 
@@ -164,7 +165,7 @@ mutating func startTimer(runnerForm: UIButton){
             runner.setTitle("STOP", for: .normal)
             runner.formCell()?.backgroundColor = startColor
             textField.backgroundColor = startColor
-            timerList[currentRunner.lastName]?.start()
+            timerList[currentRunner.lastName]?.start(relay: false)
         }
     }
 
@@ -220,5 +221,9 @@ mutating func startTimer(runnerForm: UIButton){
         }
     }
 }
+    
+    
+
+    
 
 }

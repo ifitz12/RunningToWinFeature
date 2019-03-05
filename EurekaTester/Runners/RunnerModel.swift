@@ -14,9 +14,10 @@ import Eureka
 struct RunnerModel {
 
     var teamName: String = ""
-    
+    var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>?
     init(team: String){
         self.teamName = team
+        self.masterRunnerList = [:]
     }
     
     
@@ -41,7 +42,7 @@ struct RunnerModel {
     
     
     /// Initializing the master runner list. Each new runner gets an entry with the following initializers
-    var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
+//    var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
     
     
   mutating func createRunner(fName: String, lName: String, membership: String, cell: BaseCell){
@@ -56,6 +57,34 @@ struct RunnerModel {
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
     }
+    mutating func removeRunner(membership: String, baseRow: BaseRow){
+        
+        let lower  = membership.lowercased()
+        var count = 0
+        
+        if(masterRunnerList![lower]?.count == 1){
+            
+            masterRunnerList?.removeValue(forKey: lower)
+        }
+        else{
+        
+        
+        for runner in masterRunnerList![lower]!{
+            if(baseRow.baseCell == runner.cell){
+                print("Match!!")
+                print(masterRunnerList![lower])
+                masterRunnerList![lower]?.remove(at: count)
+            
+                baseRow.baseCell.formCell()?.delete(baseRow.baseCell)
+                print(masterRunnerList![lower])
+            }
+            count += 1
+            
+        }
+        }
+        
+    }
+    
     
     
     ///Debug function for looking at all current runners

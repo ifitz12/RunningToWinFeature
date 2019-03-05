@@ -10,26 +10,26 @@ import Foundation
 import UIKit
 import Eureka
 
+
+
+
+
 class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
-    
-    
-    
     
     var masterView: MasterHomeViewController = MasterHomeViewController()
     var teamHandler: TeamHandler = TeamHandler()
-   
-    //var runnerHandler: RunnerHandler = RunnerHandler()
-    var count: Int = 0
+    var relayEngine: RelayEngine = RelayEngine()
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
-    var teamName = "team1"
+    
     var buttonList: [String: [UIButton]]  = [:]
     var segmentedTags: [String: String] = [:]
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             sender.setTitleColor(.white, for: .normal)
             sender.setTitle("STOP", for: .normal)
             sender.formCell()?.backgroundColor = startColor
-            teamHandler.runnnerHandlers[team!]?.startTimer(runnerForm: sender)
+            teamHandler.runnnerHandlers[team!]?.startTimer(runnerForm: sender, relay: false)
            // runnerHandler.startTimer(runnerForm: sender)
             UIButton.animate(withDuration: 0.1,
                              animations: {
@@ -101,11 +101,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
        
     }
     
-    
-//    @objc func resetAction(sender: UIButton!){
-//        print("button tapped")
-//        self.reset(resetAll: true)
-//    }
+
     
     @objc func dataAction(sender: UIButton!) {
         let team = sender.formCell()?.baseRow.section!.tag!
@@ -160,7 +156,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func resetAllTeam(team: String){
-        
+        print("IS BUTTON LIST NIL")
+        print(buttonList[team] == nil)
         if(buttonList[team] != nil){
             teamHandler.runnnerHandlers[team]?.resetAll(runners: buttonList[team]!)
         }
@@ -169,8 +166,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
 
     private func addSection(teamName: String) -> Section{
-        let tag1 = teamName + "Switch"
+        let tag1 = teamName.replacingOccurrences(of: " ", with: "") + "Switch"
         let tag2 = teamName.replacingOccurrences(of: " ", with: "") + "seg"
+        let tag3 = teamName.replacingOccurrences(of: " ", with: "") + "action"
+        let tag4 = teamName.replacingOccurrences(of: " ", with: "") + "button"
         teamHandler.newRunnerHandler(team: teamName)
         var buttons = createButtons()
         buttons[2].setTitleColor(.black, for: .normal)
@@ -178,14 +177,16 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
 
         segmentedTags[teamName] = "$\(tag2) == 'Team Options'"
         let section = SegmentedRow<String>(tag2){
-            $0.options = ["Runner Data", "Team Options"]
+            $0.options = ["Timer", "Runner Data", "Team Options"]
             $0.title = teamName.capitalized
+            $0.value = "Timer"
             }
             
             
-            <<< ActionSheetRow<String>() {
+            <<< ActionSheetRow<String>(tag3) {
                 $0.title = "Relay type"
                 $0.options = ["4 x 100", "4 x 200", "4 x 400"]
+                $0.value = "4 x 100"
                 $0.hidden = Condition(stringLiteral: "$\(tag2) != 'Team Options'")
                 
         }
@@ -193,25 +194,50 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
             <<< SwitchRow(tag1){ row in
                 row.title = "Relay"
-                row.hidden = Condition(stringLiteral: "$\(tag2) == 'Team Options'")
-               
+                row.hidden = Condition(stringLiteral: "$\(tag2) != 'Timer'")
+                
 
                 }.onChange{[weak self] row in
+                    
+                    guard let runnerCount = self!.buttonList[teamName]?.count else{
+                        self?.present(self!.relayEngine.relaySizeError(), animated: true, completion: nil)
+                        row.value = false
+                        row.updateCell()
+                        return
+                    }
+                   
+                    
+                    if let relayType = self!.form.rowBy(tag: tag3)?.baseValue{
+                    
                     if(row.value == true){
-                        row.title = "Relay started!"
+                        print("buttonLIST")
+                        print(self!.buttonList[teamName])
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startRelay"), object: self!.teamHandler, userInfo: ["name": teamName, "segment": self!.form.rowBy(tag: tag2) as Any, "list": self!.buttonList[teamName]! , "type": relayType as Any, "switch": self!.form.rowBy(tag: tag1) as Any] as [AnyHashable : Any])
+                        
+                        row.title = "Relay started! " + (relayType as! String)
                         row.updateCell()
-                    }
+                        }
+                    
                     else{
-                        row.title = "Relay"
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "stopRelay"), object: self!.teamHandler, userInfo: ["name": teamName, "segment": self!.form.rowBy(tag: tag2) as Any, "list": self!.buttonList[teamName]! , "type": relayType as Any, "switch": self!.form.rowBy(tag: tag1) as Any] as [AnyHashable : Any])
+                        
+                        row.title = "Relay:"
                         row.updateCell()
                     }
+                    }
+//                    else if (runnerCount == nil || runnerCount != 4) {
+//                        self?.present(self!.relayEngine.relaySizeError(), animated: true, completion: nil)
+//                        row.value = false
+//                        row.updateCell()
+//                    }
+                    
             }
 
-            <<< ButtonRow(){ row in
+            <<< ButtonRow(tag4){ row in
                 row.tag = teamName
-                row.hidden = Condition(stringLiteral: "$\(tag2) == 'Team Options'")
+                row.hidden = Condition(stringLiteral: "$\(tag2) != 'Timer'")
                 row.title = "Start Team " + teamName.capitalized
-                row.baseCell.addSubview(buttons[2])
+                //row.baseCell.addSubview(buttons[2])
                 row.baseCell.addSubview(buttons[3])
                 self.newTimer(team: teamName, sender: row.baseCell)
                 
@@ -224,33 +250,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 }.onCellSelection{[weak self] cell, row  in
                     row.tag = teamName
                     
-                    //self?.teamHandler.stopwatchHandlers[teamName]?.currentTimer = self!.buttonTimers[teamName]!
-                    //self!.currentTimer.mainStopwatch = row
+                    cell.backgroundColor == self?.startColor ? self?.stopAllTeam(team: teamName) : self?.startAllTeam(team: teamName)
                     
-                    //self?.mainStopwatch = row
-               
-                    if(cell.backgroundColor == self?.startColor){
-                    //if(self!.teamHandler.stopwatchHandler.getStopwatch(team: teamName).time.status == true){
-                    //if(self!.teamHandler.stopwatchHandler.currentTimer.time.status == true){
-                        
-                        self?.stopAllTeam(team: teamName)
+                    cell.textLabel?.textColor = UIColor.black
 
-                        cell.textLabel?.textColor = UIColor.black
-                        cell.backgroundColor = self!.pauseColor
-                        buttons[2].backgroundColor = self!.pauseColor
-                        buttons[3].backgroundColor = self!.pauseColor
-                        //self?.stopAllTeam(team: teamName)
-                    }
-                    else{
-
-                        self?.startAllTeam(team: teamName)
-
-                        cell.textLabel?.textColor = UIColor.black
-                        cell.backgroundColor = self!.startColor
-                        buttons[2].backgroundColor = self!.startColor
-                        buttons[3].backgroundColor = self!.startColor
-                         //self?.startAllTeam(team: teamName)
-                    }
                 }.cellUpdate({ cell, row in
                     row.tag = teamName
                     cell.textLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 20.0)
@@ -263,14 +266,14 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     private func createMultivaluedSection(teamName: String) -> Section{
-        
-      let section = MultivaluedSection(multivaluedOptions: [.Reorder, .Insert, .Delete],
+        let switchTag = teamName.replacingOccurrences(of: " ", with: "") + "seg"
+      let section = MultivaluedSection(multivaluedOptions: [.Reorder, .Insert],
                            header: "",
                            footer: ""){
                             //$0.hidden = "$segmented != 'Runners'"
                             $0.tag = teamName
                             $0.showInsertIconInAddButton = false
-                            
+                            $0.hidden = Condition(stringLiteral: "$\(switchTag) != 'Timer'")
                             $0.addButtonProvider = { section in
                                 
                                 return ButtonRow(){ row in
@@ -284,6 +287,28 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                 
                                 return LabelRow() { row in
                                     row.title = " "
+                                    var buttons = self.createButtons()
+ //                                   let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
+                                        //self.removeRunner(membership: teamName, row: row)
+//                                        var count = 0
+//                                        for b in self.buttonList[teamName]!{
+//                                            print(self.buttonList)
+//                                            if(buttons[0].frame.maxX > 300){
+//                                                self.buttonList[teamName]!.remove(at: count)
+//                                                row.baseCell.removeFromSuperview()
+//                                                print(self.buttonList)
+//                                                break
+//                                                
+//                                            }
+//                                            count += 1
+//                                        }
+                                        
+                                        
+                                        //self.removeFromButtonList(button: buttons[0], team: teamName)
+    //                                   completionHandler?(true)
+     //                               }
+      //                              row.trailingSwipe.actions = [deleteSwipeAction]
+                                    
                                     }.cellSetup{ cell, row in
                                         var buttons = self.createButtons()
                                         let textView = self.createTextView()
@@ -319,8 +344,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     
-    
-
     /// A function to create buttons that will be used throughout the form
     ///
     /// - Returns: An array of UIButtons
@@ -347,7 +370,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         split.setTitle("Split", for: .normal)
         split.titleLabel?.font = .systemFont(ofSize: 12)
         split.addTarget(self, action: #selector(self.splitAction), for: .touchUpInside)
-
+        
 //        reset.setTitle("RESET", for: .normal)
 //        reset.addTarget(self, action: #selector(self.resetAction), for: .touchUpInside)
 //        reset.layer.borderWidth = 1.0
@@ -357,7 +380,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         splitData.layer.borderWidth = 1.0
         splitData.layer.borderColor = UIColor.black.cgColor
         splitData.addTarget(self, action: #selector(self.dataAction), for: .touchUpInside)
-
+        
         title.backgroundColor = .orange
         title.setTitle("", for: .normal)
         title.layer.masksToBounds = false
@@ -382,8 +405,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
    
-   
-
 
     ///DELEGATE AND NOTIFICATION METHODS
     
@@ -398,7 +419,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     @objc func newTeam(_ n:Notification) {
         
         let team = n.userInfo!.first!.key.base
-        //form +++ addSegmentedRow(teamName: team as! String)
+        
         form +++ addSection(teamName: team as! String)
         form +++ createMultivaluedSection(teamName: team as! String)
         
@@ -448,6 +469,33 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell) {
         teamHandler.runnnerHandlers[membership]?.runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
        // runnerHandler.runners.createRunner(fName: firstName, lName: lastName, membership: membership, cell: cell)
+    }
+    
+    func removeRunner(membership: String, row: BaseRow){
+        
+        teamHandler.runnnerHandlers[membership]?.runners.removeRunner(membership: membership, baseRow: row)
+        
+    }
+    
+    func removeFromButtonList(button: UIButton, team: String){
+        
+        var count = 0
+        
+        for b in self.buttonList[team]!{
+            print(b)
+            print(button.formCell())
+            if(b.formCell() == button.formCell()){
+                print("found match!")
+                self.buttonList[team]?.remove(at: count)
+                break
+            }
+            
+            count += 1
+            
+        }
+        
+        
+        
     }
     
     private func newTimer(team: String, sender: BaseCell){

@@ -32,6 +32,7 @@ class MainStopwatch{
         
         currentTimer.time.startTime = Date().timeIntervalSinceReferenceDate - currentTimer.time.elapsed
         currentTimer.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+        RunLoop.current.add(currentTimer.time.timer!, forMode: RunLoop.Mode.common)
         
         currentTimer.time.status = true
         
@@ -47,7 +48,8 @@ class MainStopwatch{
         
         
         currentTimer.time.status = false
-      
+        currentTimer.time.mainStopwatch.backgroundColor = pauseColor
+        
     }
     
     func reset(resetAll: Bool, team: String){

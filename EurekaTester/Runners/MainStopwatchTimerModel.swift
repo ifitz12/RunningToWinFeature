@@ -26,28 +26,6 @@ struct MainStopwatchTimerModel{
         var time: buttonTimeElements = buttonTimeElements()
         
     }
-    
-    //var masterStopwatchList: Dictionary<String, MainStopwatchTimerModel.Stopwatch> = [:]
-    
-    
-//    mutating func createTimer(team: String, sender: BaseCell){
-//        
-//        masterStopwatchList[team] = Stopwatch(membership: team, time: buttonTimeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, mainStopwatch: sender))
-//        
-//    }
-    
-//    mutating func getTimer(team: String) -> MainStopwatchTimerModel.Stopwatch{
-//        
-//        return masterStopwatchList[team]!
-//    }
-//    
-//    mutating func updateTimeElement(timer: MainStopwatchTimerModel.Stopwatch){
-//        
-//        if(masterStopwatchList[timer.membership] != nil){
-//            
-//            masterStopwatchList[timer.membership] = timer
-//        }
-//        
-//    }
+
     
 }
