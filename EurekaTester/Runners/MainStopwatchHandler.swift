@@ -13,14 +13,14 @@ import Eureka
 struct MainStopwatchHandler{
     
     var mainTimerList: Dictionary<String, MainStopwatch>
-    var mainButonList: Dictionary<String, MainStopwatchTimerModel.Stopwatch>
+    var mainButtonList: Dictionary<String, MainStopwatchTimerModel.Stopwatch>
     var currentTimer: MainStopwatchTimerModel.Stopwatch
     
     
     init(){
         self.mainTimerList = [:]
         self.currentTimer = MainStopwatchTimerModel.Stopwatch()
-        self.mainButonList = [:]
+        self.mainButtonList = [:]
     }
     
     
@@ -29,19 +29,19 @@ struct MainStopwatchHandler{
         new.membership = team
         new.time.mainStopwatch = sender
         
-        mainButonList[team] = new
+        mainButtonList[team] = new
         
     }
     
     mutating func getStopwatch(team: String) -> MainStopwatchTimerModel.Stopwatch{
         
-        return mainButonList[team]!
+        return mainButtonList[team]!
     }
     
     mutating func updateTimeElement(timer: MainStopwatchTimerModel.Stopwatch){
         
-        if(mainButonList[timer.membership] != nil){
-            mainButonList[timer.membership] = timer
+        if(mainButtonList[timer.membership] != nil){
+            mainButtonList[timer.membership] = timer
             
         }
         

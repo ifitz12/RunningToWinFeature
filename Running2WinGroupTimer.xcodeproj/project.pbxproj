@@ -65,6 +65,7 @@
 		FD0B49B122245E1800090D16 /* MainStopwatchHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatchHandler.swift; sourceTree = "<group>"; };
 		FD0B49B32224954D00090D16 /* MainStopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatch.swift; sourceTree = "<group>"; };
 		FD0B49B5222C727300090D16 /* RelayEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelayEngine.swift; sourceTree = "<group>"; };
+		FD0B49B7222F693700090D16 /* Running2WinGroupTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Running2WinGroupTimer.entitlements; sourceTree = "<group>"; };
 		FD667FB42191F85D00715784 /* MasterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterHomeViewController.swift; sourceTree = "<group>"; };
 		FD667FB62198BE8500715784 /* RunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerModel.swift; sourceTree = "<group>"; };
 		FD667FB82198D67200715784 /* AlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 		FDE8F5AF2181144600E56B93 = {
 			isa = PBXGroup;
 			children = (
+				FD0B49B7222F693700090D16 /* Running2WinGroupTimer.entitlements */,
 				FDE8F5BA2181144600E56B93 /* EurekaTester */,
 				FDE8F5CF2181144800E56B93 /* EurekaTesterTests */,
 				FDE8F5B92181144600E56B93 /* Products */,
@@ -242,6 +244,14 @@
 				TargetAttributes = {
 					FDE8F5B72181144600E56B93 = {
 						CreatedOnToolsVersion = 10.0;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					FDE8F5CB2181144800E56B93 = {
 						CreatedOnToolsVersion = 10.0;
@@ -527,7 +537,9 @@
 			baseConfigurationReference = B8449B7DF341800F5C655D1A /* Pods-Running2WinGroupTimer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Running2WinGroupTimer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV6PR7MP42;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EurekaTester/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -548,7 +560,9 @@
 			baseConfigurationReference = B53772D859EFE392A0E2C461 /* Pods-Running2WinGroupTimer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Running2WinGroupTimer.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HV6PR7MP42;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = EurekaTester/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;

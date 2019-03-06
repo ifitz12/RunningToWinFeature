@@ -124,7 +124,16 @@ class AlertsViewController: UIViewController{
             textField.placeholder = "Team Name"
         }
         
-        let importAction = UIAlertAction(title: "Import", style: .default) { (_) in }
+        let importAction = UIAlertAction(title: "Import", style: .default) { (_) in
+            
+//
+//            let importMenu = UIDocumentMenuViewController(documentTypes: ["pdf"], in: .import)
+//            importMenu.delegate = self as! UIDocumentMenuDelegate
+//            importMenu.modalPresentationStyle = .formSheet
+//            self.present(importMenu, animated: true, completion: nil)
+//
+//
+        }
         
         //adding the action to dialogbox
         alertController.addAction(confirmAction)

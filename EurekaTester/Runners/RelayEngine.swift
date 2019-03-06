@@ -21,19 +21,27 @@ class RelayEngine{
     var count: Int = 0
     var typeCount: Int = 0
     var currentSwitchRow: SwitchRow = SwitchRow()
+    var currentButton: UIButton = UIButton()
     
     
     init(){
-        
+       
     NotificationCenter.default.addObserver(self, selector: #selector(self.startRelay), name: NSNotification.Name(rawValue: "startRelay"), object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(self.stopRelay), name: NSNotification.Name(rawValue: "stopRelay"), object: nil)
         
     }
     
+    
+    
+    
+    
     func createButton() -> UIButton{
         
-        let splitButton = UIButton(frame: CGRect(x: 200, y: 0, width: 80, height: 25))
-        splitButton.backgroundColor = .red
+        let splitButton = UIButton(frame: CGRect(x: 200, y: 5, width: 80, height: 35))
+        splitButton.backgroundColor = .cyan
+        splitButton.titleLabel?.font = .systemFont(ofSize: 15)
+        splitButton.setTitle("Split", for: .normal)
+        splitButton.setTitleColor(.black, for: .normal)
         splitButton.addTarget(self, action: #selector(self.split), for: .touchUpInside)
         
         return splitButton
@@ -41,6 +49,7 @@ class RelayEngine{
     
     @objc func startRelay(_ n:Notification) {
         let button = createButton()
+        currentButton = button
        
         let handler = n.object as! TeamHandler
         let type = n.userInfo!["type"] as! String
@@ -49,7 +58,7 @@ class RelayEngine{
         let teamName = n.userInfo!["name"] as! String
         let buttonList = n.userInfo!["list"] as! [UIButton]
         currentSwitchRow = switchRow
-        currentSwitchRow.baseCell.addSubview(button)
+        currentSwitchRow.baseCell.addSubview(currentButton)
         //segmentedRow.hidden = true
        // print(segmentedRow.isHidden)
         
@@ -61,6 +70,7 @@ class RelayEngine{
         currentHandler.stopwatchHandler.mainTimerList[teamName]?.reset(resetAll: true, team: teamName)
         currentHandler.runnnerHandlers[teamName]!.resetAll(runners: buttonList)
         currentHandler.stopwatchHandler.startTimer(team: teamName)
+        
         currentHandler.runnnerHandlers[teamName]!.startTimer(runnerForm: buttonList[0], relay: true)
         setButtonsStatus(buttons: buttons)
         setRelay(type: type)
@@ -103,14 +113,32 @@ class RelayEngine{
         else{
             currentHandler.stopwatchHandler.stopTimer(team: teamName)
             setButtonsStatus(buttons: buttons)
-            currentSwitchRow.baseCell.subviews[1].removeFromSuperview()
+            currentButton.removeFromSuperview()
+          
             currentSwitchRow.value = false
-            
             count = 0
             typeCount = 0
+            presentSaveOption()
         }
 
         print("split")
+        
+    }
+    
+    func presentSaveOption(){
+        let alertController = UIAlertController(title: "Save relay?", message: "", preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: "Save", style: .default) { (_) in
+            
+            
+    }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "saveOption"), object: alertController, userInfo: nil)
+       
+        
         
     }
     
@@ -129,16 +157,7 @@ class RelayEngine{
             
         }
     }
-    
-    func relayTypeError() -> UIAlertController{
-        
-        let alert = UIAlertController(title: "Error", message: "Relay type must be set in 'Team Options'", preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-        alert.addAction(action)
-        
-        return alert
-    }
-    
+ 
    
     func relaySizeError() -> UIAlertController{
         
@@ -152,22 +171,26 @@ class RelayEngine{
   
     
     func setButtonsStatus(buttons: [UIButton]){
-    
+        
+        let mainStopwatch = currentHandler.stopwatchHandler.getStopwatch(team: teamName).time.mainStopwatch
+        (mainStopwatch.isUserInteractionEnabled) ? (mainStopwatch.isUserInteractionEnabled = false) :(mainStopwatch.isUserInteractionEnabled = true)
+        
         for button in buttons{
+            let split = button.formCell()?.subviews[2] as! UIButton
+            (split.isEnabled) ? (split.isEnabled = false) : (split.isEnabled = true)
             (button.isEnabled) ? (button.isEnabled = false) : (button.isEnabled = true)
-            if(!button.isEnabled){
+            if(!button.isEnabled || !split.isEnabled){
                 button.backgroundColor = .gray
+                split.backgroundColor = .gray
+                split.setTitleColor(.black, for: .normal)
             }
             else{
                 button.backgroundColor = .green
+                split.backgroundColor = .blue
+                split.setTitleColor(.white, for: .normal)
         }
         
     }
     }
-    
-    
-    
-    
-    
-    
+   
 }

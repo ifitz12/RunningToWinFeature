@@ -11,10 +11,9 @@ import UIKit
 import Eureka
 
 
-
-
-
-class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{
+class MasterFormViewController: FormViewController, AlertsViewControllerDelegate{ //UIDocumentMenuDelegate,UIDocumentPickerDelegate,UINavigationControllerDelegate{
+   
+    
     
     var masterView: MasterHomeViewController = MasterHomeViewController()
     var teamHandler: TeamHandler = TeamHandler()
@@ -24,8 +23,8 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     var buttonList: [String: [UIButton]]  = [:]
     var segmentedTags: [String: String] = [:]
-    
-    
+   
+   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -37,10 +36,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         tableView.isEditing = false
         animateScroll = true
         masterView.alerts.delegate = self
+        let userDefaults = UserDefaults.standard
+       
         
         //Observers for
         NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "newTeamSender"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.presentSave), name: NSNotification.Name(rawValue: "saveOption"), object: nil)
         
         
         var buttons = createButtons()
@@ -209,7 +211,12 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                     
                     if let relayType = self!.form.rowBy(tag: tag3)?.baseValue{
                     
-                    if(row.value == true){
+                    if (runnerCount != 4) {
+                        self?.present(self!.relayEngine.relaySizeError(), animated: true, completion: nil)
+                        row.value = false
+                        row.updateCell()
+                        }
+                   else if(row.value == true){
                         print("buttonLIST")
                         print(self!.buttonList[teamName])
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startRelay"), object: self!.teamHandler, userInfo: ["name": teamName, "segment": self!.form.rowBy(tag: tag2) as Any, "list": self!.buttonList[teamName]! , "type": relayType as Any, "switch": self!.form.rowBy(tag: tag1) as Any] as [AnyHashable : Any])
@@ -225,13 +232,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         row.updateCell()
                     }
                     }
-//                    else if (runnerCount == nil || runnerCount != 4) {
-//                        self?.present(self!.relayEngine.relaySizeError(), animated: true, completion: nil)
-//                        row.value = false
-//                        row.updateCell()
-//                    }
+                   
                     
             }
+           
 
             <<< ButtonRow(tag4){ row in
                 row.tag = teamName
@@ -270,6 +274,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
       let section = MultivaluedSection(multivaluedOptions: [.Reorder, .Insert],
                            header: "",
                            footer: ""){
+                            
                             //$0.hidden = "$segmented != 'Runners'"
                             $0.tag = teamName
                             $0.showInsertIconInAddButton = false
@@ -280,13 +285,16 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                     row.title = "Add New Runner"
                                     
                                 }
+                                
                             }
+                            
                             
                             // Telling the section where to insert the new row
                             $0.multivaluedRowToInsertAt = { index in
                                 
                                 return LabelRow() { row in
                                     row.title = " "
+                                    
                                     var buttons = self.createButtons()
  //                                   let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
                                         //self.removeRunner(membership: teamName, row: row)
@@ -425,6 +433,12 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
     }
     
+    @objc func presentSave(_ n:Notification) {
+        let controller = n.object as! UIAlertController
+        self.present(controller, animated: true, completion: nil)
+        
+    }
+    
     func editPressed(sender: UIBarButtonItem){
         //masterView.editButton.title = tableView.isEditing ? "Done" : "Edit"
         
@@ -503,7 +517,32 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         teamHandler.stopwatchHandler.createMember(team: team, sender: sender)
     }
     
-}
+    
+    
+    
+//    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+//        let myURL = url as URL
+//        print("import result : \(myURL)")
+//    }
+//
+//
+//    public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
+//        documentPicker.delegate = self
+//        present(documentPicker, animated: true, completion: nil)
+//    }
+//
+//
+//    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+//        print("view was cancelled")
+//        dismiss(animated: true, completion: nil)
+//    }
+    
+    
+    
+    
+    
+    
+}/// End class
     
 
     
