@@ -26,8 +26,6 @@ struct RunnerHandler {
     var timerList: Dictionary<String, TimerModel> = [:]
     //var currentRunner = RunnerModel.Runner()
     //var runners: RunnerModel = RunnerModel()
-    let startColor = UIColor(hexString: "#7DFF8F")
-    let pauseColor = UIColor(hexString: "#FDFF66")
     var timeString = ""
     //let alerts: AlertsViewController = AlertsViewController()
   
@@ -83,7 +81,7 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
         timerList[currentRunner.lastName] = newRun
         
     }
-    runnerForm.formCell()?.backgroundColor = startColor
+    runnerForm.formCell()?.backgroundColor = Colors.startColor
         timerList[currentRunner.lastName]?.start(relay: relay)
 
     
@@ -95,9 +93,11 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
     if(runnerHasChanged(runnerForm: runnerForm)){
         currentRunner = setRunner(runner: runnerForm)
     }
-    runnerForm.formCell()?.backgroundColor = pauseColor
+    runnerForm.formCell()?.backgroundColor = Colors.pauseColor
     timerList[currentRunner.lastName]?.stop()
-    runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
+        if let runnerInList = timerList[currentRunner.lastName] {
+    runners.updateTimeElement(runner: runnerInList.getEntry())
+        }
     
 }
 
@@ -149,7 +149,7 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
         
     for runner in runners{
         let textField = runner.formCell()?.subviews[4] as! UITextView
-        if(runner.backgroundColor == UIColor.red ){
+        if(runner.backgroundColor == Colors.stopColor ){
             currentRunner = setRunner(runner: runner)
             
             timerList[currentRunner.lastName]?.reset()
@@ -163,11 +163,11 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
                 newRun.createEntry(runner: currentRunner, runnerButton: runner)
                 timerList[currentRunner.lastName] = newRun
             }
-            runner.backgroundColor = .red
+            runner.backgroundColor = Colors.stopColor
             runner.setTitleColor(.white, for: .normal)
             runner.setTitle("STOP", for: .normal)
-            runner.formCell()?.backgroundColor = startColor
-            textField.backgroundColor = startColor
+            runner.formCell()?.backgroundColor = Colors.startColor
+            textField.backgroundColor = Colors.startColor
             timerList[currentRunner.lastName]?.start(relay: false)
         }
     }
@@ -186,10 +186,10 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
             timerList[currentRunner.lastName] = newRun
         }
         runner.backgroundColor = .green
-        runner.formCell()?.backgroundColor = pauseColor
+        runner.formCell()?.backgroundColor = Colors.pauseColor
         runner.setTitleColor(.black, for: .normal)
         runner.setTitle("GO", for: .normal)
-        textField.backgroundColor = pauseColor
+        textField.backgroundColor = Colors.pauseColor
         timerList[currentRunner.lastName]?.stop()
         self.runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
 

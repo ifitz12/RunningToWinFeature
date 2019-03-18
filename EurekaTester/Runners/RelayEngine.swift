@@ -164,7 +164,7 @@ class RelayEngine{
    
     func relaySizeError() -> UIAlertController{
         
-        let alert = UIAlertController(title: "Error", message: "This relay type requires at least 4 runners", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Error", message: "This relay type requires exactly 4 runners. Try adding or removing runners to continue", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alert.addAction(action)
         return alert
@@ -174,7 +174,7 @@ class RelayEngine{
     private func setButtonsStatus(buttons: [UIButton], end: Bool){
         
         let mainStopwatch = currentHandler.stopwatchHandler.getStopwatch(team: teamName).time.mainStopwatch
-        (mainStopwatch.isUserInteractionEnabled) ? (mainStopwatch.isUserInteractionEnabled = false) :(mainStopwatch.isUserInteractionEnabled = true)
+
         
         for button in buttons{
             
@@ -184,6 +184,7 @@ class RelayEngine{
             
             if(!end){
                 start.isHidden = true
+                mainStopwatch.isUserInteractionEnabled = false
                 if (buttonColor != startColor){
                     split.isHidden = true
                     
@@ -207,6 +208,7 @@ class RelayEngine{
                 split.titleLabel?.font = .systemFont(ofSize: 13)
                 split.isHidden = false
                 start.isHidden = false
+                mainStopwatch.isUserInteractionEnabled = true
                 
             }
             

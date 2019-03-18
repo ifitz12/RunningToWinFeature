@@ -17,8 +17,7 @@ class TimerModel{
     var currentRunner: RunnerModel.Runner = RunnerModel.Runner()
     var button: UIButton = UIButton()
     var teamName: String = ""
-    let pauseColor = UIColor(hexString: "#FDFF66")
-    let startColor = UIColor(hexString: "#7DFF8F")
+   
     var timeString = ""
     
     func createEntry(runner: RunnerModel.Runner, runnerButton: UIButton){
@@ -36,13 +35,13 @@ class TimerModel{
     /// Start funtion for an individual timer, called by StartAll() for each runner
     func start(relay: Bool){
         if(!relay){
-        button.backgroundColor = .red
-        button.formCell()?.backgroundColor = startColor
+        button.backgroundColor = Colors.stopColor
+        button.formCell()?.backgroundColor = Colors.startColor
         button.setTitleColor(.black, for: .normal)
         button.setTitle("STOP", for: .normal)
         }
         let textField = button.formCell()?.subviews[4] as! UITextView
-        textField.backgroundColor = startColor
+        textField.backgroundColor = Colors.startColor
         currentRunner.time.startTime = Date().timeIntervalSinceReferenceDate - currentRunner.time.elapsed
         currentRunner.time.timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(updateCounter), userInfo: nil, repeats: true)
         RunLoop.current.add(currentRunner.time.timer!, forMode: RunLoop.Mode.common)
@@ -50,7 +49,7 @@ class TimerModel{
         // Set Start/Stop button to true
         currentRunner.time.status = true
        
-        currentRunner.cell.formCell()?.backgroundColor = startColor
+        currentRunner.cell.formCell()?.backgroundColor = Colors.startColor
         //currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = startColor
         currentRunner.cell.formCell()?.update()
         
@@ -58,7 +57,7 @@ class TimerModel{
     
     func stop()  {
         let textField = button.formCell()?.subviews[4] as! UITextView
-        textField.backgroundColor = pauseColor
+        textField.backgroundColor = Colors.pauseColor
         currentRunner.time.elapsed = Date().timeIntervalSinceReferenceDate - currentRunner.time.startTime
         currentRunner.time.timer?.invalidate()
         
@@ -69,7 +68,7 @@ class TimerModel{
     func reset(){
         
         button.backgroundColor = .green
-        button.formCell()?.backgroundColor = pauseColor
+        button.formCell()?.backgroundColor = Colors.pauseColor
         button.setTitleColor(.black, for: .normal)
         button.setTitle("GO", for: .normal)
         

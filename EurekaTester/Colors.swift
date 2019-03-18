@@ -10,25 +10,12 @@ import Foundation
 import UIKit
 
 
-//public enum Colors: OptionSet{
-//
-//    case startColor = UIColor(hexString: "#7DFF8F")
-//
-//
-//
-//
-//
-//
-//    }
-//
-
-/*
- 
- relay:
-    - 800
- - 1600
- 
- 
- */
+enum Colors{
+    
+    static let startColor = UIColor(hexString: "#7DFF8F")
+    static let pauseColor = UIColor(hexString: "#FDFF66")
+    static let stopColor = UIColor(hexString: "#FB4040")
+    
+}
 
 

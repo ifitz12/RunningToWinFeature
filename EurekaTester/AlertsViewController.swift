@@ -16,6 +16,7 @@ protocol AlertsViewControllerDelegate: class {
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
+    func removeRunner(teamName: String, cell: BaseCell)
     
     
 }
@@ -80,9 +81,8 @@ class AlertsViewController: UIViewController{
         
         //the cancel action doing nothing
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
-            cell.baseRow.section?.remove(at: cell.baseRow.indexPath!.row)
-  ///////          self.delegate?.deleteFromButtonList(cell: cell)
-            cell.update()
+            self.delegate?.removeRunner(teamName: (cell.baseRow.section?.tag!)!, cell: cell)
+  
         }
         
         //adding textfields to our dialog box

@@ -19,8 +19,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     var teamHandler: TeamHandler = TeamHandler()
     var relayEngine: RelayEngine = RelayEngine()
     var teamData: TeamData = TeamData()
-    let startColor = UIColor(hexString: "#7DFF8F")
-    let pauseColor = UIColor(hexString: "#FDFF66")
     var teams: [String] = []
     var buttonList: [String: [UIButton]]  = [:]
     var segmentedTags: [String: String] = [:]
@@ -62,10 +60,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         let team = sender.formCell()?.baseRow.section!.tag
         
         if(sender.backgroundColor == .green){
-            sender.backgroundColor = .red
+            sender.backgroundColor = Colors.stopColor
             sender.setTitleColor(.white, for: .normal)
             sender.setTitle("STOP", for: .normal)
-            sender.formCell()?.backgroundColor = startColor
+            sender.formCell()?.backgroundColor = Colors.startColor
             teamHandler.runnnerHandlers[team!]?.startTimer(runnerForm: sender, relay: false)
             // runnerHandler.startTimer(runnerForm: sender)
             UIButton.animate(withDuration: 0.1,
@@ -81,7 +79,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         }
         else{
             sender.backgroundColor = .green
-            sender.formCell()?.backgroundColor = pauseColor
+            sender.formCell()?.backgroundColor = Colors.pauseColor
             sender.setTitleColor(.black, for: .normal)
             sender.setTitle("GO", for: .normal)
             teamHandler.runnnerHandlers[team!]?.stopTimer(runnerForm: sender)
@@ -132,8 +130,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     }
     
     func resetAllTeam(team: String){
-        print("IS BUTTON LIST NIL")
-        print(buttonList[team] == nil)
+      
         if(buttonList[team] != nil){
             teamHandler.runnnerHandlers[team]?.resetAll(runners: buttonList[team]!)
         }
@@ -221,12 +218,12 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                 self!.form.sectionBy(tag: teamName)?.allRows[4].evaluateHidden()
                             
                                 self?.teamData.createRunnerDataCells(forTeam: teamName, rowTag: tag2, dataSet: self!.teamHandler)
-                                
+                                print("got here at least")
                                 //form.a <<< rows[0]
                                 NotificationCenter.default.addObserver(self!, selector: #selector(self!.updateData), name: NSNotification.Name(rawValue: "updateData"), object: segmentedRow)
                                 //self!.form.insert(self!.teamData.getSection(), at: ((segmentedRow.indexPath?.row)!+2))
                                 
-                                segmentedRow.updateCell()
+                                //segmentedRow.updateCell()
                             }
                             
                             row.title = "Relay:"
@@ -255,7 +252,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                 }.onCellSelection{[weak self] cell, row  in
                     row.tag = teamName
                     
-                    cell.backgroundColor == self?.startColor ? self?.stopAllTeam(team: teamName) : self?.startAllTeam(team: teamName)
+                    cell.backgroundColor == Colors.startColor ? self?.stopAllTeam(team: teamName) : self?.startAllTeam(team: teamName)
                     
                     cell.textLabel?.textColor = UIColor.black
                     
@@ -370,7 +367,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         split.center.x += view.bounds.width
         
         start.backgroundColor = .green
-        start.setTitle("Go", for: .normal)
+        start.setTitle("GO", for: .normal)
         start.setTitleColor(.black, for: .normal)
         start.titleLabel?.font = .systemFont(ofSize: 14)
         start.layer.cornerRadius = 10
@@ -433,9 +430,10 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     
     @objc func updateData( n:Notification){
-        
+        print("UPDATE DATA")
         let segmentedRow = n.object as! SegmentedRow<String>
         self.form.insert(self.teamData.getSection(), at: (segmentedRow.indexPath?.row)!+2)
+        
         
     }
     
@@ -507,6 +505,25 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     //            }
     //        }
     //    }
+    
+    
+    
+    func removeRunner(teamName: String, cell: BaseCell) {
+        let button = cell.subviews[1] as! UIButton
+        
+        
+        //self.teamHandler.runnnerHandlers[teamName]?.removeFromTimerList(runner: buttons[3])
+        
+        self.removeRunner(membership: teamName, row: cell.baseRow)
+        
+        self.removeFromButtonList(button: button, team: teamName)
+        
+        self.removeCell(cell: cell)
+        self.didReorder(team: teamName)
+        
+        
+    }
+    
     
     func animateSplit(cell: Cell<String>) {
         //        masterView.editButton.target = self

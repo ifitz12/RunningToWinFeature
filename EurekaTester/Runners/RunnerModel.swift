@@ -99,7 +99,7 @@ struct RunnerModel {
             print("ere")
             masterRunnerList?.removeValue(forKey: lower)
         }
-        else{
+        else if(masterRunnerList![lower]?.count != nil){
         
         
         for runner in masterRunnerList![lower]!{
