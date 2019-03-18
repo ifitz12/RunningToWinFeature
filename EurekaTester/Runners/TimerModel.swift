@@ -49,9 +49,11 @@ class TimerModel{
         
         // Set Start/Stop button to true
         currentRunner.time.status = true
-       
-        currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = startColor
+       print(currentRunner.lastName)
+        currentRunner.cell.formCell()?.backgroundColor = startColor
+        //currentRunner.cell.formCell()?.baseRow.baseCell.backgroundColor = startColor
         currentRunner.cell.formCell()?.update()
+        
     }
     
     func stop()  {
@@ -110,6 +112,7 @@ class TimerModel{
         
         let total = strMinutes + ":" + strSeconds + "." + strMilliseconds
         timeString = total
+        print(currentRunner.lastName)
         currentRunner.cell.baseRow.title = total
         //currentRunner.cell.baseRow.baseValue = total
         currentRunner.cell.formCell()?.update()

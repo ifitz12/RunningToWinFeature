@@ -21,8 +21,6 @@ class MasterHomeViewController: UIViewController {
         
     }
     
-    
-    
     convenience init() {
         self.init(nibName:nil, bundle:nil)
 

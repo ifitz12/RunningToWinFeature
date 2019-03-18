@@ -14,13 +14,15 @@
 		FD0B49B222245E1800090D16 /* MainStopwatchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49B122245E1800090D16 /* MainStopwatchHandler.swift */; };
 		FD0B49B42224954D00090D16 /* MainStopwatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49B32224954D00090D16 /* MainStopwatch.swift */; };
 		FD0B49B6222C727300090D16 /* RelayEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49B5222C727300090D16 /* RelayEngine.swift */; };
+		FD0B49BB2231F00D00090D16 /* FormElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49BA2231F00D00090D16 /* FormElements.swift */; };
+		FD0B49BD2231F31000090D16 /* TeamData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49BC2231F31000090D16 /* TeamData.swift */; };
+		FD0B49BF2236C31100090D16 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49BE2236C31100090D16 /* Colors.swift */; };
 		FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB42191F85D00715784 /* MasterHomeViewController.swift */; };
 		FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB62198BE8500715784 /* RunnerModel.swift */; };
 		FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB82198D67200715784 /* AlertsViewController.swift */; };
 		FD667FBB219F450100715784 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBA219F450100715784 /* TimerModel.swift */; };
 		FD667FBD21AF097B00715784 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBC21AF097B00715784 /* Extensions.swift */; };
 		FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */; };
-		FDD05C4222174C7B00625C41 /* FormButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD05C4122174C7B00625C41 /* FormButtons.swift */; };
 		FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BB2181144600E56B93 /* AppDelegate.swift */; };
 		FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BD2181144600E56B93 /* ViewController.swift */; };
 		FDE8F5C12181144600E56B93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDE8F5BF2181144600E56B93 /* Main.storyboard */; };
@@ -66,13 +68,15 @@
 		FD0B49B32224954D00090D16 /* MainStopwatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStopwatch.swift; sourceTree = "<group>"; };
 		FD0B49B5222C727300090D16 /* RelayEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelayEngine.swift; sourceTree = "<group>"; };
 		FD0B49B7222F693700090D16 /* Running2WinGroupTimer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Running2WinGroupTimer.entitlements; sourceTree = "<group>"; };
+		FD0B49BA2231F00D00090D16 /* FormElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormElements.swift; sourceTree = "<group>"; };
+		FD0B49BC2231F31000090D16 /* TeamData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamData.swift; sourceTree = "<group>"; };
+		FD0B49BE2236C31100090D16 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FD667FB42191F85D00715784 /* MasterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterHomeViewController.swift; sourceTree = "<group>"; };
 		FD667FB62198BE8500715784 /* RunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerModel.swift; sourceTree = "<group>"; };
 		FD667FB82198D67200715784 /* AlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
 		FD667FBA219F450100715784 /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		FD667FBC21AF097B00715784 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerHandler.swift; sourceTree = "<group>"; };
-		FDD05C4122174C7B00625C41 /* FormButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormButtons.swift; sourceTree = "<group>"; };
 		FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Running2WinGroupTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE8F5BB2181144600E56B93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDE8F5BD2181144600E56B93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -176,7 +180,9 @@
 				FDE8F5DB2181153F00E56B93 /* MasterFormViewController.swift */,
 				FD667FB82198D67200715784 /* AlertsViewController.swift */,
 				FD667FBC21AF097B00715784 /* Extensions.swift */,
-				FDD05C4122174C7B00625C41 /* FormButtons.swift */,
+				FD0B49BA2231F00D00090D16 /* FormElements.swift */,
+				FD0B49BC2231F31000090D16 /* TeamData.swift */,
+				FD0B49BE2236C31100090D16 /* Colors.swift */,
 			);
 			path = EurekaTester;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 				FDE8F5DC2181153F00E56B93 /* MasterFormViewController.swift in Sources */,
 				FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */,
 				FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */,
+				FD0B49BF2236C31100090D16 /* Colors.swift in Sources */,
 				FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */,
 				FD0B49B42224954D00090D16 /* MainStopwatch.swift in Sources */,
 				FD667FBD21AF097B00715784 /* Extensions.swift in Sources */,
@@ -370,11 +377,12 @@
 				FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */,
 				FD667FBB219F450100715784 /* TimerModel.swift in Sources */,
 				FD0B49AD22234E9100090D16 /* TeamHandler.swift in Sources */,
+				FD0B49BD2231F31000090D16 /* TeamData.swift in Sources */,
 				FD0B49B022237A9900090D16 /* MainStopwatchTimerModel.swift in Sources */,
-				FDD05C4222174C7B00625C41 /* FormButtons.swift in Sources */,
 				FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */,
 				FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */,
 				FD0B49B222245E1800090D16 /* MainStopwatchHandler.swift in Sources */,
+				FD0B49BB2231F00D00090D16 /* FormElements.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,7 +557,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EurekaTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_REFLECTION_METADATA_LEVEL = none;
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -572,7 +580,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EurekaTester;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_REFLECTION_METADATA_LEVEL = none;
+				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

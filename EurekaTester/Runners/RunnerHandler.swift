@@ -225,6 +225,15 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
     }
 }
     
+    mutating func removeFromTimerList(runner: UIButton){
+        
+        let name = runner.titleLabel?.text?.split(separator: " ")
+        let fName = name![0].lowercased()
+        self.stopTimer(runnerForm: runner)
+        timerList.removeValue(forKey: fName)
+        
+    }
+    
     
 
     

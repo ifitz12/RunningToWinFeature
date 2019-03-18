@@ -45,8 +45,30 @@ struct RunnerModel {
 //    var masterRunnerList: Dictionary<String, [RunnerModel.Runner]>? = ["initializer": [Runner(firstName: "", lastName: "", membership: "initializer", cell: BaseCell(), time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]]
     
     
+    
+    private func checkIfMember(team: String, lName: String) -> Bool{
+        if let list = masterRunnerList![team]{
+        for runner in list{
+            
+            if( runner.lastName.lowercased() == lName.lowercased()){
+                return true
+            }
+        }
+        
+        
+        return false
+            
+        }
+        
+        return false
+        
+    }
+    
   mutating func createRunner(fName: String, lName: String, membership: String, cell: BaseCell){
         let lower = membership.lowercased()
+    
+    
+    if(!checkIfMember(team: lower, lName: lName)){
     
         if(teamInDictionary(team: membership)){
             
@@ -56,14 +78,25 @@ struct RunnerModel {
             
             masterRunnerList![lower] = [Runner(firstName: fName, lastName: lName, membership: lower, cell: cell, time: timeElements(timer: Timer(), startTime: 0, time: 0, elapsed: 0, status: false, splits: []))]
         }
+    
     }
+    else{
+        cell.baseRow.section?.remove(at: cell.baseRow.indexPath!.row)
+    }
+    
+    
+    
+    }
+    
+    
+    
     mutating func removeRunner(membership: String, baseRow: BaseRow){
         
         let lower  = membership.lowercased()
         var count = 0
-        
+        print("eeyyy")
         if(masterRunnerList![lower]?.count == 1){
-            
+            print("ere")
             masterRunnerList?.removeValue(forKey: lower)
         }
         else{
@@ -71,12 +104,12 @@ struct RunnerModel {
         
         for runner in masterRunnerList![lower]!{
             if(baseRow.baseCell == runner.cell){
-                print("Match!!")
-                print(masterRunnerList![lower])
+                print("match!")
+                
                 masterRunnerList![lower]?.remove(at: count)
-            
-                baseRow.baseCell.formCell()?.delete(baseRow.baseCell)
-                print(masterRunnerList![lower])
+                //baseRow.baseCell.formCell()?.delete(baseRow.baseCell)
+                print("nope")
+                //print(masterRunnerList![lower])
             }
             count += 1
             

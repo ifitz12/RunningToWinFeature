@@ -17,7 +17,6 @@ class MainStopwatch{
     
     var currentTimer: MainStopwatchTimerModel.Stopwatch = MainStopwatchTimerModel.Stopwatch()
     
-    
     func setCurrent(stopwatch: MainStopwatchTimerModel.Stopwatch){
         self.currentTimer = stopwatch
         
