@@ -146,7 +146,7 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
 
 /// Starts all runners within a team
     mutating func startAll(runners: [UIButton]){
-        print(self.runners.masterRunnerList)
+        
     for runner in runners{
         let textField = runner.formCell()?.subviews[4] as! UITextView
         if(runner.backgroundColor == UIColor.red ){

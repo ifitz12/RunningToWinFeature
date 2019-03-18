@@ -24,20 +24,25 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     var teams: [String] = []
     var buttonList: [String: [UIButton]]  = [:]
     var segmentedTags: [String: String] = [:]
+    var API: APIEngine = APIEngine()
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+      
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         //super.viewDidLayoutSubviews()
         tableView.isEditing = false
         animateScroll = true
         masterView.alerts.delegate = self
         
         self.form = Form()
+     
+        
         //Observers for
         NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "newTeamSender"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
@@ -290,46 +295,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                                 
                                                 return LabelRow() { row in
                                                     row.title = " "
-                                                   // var buttons = self.createButtons()
-                                                    
-//                                                    let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
-//
-//                                                        self.removeRunner(membership: teamName, row: row)
-//
-//                                                        self.removeFromButtonList(button: buttons[0], team: teamName)
-//                                                        self.teamHandler.runnnerHandlers[teamName]?.removeFromTimerList(runner: buttons[3])
-//                                                        self.removeCell(cell: row.baseCell)
-//                                                        self.didReorder(team: teamName)
-//
-//
-//
-//                                                        completionHandler!(true)
-//
-//
-//                                                    }
-//                                                    row.trailingSwipe.actions = [deleteSwipeAction]
-                                                    //var buttons = self.createButtons()
-//                                                                                       let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
-//                                                    self.removeRunner(membership: teamName, row: row)
-//                                                                                            var count = 0
-//                                                                                            for b in self.buttonList[teamName]!{
-//                                                                                                print(self.buttonList)
-//                                                                                                if(buttons[0].frame.maxX > 300){
-//                                                                                                    self.buttonList[teamName]!.remove(at: count)
-//                                                                                                    row.baseCell.removeFromSuperview()
-//                                                                                                    print(self.buttonList)
-//                                                                                                    break
-//
-//                                                                                                }
-//                                                                                                count += 1
-//                                                                                            }
-//
-//
-//                                                    self.removeFromButtonList(button: buttons[0], team: teamName)
-//                                                                                       completionHandler?(true)
-//                                                                                   }
-//                                                                                  row.trailingSwipe.actions = [deleteSwipeAction]
-//
+ 
                                                     }.cellSetup{ cell, row in
                                                         var buttons = self.createButtons()
                                                         let textView = self.createTextView()
@@ -358,18 +324,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                                             
                                                         }
                                                         row.trailingSwipe.actions = [deleteSwipeAction]
-//                                                         let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
-//                                                            print("YO")
-//
-//
-//                                                            self.removeRunner(membership: teamName, row: row)
-//                                                            self.removeFromButtonList(button: buttons[0], team: teamName)
-//                                                            self.removeCell(cell: cell)
-//
-//
-//                                                        }
-                                                        //row.trailingSwipe.actions = [deleteSwipeAction]
-                                                        
+ 
                                                         
                                                         //Handling button list additions
                                                         if(self.buttonList[teamName] == nil){
@@ -403,8 +358,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     func createButtons() -> [UIButton]{
         
         let title = UIButton(frame: CGRect(x: 5, y: 5, width: 100, height: 20))
-        let start = UIButton(frame: CGRect(x: 250, y: 10, width: 80, height: 25))
-        let split = UIButton(frame: CGRect(x: 250, y: 45, width: 80, height: 25))
+        //width 80, height 25
+        let start = UIButton(frame: CGRect(x: 230, y: 10, width: 60, height: 60))
+        let split = UIButton(frame: CGRect(x: 300, y: 10, width: 60, height: 60))
         //let reset = UIButton(frame: CGRect(x:0 , y: 0, width: 100, height: 48))
         let splitData = UIButton(frame: CGRect(x:275 , y: 0, width: 100, height: 48))
         
@@ -414,14 +370,18 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         split.center.x += view.bounds.width
         
         start.backgroundColor = .green
-        start.setTitle("GO", for: .normal)
+        start.setTitle("Go", for: .normal)
         start.setTitleColor(.black, for: .normal)
-        start.titleLabel?.font = .systemFont(ofSize: 12)
+        start.titleLabel?.font = .systemFont(ofSize: 14)
+        start.layer.cornerRadius = 10
+        start.clipsToBounds = true
         start.addTarget(self, action: #selector(self.startAction), for: .touchUpInside)
         
         split.backgroundColor = .blue
         split.setTitle("Split", for: .normal)
-        split.titleLabel?.font = .systemFont(ofSize: 13)
+        split.titleLabel?.font = .systemFont(ofSize: 14)
+        split.layer.cornerRadius = 10
+        split.clipsToBounds = true
         split.addTarget(self, action: #selector(self.splitAction), for: .touchUpInside)
         
         title.backgroundColor = .orange
@@ -489,9 +449,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         //f!.allRows[4].hidden = true
         //f?.allRows[4].baseCell.update()
         
-        
-        
-        
     }
     
     @objc func newTeam(_ n:Notification) {
@@ -500,6 +457,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
         self.form +++ addSection(teamName: team as! String)
         self.form +++ createMultivaluedSection(teamName: team as! String)
+        
         
     }
     
@@ -550,13 +508,13 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     //        }
     //    }
     
-    func animateStart(cell: Cell<String>) {
+    func animateSplit(cell: Cell<String>) {
         //        masterView.editButton.target = self
         //        masterView.sendSignal(button: masterView.editButton)
         //
         
-        UIView.animate(withDuration: 0.8, delay: 0,
-                       usingSpringWithDamping: 0.6,
+        UIView.animate(withDuration: 0.7, delay: 0.1,
+                       usingSpringWithDamping: 0.77,
                        initialSpringVelocity: 0.3,
                        options: [], animations: {
                         cell.subviews[2].center.x -= self.view.bounds.width
@@ -564,15 +522,17 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         }, completion: nil)
     }
     
-    func animateSplit(cell: Cell<String>) {
+    func animateStart(cell: Cell<String>) {
         
-        UIView.animate(withDuration: 0.8, delay: 0.1,
-                       usingSpringWithDamping: 0.6,
+        UIView.animate(withDuration: 0.7, delay: 0,
+                       usingSpringWithDamping: 0.77,
                        initialSpringVelocity: 0.3,
                        options: [], animations: {
                         cell.subviews[1].center.x -= self.view.bounds.width
                         
         }, completion: nil)
+        
+        
     }
     
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell) {
@@ -624,28 +584,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         buttonList[team] = list
         
     }
-    
-    
-    
-    //    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-    //        let myURL = url as URL
-    //        print("import result : \(myURL)")
-    //    }
-    //
-    //
-    //    public func documentMenu(_ documentMenu:UIDocumentMenuViewController, didPickDocumentPicker documentPicker: UIDocumentPickerViewController) {
-    //        documentPicker.delegate = self
-    //        present(documentPicker, animated: true, completion: nil)
-    //    }
-    //
-    //
-    //    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-    //        print("view was cancelled")
-    //        dismiss(animated: true, completion: nil)
-    //    }
-    
-    
-    
+
     
     
     

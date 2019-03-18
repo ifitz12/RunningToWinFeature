@@ -203,7 +203,7 @@ class RelayEngine{
             }
             else{
                 
-                split.frame = CGRect(x: 250, y: 45, width: 80, height: 25)
+                split.frame = CGRect(x: 300, y: 10, width: 60, height: 60)
                 split.titleLabel?.font = .systemFont(ofSize: 13)
                 split.isHidden = false
                 start.isHidden = false

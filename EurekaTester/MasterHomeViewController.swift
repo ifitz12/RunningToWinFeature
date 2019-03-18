@@ -34,12 +34,13 @@ class MasterHomeViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    
       
     }
 
     
     override func viewDidLoad() {
-        
+       
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: nil)
     }
     

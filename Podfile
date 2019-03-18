@@ -7,6 +7,7 @@ target 'Running2WinGroupTimer' do
 
   # Pods for EurekaTester
 	pod 'Eureka', '~> 4.3.1'
+	pod 'Alamofire', '~> 4.8.1'
 	
 	
   target 'Running2WinGroupTimerTests' do
