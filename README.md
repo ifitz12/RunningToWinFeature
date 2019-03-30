@@ -16,5 +16,4 @@ An extenstion for the Running2Win iOS app. This extenstion is intended to be a t
 - Record splits for each runner and view them by clicking on the "Data" button
 
 # Known Issues
-- Crash when no name is entered or only first/last name is entered into the new runner dialogue box
-- UI freeze when runner list runs onto antoher page (scrolling is enabled)
+- Crash when trying to start all runners when runner with duplicate name is attempted to be added 
