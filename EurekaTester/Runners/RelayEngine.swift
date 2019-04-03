@@ -19,9 +19,10 @@ class RelayEngine{
     var count: Int = 0
     var typeCount: Int = 0
     var currentSwitchRow: SwitchRow = SwitchRow()
-    var currentButton: UIButton = UIButton()
+    var handoffButton: UIButton = UIButton()
     let startColor = UIColor(hexString: "#7DFF8F")
     let pauseColor = UIColor(hexString: "#FDFF66")
+   
     
     
     init(){
@@ -31,7 +32,7 @@ class RelayEngine{
     
    private func createButton() -> UIButton{
         
-        let splitButton = UIButton(frame: CGRect(x: 200, y: 5, width: 80, height: 35))
+        let splitButton = UIButton(frame: CGRect(x: 290, y: 5, width: 80, height: 35))
         splitButton.backgroundColor = .cyan
         splitButton.titleLabel?.font = .systemFont(ofSize: 15)
     
@@ -44,8 +45,11 @@ class RelayEngine{
     
     @objc func startRelay(_ n:Notification) {
         let button = createButton()
-        currentButton = button
+        handoffButton = button
        
+        handoffButton.layer.cornerRadius = 10
+        handoffButton.clipsToBounds = true
+        
         let handler = n.object as! TeamHandler
         let type = n.userInfo!["type"] as! String
         //let segmentedRow: SegmentedRow = n.userInfo!["segment"] as! SegmentedRow<String>
@@ -54,7 +58,7 @@ class RelayEngine{
         let buttonList = n.userInfo!["list"] as! [UIButton]
         
         currentSwitchRow = switchRow
-        currentSwitchRow.baseCell.addSubview(currentButton)
+        currentSwitchRow.baseCell.addSubview(handoffButton)
         
         self.currentHandler = handler
         self.buttons = buttonList
@@ -103,7 +107,8 @@ class RelayEngine{
         else{
             currentHandler.stopwatchHandler.stopTimer(team: teamName)
             setButtonsStatus(buttons: buttons, end: true)
-            currentButton.removeFromSuperview()
+            animateButton(button: handoffButton, remove: true, duration: 0.5)
+            //handoffButton.removeFromSuperview()
             
             currentSwitchRow.value = false
             count = 0
@@ -120,7 +125,7 @@ class RelayEngine{
         //currentHandler.runnnerHandlers[teamName]!.resetAll(runners: buttonList)
         currentHandler.stopwatchHandler.stopTimer(team: teamName)
         setButtonsStatus(buttons: buttons, end: true)
-        currentButton.removeFromSuperview()
+        handoffButton.removeFromSuperview()
         
         currentSwitchRow.value = false
         count = 0
@@ -130,9 +135,25 @@ class RelayEngine{
         
     }
     
+    func animateButton(button: UIButton, remove: Bool, duration: Double){
+        
+        UIView.animate(withDuration: duration, animations: { () -> Void in
+            if(remove){
+            button.alpha = 0;
+            }
+            else{
+            button.alpha = 1;
+            }
+            
+        })
+      
+    }
+    
+   
     
     
-    func presentSaveOption(){
+    
+    func presentSaveOption() -> UIAlertController{
         let alertController = UIAlertController(title: "Save relay?", message: "", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "Save", style: .default) { (_) in
             
@@ -143,7 +164,9 @@ class RelayEngine{
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "saveOption"), object: alertController, userInfo: nil)
+       
+        return alertController
+        
     }
     
     func setRelay(type: String){
@@ -183,32 +206,35 @@ class RelayEngine{
             let buttonColor = button.formCell()?.backgroundColor
             
             if(!end){
-                start.isHidden = true
+                animateButton(button: start, remove: true, duration: 0.5)
+                //start.isHidden = true
                 mainStopwatch.isUserInteractionEnabled = false
                 if (buttonColor != startColor){
-                    split.isHidden = true
-                    
+                    animateButton(button: split, remove: true, duration: 0.5)
+                    //split.isHidden = true
                 }
                     
                 else {
-
-                    split.isHidden = false
+                    
+                    animateButton(button: split, remove: false, duration: 0.2)
+                    //split.isHidden = false
                     split.frame = CGRect(x: 250, y: 15, width: 90, height: 50)
                     split.layer.cornerRadius = 10
                     split.clipsToBounds = true
                     split.titleLabel?.font = .systemFont(ofSize: 17)
                     button.formCell()?.update()
-                
-                
-            }
+                }
             }
             else{
                 
                 split.frame = CGRect(x: 300, y: 10, width: 60, height: 60)
-                split.titleLabel?.font = .systemFont(ofSize: 13)
-                split.isHidden = false
-                start.isHidden = false
+                split.titleLabel?.font = .systemFont(ofSize: 15)
+                animateButton(button: split, remove: false, duration: 0.5)
+                animateButton(button: start, remove: false, duration: 0.5)
+                //split.isHidden = false
+               // start.isHidden = false
                 mainStopwatch.isUserInteractionEnabled = true
+                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: "saveOption"), object: presentSaveOption(), userInfo: nil)
                 
             }
             

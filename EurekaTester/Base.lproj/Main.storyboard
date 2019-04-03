@@ -40,13 +40,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlf-Q0-YM8">
-                                <rect key="frame" x="0.0" y="94" width="375" height="419"/>
+                                <rect key="frame" x="0.0" y="94" width="375" height="461"/>
                                 <connections>
                                     <segue destination="exL-V3-VGG" kind="embed" id="0gL-0T-J0U"/>
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tlB-gz-aKv">
-                                <rect key="frame" x="280" y="573" width="79" height="30"/>
+                                <rect key="frame" x="287" y="573" width="72" height="30"/>
                                 <state key="normal" title="New Team"/>
                                 <connections>
                                     <action selector="newTeam:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Yse-tu-QUh"/>
@@ -55,18 +55,15 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="tlB-gz-aKv" firstAttribute="top" secondItem="dlf-Q0-YM8" secondAttribute="bottom" constant="18" id="5Ka-Vv-D1k"/>
-                            <constraint firstItem="tlB-gz-aKv" firstAttribute="leading" secondItem="S4X-qA-XDh" secondAttribute="leading" constant="280" id="6Zq-z7-whU"/>
+                            <constraint firstItem="S4X-qA-XDh" firstAttribute="trailing" secondItem="tlB-gz-aKv" secondAttribute="trailing" constant="16" id="7PZ-jy-4Tc"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="trailing" secondItem="S4X-qA-XDh" secondAttribute="trailing" id="IOz-Rb-cwB"/>
+                            <constraint firstItem="S4X-qA-XDh" firstAttribute="bottom" secondItem="tlB-gz-aKv" secondAttribute="bottom" constant="20" id="Mlv-1n-XcG"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="top" secondItem="S4X-qA-XDh" secondAttribute="top" id="N8K-EZ-HZ4"/>
-                            <constraint firstItem="tlB-gz-aKv" firstAttribute="top" secondItem="dlf-Q0-YM8" secondAttribute="bottom" constant="60" id="QZ6-Iv-3ua"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="leading" secondItem="S4X-qA-XDh" secondAttribute="leading" id="Xbj-gr-wal"/>
+                            <constraint firstItem="tlB-gz-aKv" firstAttribute="top" secondItem="dlf-Q0-YM8" secondAttribute="bottom" constant="18" id="ajG-RN-bB2"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="top" secondItem="S4X-qA-XDh" secondAttribute="top" constant="30" id="aqy-x3-UTB"/>
-                            <constraint firstItem="S4X-qA-XDh" firstAttribute="trailing" secondItem="tlB-gz-aKv" secondAttribute="trailing" constant="16" id="b71-XU-pgD"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="trailing" secondItem="S4X-qA-XDh" secondAttribute="trailing" id="eMd-ht-ANw"/>
-                            <constraint firstItem="tlB-gz-aKv" firstAttribute="top" secondItem="dlf-Q0-YM8" secondAttribute="bottom" constant="60" id="etu-NQ-g1p"/>
                             <constraint firstItem="dlf-Q0-YM8" firstAttribute="leading" secondItem="S4X-qA-XDh" secondAttribute="leading" id="ra6-Rn-wWC"/>
-                            <constraint firstItem="S4X-qA-XDh" firstAttribute="bottom" secondItem="tlB-gz-aKv" secondAttribute="bottom" constant="20" id="y80-MT-dfQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="S4X-qA-XDh"/>
                     </view>
@@ -89,7 +86,7 @@
             <objects>
                 <viewController id="exL-V3-VGG" customClass="MasterFormViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MOf-o3-u3Y">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="419"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5DU-11-uxW"/>

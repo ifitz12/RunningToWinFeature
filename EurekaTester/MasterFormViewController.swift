@@ -380,7 +380,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
         split.backgroundColor = .blue
         split.setTitle("Split", for: .normal)
-        split.titleLabel?.font = .systemFont(ofSize: 14)
+        split.titleLabel?.font = .systemFont(ofSize: 15)
         split.layer.cornerRadius = 10
         split.clipsToBounds = true
         split.addTarget(self, action: #selector(self.splitAction), for: .touchUpInside)

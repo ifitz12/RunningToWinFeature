@@ -192,14 +192,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                         
                     })
                     
-                    
-                    
-                    
-                    
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                       alert.dismiss(animated: true, completion: nil)
-//                    }
-                
+    
                     
                 }))
 
