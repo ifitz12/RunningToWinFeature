@@ -22,7 +22,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     var teams: [String] = []
     var buttonList: [String: [UIButton]]  = [:]
     var segmentedTags: [String: String] = [:]
-    var API: APIEngine = APIEngine()
+    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +43,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         
         //Observers for
         NotificationCenter.default.addObserver(self, selector: #selector(self.newTeam), name: NSNotification.Name(rawValue: "newTeamSender"), object: nil)
+       
         NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.presentSave), name: NSNotification.Name(rawValue: "saveOption"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeAddRunner), name: NSNotification.Name(rawValue: "removeAddRunner"), object: nil)
@@ -110,16 +111,20 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     func startAllTeam(team: String){
         
+        
         if(buttonList[team] == nil){
             teamHandler.stopwatchHandler.startTimer(team: team)
         }
         else{
             teamHandler.stopwatchHandler.startTimer(team: team)
+            print("BUTTONs")
+            print(buttonList[team]!)
             teamHandler.runnnerHandlers[team]?.startAll(runners: buttonList[team]!)
         }
     }
     
     func stopAllTeam(team: String){
+        
         if(buttonList[team] == nil){
             teamHandler.stopwatchHandler.stopTimer(team: team)
         }
@@ -280,6 +285,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                             $0.addButtonProvider = { section in
                                                 
                                                 return ButtonRow(){ row in
+                                                   
                                                     row.title = "Add New Runner"
                                                     
                                                 }
@@ -313,8 +319,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                                 
                                                             self.removeCell(cell: row.baseCell)
                                                             self.didReorder(team: teamName)
-                                                            
-                                                            
                                                             
                                                             completionHandler!(true)
                                                             
@@ -408,6 +412,60 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         cell.update()
     }
     
+    func createRunnerRow(teamName: String) -> BaseRow{
+        
+       let runnerRow =  LabelRow() { row in
+            row.title = " "
+            
+            }.cellSetup{ cell, row in
+                var buttons = self.createButtons()
+                let textView = self.createTextView()
+                //Adding buttons to runner cell
+                cell.addSubview(buttons[0])
+                cell.addSubview(buttons[1])
+                cell.addSubview(buttons[3])
+                cell.addSubview(textView)
+                
+                
+                let deleteSwipeAction = SwipeAction(style: .destructive, title: "Delete"){ (action, row, completionHandler) in
+                    
+                    self.teamHandler.runnnerHandlers[teamName]?.removeFromTimerList(runner: buttons[3])
+                    
+                    self.removeRunner(membership: teamName, row: row)
+                    
+                    self.removeFromButtonList(button: buttons[0], team: teamName)
+                    
+                    self.removeCell(cell: row.baseCell)
+                    self.didReorder(team: teamName)
+                    
+                    completionHandler!(true)
+                    
+                    
+                }
+                row.trailingSwipe.actions = [deleteSwipeAction]
+                
+                
+                //Handling button list additions
+                if(self.buttonList[teamName] == nil){
+                    self.buttonList[teamName] = [buttons[0]]
+                }
+                else{
+                    self.buttonList[teamName]?.append(buttons[0])
+                }
+                
+                //Animating button appearence
+//                self.present(self.masterView.alerts.showNewRunnerDialog(cell: row.baseCell as! Cell<String>), animated: true, completion: nil)
+//                
+                //Adjusting cell size
+            }.cellUpdate({ cell, row in
+                cell.height = {80}
+                
+                
+            })
+        
+        return runnerRow
+    }
+    
     
     ///DELEGATE AND NOTIFICATION METHODS
     
@@ -422,9 +480,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             for team in teams{
                 didReorder(team: team)
             }
-            
         }
-        
     }
 
     
@@ -440,7 +496,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     @objc func removeAddRunner(n:Notification){
         
-        var tag = n.object as! String
+        let tag = n.object as! String
         
         self.form.sectionBy(tag: tag)?.allRows[4].hidden = true
         self.form.sectionBy(tag: tag)?.allRows[4].evaluateHidden()
@@ -451,13 +507,50 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     @objc func newTeam(_ n:Notification) {
         
-        let team = n.userInfo!.first!.key.base
+        if(n.object == nil){
+        let team = n.userInfo!.first!.key.base as! String
+        self.form +++ addSection(teamName: team)
+        self.form +++ createMultivaluedSection(teamName: team)
         
-        self.form +++ addSection(teamName: team as! String)
-        self.form +++ createMultivaluedSection(teamName: team as! String)
+        
+        }
+        else{
+            let teamImported = n.userInfo!["team"] as! String
+            self.form +++ addSection(teamName: teamImported)
+            self.form +++ createMultivaluedSection(teamName: teamImported)
+            
+            let members = n.userInfo!["members"] as! [String]
+            var section = self.form.sectionBy(tag: teamImported)
+            
+            for i in 0...members.count-1{
+            let name = members[i].split(separator: " ")
+            let row = createRunnerRow(teamName: teamImported)
+                row.title = "00:00.00"
+                row.baseCell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20.0)
+                
+                (row.baseCell.subviews[3] as? UIButton)?.setTitle(name[0].capitalized + " " + String(name[1].first!).capitalized + ".", for: .normal)
+            section?.insert(row, at: i)
+                
+                self.animateSplit(cell: row.baseCell as! Cell<String>)
+                self.animateStart(cell: row.baseCell as! Cell<String>)
+                self.animateTitle(cell: row.baseCell as! Cell<String>)
+                self.newRunner(firstName: String(name[0]).lowercased(), lastName: String(name[1]).lowercased(), membership: (row.section?.tag!)!, cell: row.baseCell)
+                row.baseCell.update()
+            }
+          
+            
+            let alert = n.object as! UIAlertController
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                alert.dismiss(animated: true, completion: nil)
+            }
+            
+            
+        }
         
         
+      
     }
+    
     
     @objc func presentSave(_ n:Notification) {
         let controller = n.object as! UIAlertController
@@ -526,9 +619,6 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     
     func animateSplit(cell: Cell<String>) {
-        //        masterView.editButton.target = self
-        //        masterView.sendSignal(button: masterView.editButton)
-        //
         
         UIView.animate(withDuration: 0.7, delay: 0.1,
                        usingSpringWithDamping: 0.77,
@@ -549,6 +639,18 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                         
         }, completion: nil)
         
+        
+    }
+    
+    func animateTitle(cell: Cell<String>){
+        
+        UIView.animate(withDuration: 0.8, delay: 0,
+                       usingSpringWithDamping: 0.6,
+                       initialSpringVelocity: 0.3,
+                       options: [], animations: {
+                        cell.subviews[3].center.x += self.view.bounds.width
+                        
+        }, completion: nil)
         
     }
     

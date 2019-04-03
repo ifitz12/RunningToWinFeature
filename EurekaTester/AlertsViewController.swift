@@ -15,6 +15,7 @@ protocol AlertsViewControllerDelegate: class {
     //func deleteFromButtonList(cell: Cell<String>)
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
+    func animateTitle(cell: Cell<String>)
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
     func removeRunner(teamName: String, cell: BaseCell)
     
@@ -22,7 +23,32 @@ protocol AlertsViewControllerDelegate: class {
 }
 
 
-class AlertsViewController: UIViewController{
+class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    
+    var typeValue = String()
+    var choices: [String] = []
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return choices.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+       
+        return choices[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    
+        typeValue = choices[row]
+        
+        
+    }
+    
+    
     
     weak var delegate: AlertsViewControllerDelegate?
   
@@ -30,10 +56,17 @@ class AlertsViewController: UIViewController{
     var firstName: String = ""
     var lastName: String = ""
   
+    var API: APIEngine = APIEngine()
+    var pickerValue = ""
+    var teamList: [String] = []
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-      
+    }
+    
+  
+    func initialize(){
+        API.request()
     }
     
     
@@ -60,26 +93,21 @@ class AlertsViewController: UIViewController{
                 
                 (cell.subviews[3] as? UIButton)?.setTitle(self.firstName.capitalized + " " + String(self.lastName.first!).capitalized + ".", for: .normal)
                 
-                UIView.animate(withDuration: 0.8, delay: 0,
-                                           usingSpringWithDamping: 0.6,
-                                           initialSpringVelocity: 0.3,
-                                           options: [], animations: {
-                                            cell.subviews[3].center.x += self.view.bounds.width
-                                            
-                }, completion: nil)
+
                 cell.baseRow.title = "00:00.00"
                 cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 20.0)
-                //start.titleLabel?.font = .systemFont(ofSize: 12)
-                //cell.baseRow.baseValue = "00:00.00"
-                
-                self.delegate?.animateStart(cell: cell)
-                self.delegate?.animateSplit(cell: cell)
+    
+                DispatchQueue.main.async {
+                    self.delegate?.animateStart(cell: cell)
+                    self.delegate?.animateSplit(cell: cell)
+                    self.delegate?.animateTitle(cell: cell)
+                }
                 self.delegate?.newRunner(firstName: self.firstName, lastName: self.lastName, membership: (cell.baseRow.section?.tag!)!, cell: cell)
                 cell.update()
             }
         }
         
-        //the cancel action doing nothing
+        //the cancel action removing runner cell
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in
             self.delegate?.removeRunner(teamName: (cell.baseRow.section?.tag!)!, cell: cell)
   
@@ -105,9 +133,9 @@ class AlertsViewController: UIViewController{
     
     /// Presenting the new team dialog box
     func showNewTeamDialog() -> UIAlertController{
-        
+        self.API.requestTeamList()
         let alertController = UIAlertController(title: "New Team", message: "", preferredStyle: .alert)
-         // present(alertController, animated: true, completion: nil)
+  
         //the confirm action taking the inputs
         let confirmAction = UIAlertAction(title: "Enter", style: .default) { (_) in
             
@@ -126,13 +154,57 @@ class AlertsViewController: UIViewController{
         
         let importAction = UIAlertAction(title: "Import", style: .default) { (_) in
             
-//
-//            let importMenu = UIDocumentMenuViewController(documentTypes: ["pdf"], in: .import)
-//            importMenu.delegate = self as! UIDocumentMenuDelegate
-//            importMenu.modalPresentationStyle = .formSheet
-//            self.present(importMenu, animated: true, completion: nil)
-//
-//
+           
+            self.choices = self.API.getTeamList()
+                let alert = UIAlertController(title: "Teams", message: "\n\n\n\n\n\n", preferredStyle: .alert)
+                alert.isModalInPopover = true
+                
+                let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+            
+                alert.view.addSubview(pickerFrame)
+                pickerFrame.dataSource = self
+                pickerFrame.delegate = self
+                pickerFrame.delegate?.pickerView!(pickerFrame, didSelectRow: 0, inComponent: 0)
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+                    
+                    
+                }))
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (_) in
+                    
+                   
+                        print("got here")
+                    self.teamName = self.typeValue.capitalized
+                    self.API.requestTeamMembers(teamName: self.typeValue)
+                    
+                    let alert = UIAlertController(title: nil, message: "Importing team...", preferredStyle: .alert)
+                    
+                    let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+                    loadingIndicator.hidesWhenStopped = true
+                    loadingIndicator.style = UIActivityIndicatorView.Style.gray
+                    loadingIndicator.startAnimating();
+                    
+                    alert.view.addSubview(loadingIndicator)
+                    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
+                        print(self.API.getTeamMembers())
+                       
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newTeamSender"), object: alert, userInfo: ["team": self.typeValue.capitalized, "members": self.API.getTeamMembers()])
+                        
+                    })
+                    
+                    
+                    
+                    
+                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//                       alert.dismiss(animated: true, completion: nil)
+//                    }
+                
+                    
+                }))
+
+                UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+          
         }
         
         //adding the action to dialogbox
@@ -150,6 +222,7 @@ class AlertsViewController: UIViewController{
         return self.teamName
     }
 }
+
 
 
 // Input validation

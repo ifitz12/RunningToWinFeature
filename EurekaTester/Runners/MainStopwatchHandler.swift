@@ -16,7 +16,6 @@ struct MainStopwatchHandler{
     var mainButtonList: Dictionary<String, MainStopwatchTimerModel.Stopwatch>
     var currentTimer: MainStopwatchTimerModel.Stopwatch
     
-    
     init(){
         self.mainTimerList = [:]
         self.currentTimer = MainStopwatchTimerModel.Stopwatch()

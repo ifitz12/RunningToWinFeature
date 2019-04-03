@@ -13,6 +13,7 @@ import Eureka
 class MasterHomeViewController: UIViewController {
 
     let alerts: AlertsViewController = AlertsViewController()
+    
    
 
     @IBAction func editButton(_ sender: UIBarButtonItem) {
@@ -40,8 +41,8 @@ class MasterHomeViewController: UIViewController {
 
     
     override func viewDidLoad() {
-       
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: nil)
+        alerts.initialize()
     }
     
 

@@ -32,7 +32,12 @@ struct RunnerHandler {
    
 /// Local function used to set the current runner in focus
 private func setRunner(runner: UIButton) -> RunnerModel.Runner{
-    //runners.printRunnerList()
+//    print("RUNNERS LIST")
+//    for key in (runners.masterRunnerList?.values)!{
+//        print(key)
+//        print("=======================================")
+//    }
+//    
     let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
     //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
     var name = (runner.formCell()!.subviews[3] as? UIButton)?.currentTitle?.split(separator: " ")
@@ -107,17 +112,18 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
         currentRunner = setRunner(runner: runnerForm)
     }
     //currentRunner.time.splits.append(timeString)
-    let time = timerList[currentRunner.lastName]?.timeString
-        
-        if(!(timerList[currentRunner.lastName]?.currentRunner.time.splits.contains(time!))!){
+        if let time = timerList[currentRunner.lastName]?.timeString {
+            
+            if(!(timerList[currentRunner.lastName]?.currentRunner.time.splits.contains(time))!){
         
         DispatchQueue.main.async {
-        textView.text.append(time! + "\n")
+            textView.text.append(time + "\n")
         let range = NSMakeRange(textView.text.characters.count - 1, 0)
         textView.scrollRangeToVisible(range)
         }
-    timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time!)
+                timerList[currentRunner.lastName]?.currentRunner.time.splits.append(time)
     runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
+        }
         }
 
 }

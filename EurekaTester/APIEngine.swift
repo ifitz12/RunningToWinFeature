@@ -19,28 +19,73 @@ class APIEngine{
          "userNameOrEmail": "ifitz",
          "password": "test1234"]
     
+    var token: String = ""
+    var teamTokens: [String: String] = [:]
+    var teamMembers: [String] = []
+    
     
     func request(){
-//        Alamofire.request("https://r2wmobile4.running2win.com/api.asmx?op=login", method: .post, parameters: ["vendorId": "d2e09e0c-a214-4079-b0f5-4cc5aeb19a61"], encoding: .JSON)
-        
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/login", method: .post, parameters : login)
             
             .responseJSON { response in
             print("RESPONSE")
             let json = response.result.value as! NSDictionary
-            print(json["token"])
+            self.token = json["token"]! as! String
+            print(self.token)
         }
+    }
+    
+    func requestTeamList(){
         
-        
-        Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamList", method: .post, parameters : ["token": "61b975d5566c47e29ee1c18f3ef9fc77a17c77e3ea7849a99552ca8aa43093de96772f9c6b154d7d822a16bd13a21f5452d5512d238b4f388bb37d05d2e133a8a1bc8da2c99a41a09170808e5e8b025be7fbe7995e074b798aa7475007b18512a5daecc28ade4230bcde7af8c057636f44458a8b627f4d8baacd61b68307cadf"])
+        Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamList", method: .post, parameters : ["token": self.token])
             
             .responseJSON { response in
-                print("TEAM LISTS")
-                print(response.result.value)
+                
+               
+                if let teamArray = response.result.value as? NSArray{
+                
+                for i in 0...teamArray.count-1{
+                    let dict = teamArray[i] as! NSDictionary
+                    self.teamTokens[dict["teamName"]! as! String] = dict["teamToken"]! as? String
+                    
+                }
+                }
+          
+                
         }
+       
+    }
+    
+    func requestTeamMembers(teamName: String){
         
+        Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamMembers", method: .post, parameters : ["token": self.token, "teamToken": self.teamTokens[teamName]!])
+            
+            .responseJSON { response in
+                
+               
+                let runnerArray = response.result.value as! NSArray
+                for i in 0...runnerArray.count-1 {
+                    let dict = runnerArray[i] as! NSDictionary
+                    let str = (dict["FirstName"] as! String) + " " + (dict["LastName"] as! String)
+                    self.teamMembers.append(str)
+                   
+                }
+        }
         
         
         
     }
+    
+
+    func getTeamList() -> [String]{
+        
+        return Array(self.teamTokens.keys)
+        
+    }
+    
+    func getTeamMembers() -> [String]{
+        
+        return self.teamMembers
+    }
+    
 }
