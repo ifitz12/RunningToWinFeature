@@ -11,6 +11,13 @@ import UIKit
 import Eureka
 
 
+protocol loginDelegate: class{
+    
+    func getTeamList()
+    func getRunnersByTeam(members: [String])
+    
+}
+
 
 class loginViewController: UIViewController, APIEngineDelegate{
     
@@ -23,6 +30,12 @@ class loginViewController: UIViewController, APIEngineDelegate{
     var gradientLayer: CAGradientLayer!
     var API: APIEngine = APIEngine()
     var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView()
+    var teamMembersInSession: [String: [String]] = [:]{
+        didSet{
+            self.shouldPost(list: self.teamList)
+        }
+    }
+    var teamList: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +57,7 @@ class loginViewController: UIViewController, APIEngineDelegate{
         
     }
     
-    func setUpFields(){
+    private func setUpFields(){
     
         userNameField.backgroundColor = .clear
         passwordField.backgroundColor = .clear
@@ -57,7 +70,7 @@ class loginViewController: UIViewController, APIEngineDelegate{
     }
     
     
-    func setupLoginButton(){
+    private func setupLoginButton(){
         loginButton.addTarget(self, action: #selector(self.loginRequest), for: .touchUpInside)
         loginButton.backgroundColor = .green
         loginButton.setTitleColor(.black, for: .normal)
@@ -93,26 +106,36 @@ class loginViewController: UIViewController, APIEngineDelegate{
       API.login["password"] = passwordField.text
       API.request()
       
+      
        
     }
     
-    func successLogin() {
+    internal func successLogin() {
         print("Success")
-        activityIndicator.removeFromSuperview()
+       API.requestTeamList()
+        //activityIndicator.removeFromSuperview()
         if let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TeamSelectionVC") as? TeamSelectionViewController{
-            self.present(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: {
+                self.pullRunnerData()
+                
+                
+            })
         }
+        
+       // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "sendTeams"), object: API, userInfo: nil)
        //self.navigationController?.popViewController(animated: true)
        // self.navigationController?.popToViewController(vc!, animated: true)
        // print(self.isBeingPresented)
         //activityIndicator.removeFromSuperview()
+        //self.show()
+        
     }
     
-    func failureLogin() {
+    internal func failureLogin() {
         print("failue!!!")
        
         setBoxStyle(field: passwordField, color: UIColor.red)
-         setBoxStyle(field: userNameField, color: UIColor.red)
+        setBoxStyle(field: userNameField, color: UIColor.red)
       //  passwordField.layer.borderColor = UIColor.red.cgColor
         //userNameField.layer.borderColor = UIColor.red.cgColor
         
@@ -121,7 +144,42 @@ class loginViewController: UIViewController, APIEngineDelegate{
     }
     
     
-    func animateFields(){
+    func pullRunnerData(){
+        
+        self.teamList = self.API.getTeamList()
+        
+        for team in teamList{
+            
+            self.API.requestTeamMembers(teamName: team, completion: {
+                
+                self.set(team: team, completion: { response in
+                    self.teamMembersInSession[team] = response[team]
+                    
+                    return ()
+                })
+                
+            })
+        }
+        
+    }
+    
+    //Helper function for pullRunnerData that guarentees all of the teams/members
+    //have been pulled
+    func shouldPost(list: [String]){
+        if(list.count == teamMembersInSession.count){
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "sendTeams"), object: self.teamMembersInSession, userInfo: ["teams": list])
+        }
+     
+     
+    }
+    
+    func set(team: String, completion: ([String:[String]]) -> ()? ){
+        var hold: [String: [String]] = [:]
+        hold[team] = self.API.getTeamMembers(team: team)
+        completion(hold)
+    }
+    
+    private func animateFields(){
         let animationPassword = CABasicAnimation(keyPath: "position")
         animationPassword.duration = 0.07
         animationPassword.repeatCount = 4
@@ -142,7 +200,7 @@ class loginViewController: UIViewController, APIEngineDelegate{
         
     }
     
-    func setBoxStyle(field: UITextField, color: UIColor){
+    private func setBoxStyle(field: UITextField, color: UIColor){
         
         let bottomLine = CALayer()
         bottomLine.frame = CGRect(x: 0.0, y: field.frame.height - 1, width: field.frame.width, height: 1.0)

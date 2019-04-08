@@ -25,11 +25,13 @@ class APIEngine{
     
     var token: String = ""
     var teamTokens: [String: String] = [:]
-    var teamMembers: [String] = []
+    var teamMembers: [String: [String]] = [:]
     var valid: Bool = false
+    var queue: DispatchQueue = DispatchQueue(label: "API")
     weak var delegate: APIEngineDelegate?
     
     func request(){
+        print("request sent")
         var error: NSDictionary = [:]
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/login", method: .post, parameters : login)
             
@@ -41,6 +43,7 @@ class APIEngine{
                     self.token = json["token"]! as! String
                     print(self.token)
                     self.delegate?.successLogin()
+                    
                 case 1:
                     print(error)
                     self.delegate?.failureLogin()
@@ -60,7 +63,7 @@ class APIEngine{
     }
     
     func requestTeamList(){
-        
+        print("team list requested")
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamList", method: .post, parameters : ["token": self.token])
             
             .responseJSON { response in
@@ -80,23 +83,38 @@ class APIEngine{
        
     }
     
-    func requestTeamMembers(teamName: String){
-        
+    func requestTeamMembers(teamName: String, completion: (() -> Void)?){
+        print("TEAM NAME")
+        print(teamName)
+        queue.async {
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamMembers", method: .post, parameters : ["token": self.token, "teamToken": self.teamTokens[teamName]!])
             
             .responseJSON { response in
                 
                
                 let runnerArray = response.result.value as! NSArray
+                
+                
                 for i in 0...runnerArray.count-1 {
                     let dict = runnerArray[i] as! NSDictionary
                     let str = (dict["FirstName"] as! String) + " " + (dict["LastName"] as! String)
-                    self.teamMembers.append(str)
-                   
+                    if(i == 0){
+                        
+                        self.teamMembers[teamName] = [str]
+                    }
+                    else{
+                        self.teamMembers[teamName]!.append(str)
+                    }
+                    
                 }
+                
+                print("finished request")
+                completion!()
+            }
         }
         
         
+      //  print("members requested")
         
     }
     
@@ -107,9 +125,9 @@ class APIEngine{
         
     }
     
-    func getTeamMembers() -> [String]{
-        
-        return self.teamMembers
+    func getTeamMembers(team: String) -> [String]{
+      
+        return self.teamMembers[team]!
     }
     
 }

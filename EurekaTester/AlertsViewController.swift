@@ -56,7 +56,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var firstName: String = ""
     var lastName: String = ""
   
-    var API: APIEngine = APIEngine()
+    //var API: APIEngine = APIEngine()
     var pickerValue = ""
     var teamList: [String] = []
     
@@ -66,7 +66,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
   
     func initialize(){
-        API.request()
+        //API.request()
     }
     
     
@@ -133,7 +133,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     /// Presenting the new team dialog box
     func showNewTeamDialog() -> UIAlertController{
-        self.API.requestTeamList()
+        //self.API.requestTeamList()
         let alertController = UIAlertController(title: "New Team", message: "", preferredStyle: .alert)
   
         //the confirm action taking the inputs
@@ -155,7 +155,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         let importAction = UIAlertAction(title: "Import", style: .default) { (_) in
             
            
-            self.choices = self.API.getTeamList()
+           // self.choices = self.API.getTeamList()
                 let alert = UIAlertController(title: "Teams", message: "\n\n\n\n\n\n", preferredStyle: .alert)
                 alert.isModalInPopover = true
                 
@@ -175,7 +175,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                    
                         print("got here")
                     self.teamName = self.typeValue.capitalized
-                    self.API.requestTeamMembers(teamName: self.typeValue)
+                  //  self.API.requestTeamMembers(teamName: self.typeValue)
                     
                     let alert = UIAlertController(title: nil, message: "Importing team...", preferredStyle: .alert)
                     
@@ -186,9 +186,9 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     
                     alert.view.addSubview(loadingIndicator)
                     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
-                        print(self.API.getTeamMembers())
-                       
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newTeamSender"), object: alert, userInfo: ["team": self.typeValue.capitalized, "members": self.API.getTeamMembers()])
+                      //  print(self.API.getTeamMembers())
+                     
+                      //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newTeamSender"), object: alert, userInfo: ["team": self.typeValue.capitalized, "members": self.API.getTeamMembers()])
                         
                     })
                     
