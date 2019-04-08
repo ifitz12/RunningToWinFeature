@@ -10,29 +10,53 @@ import Foundation
 import UIKit
 import Alamofire
 
+protocol APIEngineDelegate: class {
+    func successLogin()
+    func failureLogin()
+}
 
 class APIEngine{
     
-    let login: [String: String] =
+    var login: [String: String] =
         ["vendorId": "d2e09e0c-a214-4079-b0f5-4cc5aeb19a61",
-         "appId": "5c85a799-a2fd-4202-b30c-ff350f0f5f57",
-         "userNameOrEmail": "ifitz",
-         "password": "test1234"]
+         "appId": "5c85a799-a2fd-4202-b30c-ff350f0f5f57"]
+        // "userNameOrEmail": "ifitz",
+        // "password": "test1234"]
     
     var token: String = ""
     var teamTokens: [String: String] = [:]
     var teamMembers: [String] = []
-    
+    var valid: Bool = false
+    weak var delegate: APIEngineDelegate?
     
     func request(){
+        var error: NSDictionary = [:]
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/login", method: .post, parameters : login)
             
             .responseJSON { response in
-            print("RESPONSE")
-            let json = response.result.value as! NSDictionary
-            self.token = json["token"]! as! String
-            print(self.token)
+                error = response.result.value as! NSDictionary
+                switch error["errorCode"] as! Int {
+                case 0:
+                    let json = response.result.value as! NSDictionary
+                    self.token = json["token"]! as! String
+                    print(self.token)
+                    self.delegate?.successLogin()
+                case 1:
+                    print(error)
+                    self.delegate?.failureLogin()
+                
+                default:
+                    print("error")
+                   
+                }
+             
         }
+      
+    }
+    
+    func getStatus() -> Bool{
+        print(valid)
+        return valid
     }
     
     func requestTeamList(){

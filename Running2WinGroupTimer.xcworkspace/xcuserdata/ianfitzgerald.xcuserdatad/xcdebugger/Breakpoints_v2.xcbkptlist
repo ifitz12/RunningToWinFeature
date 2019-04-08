@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/AlertsViewController.swift"
-            timestampString = "576022005.665877"
+            timestampString = "576431509.165432"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "155"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterHomeViewController.swift"
-            timestampString = "575918150.101198"
+            timestampString = "576104177.102886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
@@ -89,7 +89,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterHomeViewController.swift"
-            timestampString = "575918150.101274"
+            timestampString = "576104177.1030639"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "32"
@@ -105,7 +105,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/AlertsViewController.swift"
-            timestampString = "576022005.666007"
+            timestampString = "576431509.165612"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "154"
@@ -121,11 +121,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666072"
+            timestampString = "576355856.159933"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "350"
-            endingLineNumber = "350"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
             landmarkName = "createMultivaluedSection(teamName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -169,11 +169,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.6661741"
+            timestampString = "576355856.160215"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "129"
+            endingLineNumber = "129"
             landmarkName = "MasterFormViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -185,11 +185,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666236"
+            timestampString = "576355856.1603251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
             landmarkName = "startAllTeam(team:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,11 +201,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666294"
+            timestampString = "576355856.1604"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "addSection(teamName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -217,11 +217,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666351"
+            timestampString = "576355856.160468"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "addSection(teamName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -249,11 +249,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666891"
+            timestampString = "576355856.160586"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
             landmarkName = "updateData(n:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -265,11 +265,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.666955"
+            timestampString = "576355856.160659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "491"
-            endingLineNumber = "491"
+            startingLineNumber = "495"
+            endingLineNumber = "495"
             landmarkName = "updateData(n:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -281,7 +281,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/AlertsViewController.swift"
-            timestampString = "576022005.667014"
+            timestampString = "576431509.16614"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "218"
@@ -297,12 +297,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EurekaTester/MasterFormViewController.swift"
-            timestampString = "576022005.6670721"
+            timestampString = "576355856.160744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "511"
-            endingLineNumber = "511"
+            startingLineNumber = "515"
+            endingLineNumber = "515"
             landmarkName = "newTeam(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EurekaTester/loginViewController.swift"
+            timestampString = "576433343.9440759"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "loginRequest()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

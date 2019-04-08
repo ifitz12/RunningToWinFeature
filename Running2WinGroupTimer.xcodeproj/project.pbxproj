@@ -24,6 +24,8 @@
 		FD667FBB219F450100715784 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBA219F450100715784 /* TimerModel.swift */; };
 		FD667FBD21AF097B00715784 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBC21AF097B00715784 /* Extensions.swift */; };
 		FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */; };
+		FDE3D61D2256967200836E95 /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D61C2256967200836E95 /* loginViewController.swift */; };
+		FDE3D621225A7CF600836E95 /* TeamSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */; };
 		FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BB2181144600E56B93 /* AppDelegate.swift */; };
 		FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BD2181144600E56B93 /* ViewController.swift */; };
 		FDE8F5C12181144600E56B93 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDE8F5BF2181144600E56B93 /* Main.storyboard */; };
@@ -79,6 +81,8 @@
 		FD667FBA219F450100715784 /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		FD667FBC21AF097B00715784 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerHandler.swift; sourceTree = "<group>"; };
+		FDE3D61C2256967200836E95 /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
+		FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectionViewController.swift; sourceTree = "<group>"; };
 		FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Running2WinGroupTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE8F5BB2181144600E56B93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDE8F5BD2181144600E56B93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				FD0B49BC2231F31000090D16 /* TeamData.swift */,
 				FD0B49BE2236C31100090D16 /* Colors.swift */,
 				FD0B49C0223FF3F700090D16 /* APIEngine.swift */,
+				FDE3D61C2256967200836E95 /* loginViewController.swift */,
+				FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */,
 			);
 			path = EurekaTester;
 			sourceTree = "<group>";
@@ -379,11 +385,13 @@
 				FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */,
 				FD0B49B42224954D00090D16 /* MainStopwatch.swift in Sources */,
 				FD667FBD21AF097B00715784 /* Extensions.swift in Sources */,
+				FDE3D621225A7CF600836E95 /* TeamSelectionViewController.swift in Sources */,
 				FD0B49B6222C727300090D16 /* RelayEngine.swift in Sources */,
 				FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */,
 				FD667FBB219F450100715784 /* TimerModel.swift in Sources */,
 				FD0B49AD22234E9100090D16 /* TeamHandler.swift in Sources */,
 				FD0B49BD2231F31000090D16 /* TeamData.swift in Sources */,
+				FDE3D61D2256967200836E95 /* loginViewController.swift in Sources */,
 				FD0B49B022237A9900090D16 /* MainStopwatchTimerModel.swift in Sources */,
 				FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */,
 				FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */,

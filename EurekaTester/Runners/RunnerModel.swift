@@ -50,7 +50,8 @@ struct RunnerModel {
         if let list = masterRunnerList![team]{
         for runner in list{
             
-            if( runner.lastName.lowercased() == lName.lowercased()){
+            if(runner.lastName.lowercased() == lName.lowercased()){
+                print("DUPLICATE RUNNER")
                 return true
             }
         }
@@ -82,6 +83,7 @@ struct RunnerModel {
     }
     else{
         cell.baseRow.section?.remove(at: cell.baseRow.indexPath!.row)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "duplicateRunner"), object: cell, userInfo: ["team": membership])
     }
     
     
@@ -108,7 +110,7 @@ struct RunnerModel {
                 
                 masterRunnerList![lower]?.remove(at: count)
                 //baseRow.baseCell.formCell()?.delete(baseRow.baseCell)
-                print("nope")
+                
                 //print(masterRunnerList![lower])
             }
             count += 1

@@ -32,12 +32,8 @@ struct RunnerHandler {
    
 /// Local function used to set the current runner in focus
 private func setRunner(runner: UIButton) -> RunnerModel.Runner{
-//    print("RUNNERS LIST")
-//    for key in (runners.masterRunnerList?.values)!{
-//        print(key)
-//        print("=======================================")
-//    }
-//    
+   
+    
     let team = runner.formCell()?.baseRow.section?.tag!.lowercased()
     //var name = runner.formCell()?.baseRow.title?.split(separator: " ")
     var name = (runner.formCell()!.subviews[3] as? UIButton)?.currentTitle?.split(separator: " ")

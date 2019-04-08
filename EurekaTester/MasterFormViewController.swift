@@ -47,6 +47,9 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
         NotificationCenter.default.addObserver(self, selector: #selector(self.editForm), name: NSNotification.Name(rawValue: "editSender"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.presentSave), name: NSNotification.Name(rawValue: "saveOption"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.removeAddRunner), name: NSNotification.Name(rawValue: "removeAddRunner"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.removeDuplicate), name: NSNotification.Name(rawValue: "duplicateRunner"), object: nil)
+         
+        
       
         
         
@@ -110,6 +113,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
     
     
     func startAllTeam(team: String){
+        
         
         
         if(buttonList[team] == nil){
@@ -285,7 +289,7 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
                                             $0.addButtonProvider = { section in
                                                 
                                                 return ButtonRow(){ row in
-                                                   
+                                                    
                                                     row.title = "Add New Runner"
                                                     
                                                 }
@@ -543,18 +547,24 @@ class MasterFormViewController: FormViewController, AlertsViewControllerDelegate
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 alert.dismiss(animated: true, completion: nil)
             }
-            
-            
         }
-        
-        
-      
     }
     
     
     @objc func presentSave(_ n:Notification) {
         let controller = n.object as! UIAlertController
         self.present(controller, animated: true, completion: nil)
+        
+    }
+    
+    @objc func removeDuplicate(_ n: Notification) {
+        
+        let cell = n.object as! BaseCell
+        let team = n.userInfo!["team"] as! String
+        let button = cell.subviews[1] as! UIButton
+      
+        self.removeFromButtonList(button: button, team: team)
+        
         
     }
     
