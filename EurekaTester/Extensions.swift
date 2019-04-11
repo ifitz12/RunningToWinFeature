@@ -39,3 +39,26 @@ extension UIColor {
         return String(format:"#%06x", rgb)
     }
 }
+
+extension UIAlertController {
+    
+    func isFullName(name: String) -> Bool{
+        
+        let fname = name.split(separator: " ")
+        if (fname.count != 0 && fname.count > 1 && fname.count < 3){
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
+    @objc func textDidChangeInLoginAlert() {
+        let name =  (textFields?[0].text)
+        
+        let action = actions.first
+        action?.isEnabled = isFullName(name: name!)
+        
+    }
+    
+}

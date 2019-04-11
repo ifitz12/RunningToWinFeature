@@ -16,13 +16,27 @@
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.99176090955734253" green="0.74160722866532647" blue="0.16953455726207542" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image" translatesAutoresizingMaskIntoConstraints="NO" id="EUa-a2-Tk6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="868"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="EUa-a2-Tk6" secondAttribute="bottom" constant="-201" id="PlA-UH-ACT"/>
+                            <constraint firstItem="EUa-a2-Tk6" firstAttribute="trailing" secondItem="SV9-WB-eFs" secondAttribute="trailing" id="VOc-P4-7dv"/>
+                            <constraint firstItem="EUa-a2-Tk6" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="gei-hy-U26"/>
+                            <constraint firstItem="EUa-a2-Tk6" firstAttribute="leading" secondItem="SV9-WB-eFs" secondAttribute="leading" id="jVU-LB-e5U"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SV9-WB-eFs"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="63.200000000000003" y="-915.29235382308855"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="3000" height="3000"/>
+    </resources>
 </document>

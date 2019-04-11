@@ -36,11 +36,24 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Login"/>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eUo-FU-JAG">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="868"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eUo-FU-JAG" firstAttribute="top" secondItem="cde-uf-jgV" secondAttribute="top" id="5ja-wQ-hhe"/>
+                            <constraint firstItem="eUo-FU-JAG" firstAttribute="leading" secondItem="kQ0-rS-qJf" secondAttribute="leading" id="Cl2-vb-y0o"/>
+                            <constraint firstAttribute="bottom" secondItem="eUo-FU-JAG" secondAttribute="bottom" constant="-201" id="OOb-bP-LNd"/>
+                            <constraint firstItem="eUo-FU-JAG" firstAttribute="trailing" secondItem="kQ0-rS-qJf" secondAttribute="trailing" id="Psx-Pz-KFb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="kQ0-rS-qJf"/>
                     </view>
                     <connections>
+                        <outlet property="backgroundImage" destination="eUo-FU-JAG" id="NGy-lt-DvT"/>
                         <outlet property="loginButton" destination="nC7-Nd-cHa" id="3Xo-Ta-xfu"/>
                         <outlet property="passwordField" destination="Jwf-OM-Gb7" id="kLx-Zg-Vpy"/>
                         <outlet property="userNameField" destination="6kS-y0-2Lj" id="eP6-GE-PHS"/>
@@ -48,31 +61,60 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TBV-EH-chq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="616.79999999999995" y="-491.60419790104953"/>
+            <point key="canvasLocation" x="-410.39999999999998" y="-743.47826086956525"/>
         </scene>
         <!--TeamSelectionVC-->
         <scene sceneID="ea8-RF-Ick">
             <objects>
                 <viewController storyboardIdentifier="TeamSelectionVC" title="TeamSelectionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="T9Y-sI-hEZ" customClass="TeamSelectionViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="bFt-NI-2x2" customClass="T">
+                    <view key="view" contentMode="scaleToFill" id="bFt-NI-2x2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AFL-ho-NYw">
-                                <rect key="frame" x="0.0" y="40" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Team Selection" id="CZT-Ls-a6c"/>
-                                </items>
-                            </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oYa-oX-fSG">
+                                <rect key="frame" x="246" y="589" width="113" height="58"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="113" id="AVA-g0-pEf"/>
+                                    <constraint firstAttribute="height" constant="58" id="FP5-1f-vf5"/>
+                                </constraints>
+                                <state key="normal" title="Confirm"/>
+                                <connections>
+                                    <segue destination="qW7-4d-Hb0" kind="show" id="cck-JV-cJ1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="AXd-oX-OYR" firstAttribute="bottom" secondItem="oYa-oX-fSG" secondAttribute="bottom" constant="20" id="dSB-3s-pyA"/>
+                            <constraint firstItem="AXd-oX-OYR" firstAttribute="trailing" secondItem="oYa-oX-fSG" secondAttribute="trailing" constant="16" id="hyZ-M1-luh"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="AXd-oX-OYR"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Team Selection" id="WJt-7s-QBQ">
+                        <barButtonItem key="backBarButtonItem" title="Teams" id="37D-MQ-P11"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="submitButton" destination="oYa-oX-fSG" id="hSH-OU-qGY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMy-yN-Hzz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1525" y="-475"/>
+            <point key="canvasLocation" x="1661.5999999999999" y="-743.47826086956525"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="rYO-sa-2tR">
+            <objects>
+                <viewController id="qW7-4d-Hb0" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n7E-8b-LiD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Fbf-QH-YcB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lLI-FH-Hra" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2471" y="-743"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="UTw-6w-YnI">
@@ -105,7 +147,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlf-Q0-YM8">
-                                <rect key="frame" x="0.0" y="94" width="375" height="461"/>
+                                <rect key="frame" x="0.0" y="50" width="375" height="505"/>
                                 <connections>
                                     <segue destination="exL-V3-VGG" kind="embed" id="0gL-0T-J0U"/>
                                 </connections>
@@ -151,7 +193,7 @@
             <objects>
                 <viewController id="exL-V3-VGG" customClass="MasterFormViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MOf-o3-u3Y">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="505"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5DU-11-uxW"/>
@@ -162,22 +204,22 @@
             <point key="canvasLocation" x="2828" y="-4.0479760119940034"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="UYU-sK-eCS">
+        <scene sceneID="Xch-pJ-MK0">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="liC-L3-meU" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MasterNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="n5H-oo-CbH" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="x6I-RS-XhK">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gMH-IT-5kx">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="voq-fa-zss" kind="relationship" relationship="rootViewController" id="Fxh-Db-f72"/>
+                        <segue destination="T9Y-sI-hEZ" kind="relationship" relationship="rootViewController" id="bPO-aK-2Dy"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aMd-em-dc2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AOc-sF-1LP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="42.399999999999999" y="152.47376311844079"/>
+            <point key="canvasLocation" x="852" y="-743"/>
         </scene>
     </scenes>
 </document>

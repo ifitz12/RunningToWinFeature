@@ -26,6 +26,7 @@ class loginViewController: UIViewController, APIEngineDelegate{
     @IBOutlet weak var passwordField: UITextField!
     
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var backgroundImage: UIImageView!
     
     var gradientLayer: CAGradientLayer!
     var API: APIEngine = APIEngine()
@@ -42,20 +43,35 @@ class loginViewController: UIViewController, APIEngineDelegate{
         API.delegate = self
         setUpFields()
         setupLoginButton()
-        createGradientLayer()
+        createBackgroundImage()
+        UIView.animate(withDuration: 1.2, animations: {
+            self.passwordField.alpha = 1.0
+            self.userNameField.alpha = 1.0
+            self.loginButton.alpha = 1.0
+            self.loginButton.center = CGPoint(x: 188.0, y: 474.5)
+            self.passwordField.center = CGPoint(x: 187.0, y: 394.0)
+            self.userNameField.center = CGPoint(x: 187.0, y: 328.0)
+            
+        })
     }
- 
     
-    
-    func createGradientLayer() {
-        gradientLayer = CAGradientLayer()
-        gradientLayer.frame = self.view.bounds
-        gradientLayer.colors = [Colors.stopColor.cgColor, Colors.pauseColor.cgColor]
-        gradientLayer.opacity = 0.8
-        self.view.layer.insertSublayer(gradientLayer, at: 0)
-       
+   
+    func createBackgroundImage(){
+        
+        backgroundImage.image = UIImage(named: "Image")
+        self.view.bringSubviewToFront(userNameField)
+        self.view.bringSubviewToFront(passwordField)
+        self.view.bringSubviewToFront(loginButton)
+        userNameField.alpha = 0.0
+        passwordField.alpha = 0.0
+        loginButton.alpha = 0.0
+        loginButton.center = CGPoint(x: 188.0, y: 504.5)
+        passwordField.center = CGPoint(x: 187.0, y: 424.0)
+        userNameField.center = CGPoint(x: 187.0, y: 358.0)
         
     }
+    
+
     
     private func setUpFields(){
     
@@ -72,11 +88,12 @@ class loginViewController: UIViewController, APIEngineDelegate{
     
     private func setupLoginButton(){
         loginButton.addTarget(self, action: #selector(self.loginRequest), for: .touchUpInside)
-        loginButton.backgroundColor = .green
+        loginButton.backgroundColor = Colors.loginColor
         loginButton.setTitleColor(.black, for: .normal)
         loginButton.titleLabel?.font = .systemFont(ofSize: 14)
         loginButton.layer.cornerRadius = 15
         loginButton.clipsToBounds = true
+        
         
        
     }
@@ -94,31 +111,30 @@ class loginViewController: UIViewController, APIEngineDelegate{
         })
         activityIndicator = UIActivityIndicatorView(style: .whiteLarge)
         
-       
+        
         view.addSubview(activityIndicator)
+        view.bringSubviewToFront(activityIndicator)
         activityIndicator.frame = view.bounds
         activityIndicator.layer.backgroundColor = UIColor(white: 0.1, alpha: 0.3).cgColor
         activityIndicator.startAnimating()
-        
-    
-        
+      
       API.login["userNameOrEmail"] = userNameField.text
       API.login["password"] = passwordField.text
       API.request()
       
-      
-       
     }
     
     internal func successLogin() {
         print("Success")
        API.requestTeamList()
         //activityIndicator.removeFromSuperview()
-        if let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TeamSelectionVC") as? TeamSelectionViewController{
+        if let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "MasterNavigationController") as? UINavigationController{
+            
             self.present(vc, animated: true, completion: {
+                
                 self.pullRunnerData()
-                
-                
+
+
             })
         }
         
@@ -131,15 +147,13 @@ class loginViewController: UIViewController, APIEngineDelegate{
         
     }
     
-    internal func failureLogin() {
+    internal func failureLogin(error: Bool) {
         print("failue!!!")
-       
+        if(!error){
         setBoxStyle(field: passwordField, color: UIColor.red)
         setBoxStyle(field: userNameField, color: UIColor.red)
-      //  passwordField.layer.borderColor = UIColor.red.cgColor
-        //userNameField.layer.borderColor = UIColor.red.cgColor
-        
-        
+        }
+    
         activityIndicator.removeFromSuperview()
     }
     
@@ -168,6 +182,8 @@ class loginViewController: UIViewController, APIEngineDelegate{
     func shouldPost(list: [String]){
         if(list.count == teamMembersInSession.count){
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "sendTeams"), object: self.teamMembersInSession, userInfo: ["teams": list])
+            NotificationCenter.default.addObserver(self, selector: #selector(self.removeSpinner), name: NSNotification.Name(rawValue: "stopSpinner"), object: nil)
+            
         }
      
      
@@ -207,6 +223,12 @@ class loginViewController: UIViewController, APIEngineDelegate{
         bottomLine.backgroundColor = color.cgColor
         field.borderStyle = UITextField.BorderStyle.none
         field.layer.addSublayer(bottomLine)
+        
+        
+    }
+    
+    @objc func removeSpinner(){
+        activityIndicator.removeFromSuperview()
         
         
     }

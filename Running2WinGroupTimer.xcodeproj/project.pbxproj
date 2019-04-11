@@ -24,6 +24,7 @@
 		FD667FBB219F450100715784 /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBA219F450100715784 /* TimerModel.swift */; };
 		FD667FBD21AF097B00715784 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBC21AF097B00715784 /* Extensions.swift */; };
 		FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */; };
+		FD916F77225FA70B00E2D767 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */; };
 		FDE3D61D2256967200836E95 /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D61C2256967200836E95 /* loginViewController.swift */; };
 		FDE3D621225A7CF600836E95 /* TeamSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */; };
 		FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BB2181144600E56B93 /* AppDelegate.swift */; };
@@ -81,6 +82,7 @@
 		FD667FBA219F450100715784 /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		FD667FBC21AF097B00715784 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerHandler.swift; sourceTree = "<group>"; };
+		FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
 		FDE3D61C2256967200836E95 /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectionViewController.swift; sourceTree = "<group>"; };
 		FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Running2WinGroupTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,6 +194,7 @@
 				FD0B49C0223FF3F700090D16 /* APIEngine.swift */,
 				FDE3D61C2256967200836E95 /* loginViewController.swift */,
 				FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */,
+				FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */,
 			);
 			path = EurekaTester;
 			sourceTree = "<group>";
@@ -379,6 +382,7 @@
 			files = (
 				FDE8F5DC2181153F00E56B93 /* MasterFormViewController.swift in Sources */,
 				FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */,
+				FD916F77225FA70B00E2D767 /* LaunchScreenView.swift in Sources */,
 				FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */,
 				FD0B49BF2236C31100090D16 /* Colors.swift in Sources */,
 				FD0B49C1223FF3F700090D16 /* APIEngine.swift in Sources */,

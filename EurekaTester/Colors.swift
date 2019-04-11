@@ -15,6 +15,7 @@ enum Colors{
     static let startColor = UIColor(hexString: "#7DFF8F")
     static let pauseColor = UIColor(hexString: "#FDFF66")
     static let stopColor = UIColor(hexString: "#FB4040")
+    static let loginColor = UIColor(hexString: "#4287ff")
     
 }
 

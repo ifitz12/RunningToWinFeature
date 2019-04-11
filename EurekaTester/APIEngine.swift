@@ -12,7 +12,8 @@ import Alamofire
 
 protocol APIEngineDelegate: class {
     func successLogin()
-    func failureLogin()
+    func failureLogin(error: Bool)
+    
 }
 
 class APIEngine{
@@ -32,11 +33,11 @@ class APIEngine{
     
     func request(){
         print("request sent")
-        var error: NSDictionary = [:]
+       // var error: NSDictionary = [:]
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/login", method: .post, parameters : login)
             
             .responseJSON { response in
-                error = response.result.value as! NSDictionary
+                if let error = response.result.value as? NSDictionary{
                 switch error["errorCode"] as! Int {
                 case 0:
                     let json = response.result.value as! NSDictionary
@@ -46,13 +47,21 @@ class APIEngine{
                     
                 case 1:
                     print(error)
-                    self.delegate?.failureLogin()
-                
+                    self.delegate?.failureLogin(error: false)
+                    
                 default:
                     print("error")
-                   
+                    
+                    }
                 }
-             
+                else{
+                    self.delegate?.failureLogin(error: true)
+                    let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                   let alert =  UIAlertController(title: "Network error", message: "A connection to the server cannot be made", preferredStyle: .alert)
+                    alert.addAction(action)
+                     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+                }
+                
         }
       
     }
@@ -84,9 +93,8 @@ class APIEngine{
     }
     
     func requestTeamMembers(teamName: String, completion: (() -> Void)?){
-        print("TEAM NAME")
-        print(teamName)
-        queue.async {
+        
+        //queue.async {
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamMembers", method: .post, parameters : ["token": self.token, "teamToken": self.teamTokens[teamName]!])
             
             .responseJSON { response in
@@ -111,7 +119,7 @@ class APIEngine{
                 print("finished request")
                 completion!()
             }
-        }
+      //  }
         
         
       //  print("members requested")
