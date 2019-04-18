@@ -16,10 +16,3 @@ An extenstion for the Running2Win iOS app. This extenstion is intended to be a t
 - Record splits for each runner and view them by clicking on the "Data" button
 
 # Known Issues
-- Crash when trying to start all runners when runner with duplicate name is attempted to be added 
-
-# Features to add
-- Select/Deselect button to member selection view
-- Add new member button inside member selection view
-- Logout functionality
-- Data persistance for local runners
