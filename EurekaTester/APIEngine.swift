@@ -21,12 +21,12 @@ class APIEngine{
     var login: [String: String] =
         ["vendorId": "d2e09e0c-a214-4079-b0f5-4cc5aeb19a61",
          "appId": "5c85a799-a2fd-4202-b30c-ff350f0f5f57"]
-        // "userNameOrEmail": "ifitz",
-        // "password": "test1234"]
+    
     
     var token: String = ""
     var teamTokens: [String: String] = [:]
     var teamMembers: [String: [String]] = [:]
+    var images: [String: [String:String]] = [:]
     var valid: Bool = false
     var queue: DispatchQueue = DispatchQueue(label: "API")
     weak var delegate: APIEngineDelegate?
@@ -56,7 +56,7 @@ class APIEngine{
                 }
                 else{
                     self.delegate?.failureLogin(error: true)
-                    let action = UIAlertAction(title: "Dismiss", style: .cancel, handler: nil)
+                    let action = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
                    let alert =  UIAlertController(title: "Network error", message: "A connection to the server cannot be made", preferredStyle: .alert)
                     alert.addAction(action)
                      UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
@@ -67,12 +67,12 @@ class APIEngine{
     }
     
     func getStatus() -> Bool{
-        print(valid)
+        //print(valid)
         return valid
     }
     
     func requestTeamList(){
-        print("team list requested")
+       // print("team list requested")
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamList", method: .post, parameters : ["token": self.token])
             
             .responseJSON { response in
@@ -84,12 +84,9 @@ class APIEngine{
                     let dict = teamArray[i] as! NSDictionary
                     self.teamTokens[dict["teamName"]! as! String] = dict["teamToken"]! as? String
                     
+                    }
                 }
-                }
-          
-                
         }
-       
     }
     
     func requestTeamMembers(teamName: String, completion: (() -> Void)?){
@@ -98,9 +95,10 @@ class APIEngine{
         Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/getTeamMembers", method: .post, parameters : ["token": self.token, "teamToken": self.teamTokens[teamName]!])
             
             .responseJSON { response in
-                
+                //print(response)
                
                 let runnerArray = response.result.value as! NSArray
+                
                 
                 
                 for i in 0...runnerArray.count-1 {
@@ -109,21 +107,36 @@ class APIEngine{
                     if(i == 0){
                         
                         self.teamMembers[teamName] = [str]
+                        self.images[teamName] = [str:"http://www.running2win.com/_images/uploads/" + (dict["UserPic"] as! String)]
+                        
                     }
                     else{
                         self.teamMembers[teamName]!.append(str)
+                        self.images[teamName]![str]?.append("http://www.running2win.com/_images/uploads/" + (dict["UserPic"] as! String))
+
                     }
                     
                 }
-                
-                print("finished request")
+               // print("images")
+               // print(self.images)
+               // print("teamMambers")
+               // print(self.teamMembers)
+               // print("finished request")
                 completion!()
             }
-      //  }
+   
         
+    }
+    
+    func logout(){
+        print(self.token)
+        Alamofire.request("https://r2wmobile4.running2win.com/api.asmx/logOut", method: .post, parameters : ["token": self.token])
         
-      //  print("members requested")
-        
+        .response { response in
+            print("logged out")
+            print(response)
+            
+        }
     }
     
 
@@ -137,5 +150,12 @@ class APIEngine{
       
         return self.teamMembers[team]!
     }
+    
+//    func getImageLinks() -> [String: String]{
+//        
+//        
+//        
+//        
+//    }
     
 }

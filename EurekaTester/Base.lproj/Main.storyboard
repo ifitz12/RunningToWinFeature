@@ -12,7 +12,7 @@
         <!--Login View Controller-->
         <scene sceneID="mwh-WZ-WcT">
             <objects>
-                <viewController id="NQo-E0-Wod" customClass="loginViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NQo-E0-Wod" customClass="loginViewController" customModule="R2W_Coach" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cde-uf-jgV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -36,11 +36,15 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Login"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eUo-FU-JAG">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Image-1" translatesAutoresizingMaskIntoConstraints="NO" id="eUo-FU-JAG">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="868"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                 </accessibility>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Image-2" translatesAutoresizingMaskIntoConstraints="NO" id="xGN-bv-Yee">
+                                <rect key="frame" x="95" y="252" width="184" height="162"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -55,6 +59,7 @@
                     <connections>
                         <outlet property="backgroundImage" destination="eUo-FU-JAG" id="NGy-lt-DvT"/>
                         <outlet property="loginButton" destination="nC7-Nd-cHa" id="3Xo-Ta-xfu"/>
+                        <outlet property="logoImage" destination="xGN-bv-Yee" id="fTy-pK-rbb"/>
                         <outlet property="passwordField" destination="Jwf-OM-Gb7" id="kLx-Zg-Vpy"/>
                         <outlet property="userNameField" destination="6kS-y0-2Lj" id="eP6-GE-PHS"/>
                     </connections>
@@ -66,7 +71,7 @@
         <!--TeamSelectionVC-->
         <scene sceneID="ea8-RF-Ick">
             <objects>
-                <viewController storyboardIdentifier="TeamSelectionVC" title="TeamSelectionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="T9Y-sI-hEZ" customClass="TeamSelectionViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TeamSelectionVC" title="TeamSelectionVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="T9Y-sI-hEZ" customClass="TeamSelectionViewController" customModule="R2W_Coach" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bFt-NI-2x2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -92,8 +97,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Team Selection" id="WJt-7s-QBQ">
                         <barButtonItem key="backBarButtonItem" title="Teams" id="37D-MQ-P11"/>
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="feg-tX-foJ"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoutButton" destination="feg-tX-foJ" id="seY-wB-aUq"/>
                         <outlet property="submitButton" destination="oYa-oX-fSG" id="hSH-OU-qGY"/>
                     </connections>
                 </viewController>
@@ -101,20 +108,30 @@
             </objects>
             <point key="canvasLocation" x="1661.5999999999999" y="-743.47826086956525"/>
         </scene>
-        <!--View Controller-->
+        <!--Member Selection View Controller-->
         <scene sceneID="rYO-sa-2tR">
             <objects>
-                <viewController id="qW7-4d-Hb0" sceneMemberID="viewController">
+                <viewController id="qW7-4d-Hb0" customClass="MemberSelectionViewController" customModule="Running2WinGroupTimer" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="n7E-8b-LiD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQF-Qf-DDn">
+                                <rect key="frame" x="285" y="589" width="74" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Fbf-QH-YcB"/>
                     </view>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" id="JnM-ft-Kzh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lLI-FH-Hra" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2471" y="-743"/>
+            <point key="canvasLocation" x="2469.5999999999999" y="-743.47826086956525"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="UTw-6w-YnI">
@@ -127,11 +144,7 @@
                         <viewLayoutGuide key="safeArea" id="dOQ-XY-m6g"/>
                     </view>
                     <navigationItem key="navigationItem" id="6Ks-Wn-h1H">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="U7E-13-UyF">
-                            <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="jGD-IT-rqd"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="U7E-13-UyF"/>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uGC-v4-SAf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -141,13 +154,13 @@
         <!--Timer-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="MasterHomeViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterHomeVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="MasterHomeViewController" customModule="R2W_Coach" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlf-Q0-YM8">
-                                <rect key="frame" x="0.0" y="50" width="375" height="505"/>
+                                <rect key="frame" x="0.0" y="94" width="375" height="461"/>
                                 <connections>
                                     <segue destination="exL-V3-VGG" kind="embed" id="0gL-0T-J0U"/>
                                 </connections>
@@ -186,14 +199,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2018.4000000000001" y="119.1904047976012"/>
+            <point key="canvasLocation" x="3338" y="-737"/>
         </scene>
         <!--Master Form View Controller-->
         <scene sceneID="4AI-x4-ymu">
             <objects>
-                <viewController id="exL-V3-VGG" customClass="MasterFormViewController" customModule="Running2WinGroupTimer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MasterFormVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="exL-V3-VGG" customClass="MasterFormViewController" customModule="R2W_Coach" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MOf-o3-u3Y">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="505"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="5DU-11-uxW"/>
@@ -201,7 +214,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LmP-Kr-qZQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2828" y="-4.0479760119940034"/>
+            <point key="canvasLocation" x="4143" y="-664"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xch-pJ-MK0">
@@ -222,4 +235,8 @@
             <point key="canvasLocation" x="852" y="-743"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image-1" width="3000" height="3000"/>
+        <image name="Image-2" width="983" height="799.67999267578125"/>
+    </resources>
 </document>

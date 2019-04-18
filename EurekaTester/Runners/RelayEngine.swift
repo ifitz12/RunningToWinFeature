@@ -79,7 +79,7 @@ class RelayEngine{
 //        split.clipsToBounds = true
 //        button.formCell()?.update()
         setButtonsStatus(buttons: buttons, end: false)
-        setRelay(type: type)
+        setRelay()
         
         
     }
@@ -107,25 +107,27 @@ class RelayEngine{
         else{
             currentHandler.stopwatchHandler.stopTimer(team: teamName)
             setButtonsStatus(buttons: buttons, end: true)
-            animateButton(button: handoffButton, remove: true, duration: 0.5)
-            //handoffButton.removeFromSuperview()
             
+            //handoffButton.removeFromSuperview()
+            stopRelay()
             currentSwitchRow.value = false
             count = 0
             typeCount = 0
             presentSaveOption()
         }
         
-        print("split")
+     
         
     }
     
     func stopRelay(){
         
+        print("HERE!!!")
         //currentHandler.runnnerHandlers[teamName]!.resetAll(runners: buttonList)
         currentHandler.stopwatchHandler.stopTimer(team: teamName)
         setButtonsStatus(buttons: buttons, end: true)
-        handoffButton.removeFromSuperview()
+        animateButton(button: handoffButton, remove: true, duration: 0.5)
+//        handoffButton.removeFromSuperview()
         
         currentSwitchRow.value = false
         count = 0
@@ -169,7 +171,8 @@ class RelayEngine{
         
     }
     
-    func setRelay(type: String){
+    func setRelay(){
+       
         switch relayType{
             
         case "4 x 100":

@@ -18,6 +18,8 @@
 		FD0B49BD2231F31000090D16 /* TeamData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49BC2231F31000090D16 /* TeamData.swift */; };
 		FD0B49BF2236C31100090D16 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49BE2236C31100090D16 /* Colors.swift */; };
 		FD0B49C1223FF3F700090D16 /* APIEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0B49C0223FF3F700090D16 /* APIEngine.swift */; };
+		FD24B0592267F6D800A9322F /* StoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD24B0582267F6D800A9322F /* StoredData.swift */; };
+		FD24B05C2267FA0B00A9322F /* coreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FD24B05A2267FA0B00A9322F /* coreData.xcdatamodeld */; };
 		FD667FB52191F85D00715784 /* MasterHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB42191F85D00715784 /* MasterHomeViewController.swift */; };
 		FD667FB72198BE8500715784 /* RunnerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB62198BE8500715784 /* RunnerModel.swift */; };
 		FD667FB92198D67200715784 /* AlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FB82198D67200715784 /* AlertsViewController.swift */; };
@@ -25,6 +27,7 @@
 		FD667FBD21AF097B00715784 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD667FBC21AF097B00715784 /* Extensions.swift */; };
 		FD6AA8B6220BA48B006DE55D /* RunnerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */; };
 		FD916F77225FA70B00E2D767 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */; };
+		FD916F79225FBE0100E2D767 /* MemberSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD916F78225FBE0100E2D767 /* MemberSelectionViewController.swift */; };
 		FDE3D61D2256967200836E95 /* loginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D61C2256967200836E95 /* loginViewController.swift */; };
 		FDE3D621225A7CF600836E95 /* TeamSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */; };
 		FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE8F5BB2181144600E56B93 /* AppDelegate.swift */; };
@@ -76,6 +79,8 @@
 		FD0B49BC2231F31000090D16 /* TeamData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamData.swift; sourceTree = "<group>"; };
 		FD0B49BE2236C31100090D16 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		FD0B49C0223FF3F700090D16 /* APIEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEngine.swift; sourceTree = "<group>"; };
+		FD24B0582267F6D800A9322F /* StoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredData.swift; sourceTree = "<group>"; };
+		FD24B05B2267FA0B00A9322F /* coreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = coreData.xcdatamodel; sourceTree = "<group>"; };
 		FD667FB42191F85D00715784 /* MasterHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterHomeViewController.swift; sourceTree = "<group>"; };
 		FD667FB62198BE8500715784 /* RunnerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerModel.swift; sourceTree = "<group>"; };
 		FD667FB82198D67200715784 /* AlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsViewController.swift; sourceTree = "<group>"; };
@@ -83,9 +88,10 @@
 		FD667FBC21AF097B00715784 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		FD6AA8B5220BA48B006DE55D /* RunnerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerHandler.swift; sourceTree = "<group>"; };
 		FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		FD916F78225FBE0100E2D767 /* MemberSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSelectionViewController.swift; sourceTree = "<group>"; };
 		FDE3D61C2256967200836E95 /* loginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginViewController.swift; sourceTree = "<group>"; };
 		FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSelectionViewController.swift; sourceTree = "<group>"; };
-		FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Running2WinGroupTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDE8F5B82181144600E56B93 /* R2W Coach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "R2W Coach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE8F5BB2181144600E56B93 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDE8F5BD2181144600E56B93 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FDE8F5C02181144600E56B93 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -168,7 +174,7 @@
 		FDE8F5B92181144600E56B93 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */,
+				FDE8F5B82181144600E56B93 /* R2W Coach.app */,
 				FDE8F5CC2181144800E56B93 /* Running2WinGroupTimerTests.xctest */,
 			);
 			name = Products;
@@ -195,6 +201,9 @@
 				FDE3D61C2256967200836E95 /* loginViewController.swift */,
 				FDE3D620225A7CF600836E95 /* TeamSelectionViewController.swift */,
 				FD916F76225FA70B00E2D767 /* LaunchScreenView.swift */,
+				FD916F78225FBE0100E2D767 /* MemberSelectionViewController.swift */,
+				FD24B0582267F6D800A9322F /* StoredData.swift */,
+				FD24B05A2267FA0B00A9322F /* coreData.xcdatamodeld */,
 			);
 			path = EurekaTester;
 			sourceTree = "<group>";
@@ -228,7 +237,7 @@
 			);
 			name = Running2WinGroupTimer;
 			productName = EurekaTester;
-			productReference = FDE8F5B82181144600E56B93 /* Running2WinGroupTimer.app */;
+			productReference = FDE8F5B82181144600E56B93 /* R2W Coach.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FDE8F5CB2181144800E56B93 /* Running2WinGroupTimerTests */ = {
@@ -391,10 +400,13 @@
 				FD667FBD21AF097B00715784 /* Extensions.swift in Sources */,
 				FDE3D621225A7CF600836E95 /* TeamSelectionViewController.swift in Sources */,
 				FD0B49B6222C727300090D16 /* RelayEngine.swift in Sources */,
+				FD24B0592267F6D800A9322F /* StoredData.swift in Sources */,
 				FDE8F5BE2181144600E56B93 /* ViewController.swift in Sources */,
 				FD667FBB219F450100715784 /* TimerModel.swift in Sources */,
 				FD0B49AD22234E9100090D16 /* TeamHandler.swift in Sources */,
 				FD0B49BD2231F31000090D16 /* TeamData.swift in Sources */,
+				FD24B05C2267FA0B00A9322F /* coreData.xcdatamodeld in Sources */,
+				FD916F79225FBE0100E2D767 /* MemberSelectionViewController.swift in Sources */,
 				FDE3D61D2256967200836E95 /* loginViewController.swift in Sources */,
 				FD0B49B022237A9900090D16 /* MainStopwatchTimerModel.swift in Sources */,
 				FDE8F5BC2181144600E56B93 /* AppDelegate.swift in Sources */,
@@ -574,7 +586,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EurekaTester;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "R2W Coach";
 				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -597,7 +609,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.EurekaTester;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "R2W Coach";
 				SWIFT_REFLECTION_METADATA_LEVEL = all;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -677,6 +689,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FD24B05A2267FA0B00A9322F /* coreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FD24B05B2267FA0B00A9322F /* coreData.xcdatamodel */,
+			);
+			currentVersion = FD24B05B2267FA0B00A9322F /* coreData.xcdatamodel */;
+			path = coreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FDE8F5B02181144600E56B93 /* Project object */;
 }

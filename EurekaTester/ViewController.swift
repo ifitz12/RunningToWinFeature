@@ -7,12 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        print("YOO")
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Teams", in: context)
+            
+        
+        let newUser = NSManagedObject(entity: entity!, insertInto: context)
+        newUser.setValue("bob test", forKey: "member")
+        newUser.setValue("red", forKey: "team")
+       
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving")
+        }
+        
     }
 
 

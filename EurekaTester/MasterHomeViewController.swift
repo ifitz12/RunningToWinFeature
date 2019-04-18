@@ -10,10 +10,10 @@ import Foundation
 import UIKit
 import Eureka
 
-class MasterHomeViewController: UIViewController {
+class MasterHomeViewController: UIViewController, UINavigationBarDelegate {
 
     let alerts: AlertsViewController = AlertsViewController()
-    
+   
    
 
     @IBAction func editButton(_ sender: UIBarButtonItem) {
@@ -33,17 +33,44 @@ class MasterHomeViewController: UIViewController {
         
     }
     
+ 
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     
       
     }
-
+   
     
     override func viewDidLoad() {
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: nil)
+        print("HOME LOADED")
+        let customBackButton = UIBarButtonItem(title: "Teams", style: .plain, target: self, action: #selector(self.presentWarning))
+       //let customBackButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.presentWarning))
+     self.navigationItem.setLeftBarButton(customBackButton, animated: true)
+        
+        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "editSender"), object: nil, userInfo: nil)
         alerts.initialize()
     }
     
+    
+    @objc func presentWarning(){
+        let alert = UIAlertController(title: "Warning", message: "Returning to team selection will clear all team timers, continue?", preferredStyle: .alert)
+        
+        let confirm = UIAlertAction(title: "Confirm", style: .destructive) { (_) in
+             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "resetForm"), object: nil, userInfo: nil)
+            
+            self.navigationController?.popViewController(animated: true)
+        }
+            
+      
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        
+        alert.addAction(cancel)
+        alert.addAction(confirm)
+       
+        self.present(alert, animated: true)
+    }
 
 }

@@ -188,10 +188,13 @@ private func runnerHasChanged(runnerForm: UIButton) -> Bool {
             timerList[currentRunner.lastName] = newRun
         }
         runner.backgroundColor = .green
+        if(runner.formCell()?.backgroundColor != .white){
         runner.formCell()?.backgroundColor = Colors.pauseColor
+        textField.backgroundColor = Colors.pauseColor
+        }
         runner.setTitleColor(.black, for: .normal)
         runner.setTitle("GO", for: .normal)
-        textField.backgroundColor = Colors.pauseColor
+        
         timerList[currentRunner.lastName]?.stop()
         self.runners.updateTimeElement(runner: timerList[currentRunner.lastName]!.getEntry())
 

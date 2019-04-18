@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import Eureka
-
+import CoreData
 
 protocol loginDelegate: class{
     
@@ -22,11 +22,11 @@ protocol loginDelegate: class{
 class loginViewController: UIViewController, APIEngineDelegate{
     
     @IBOutlet weak var userNameField: UITextField!
-    
     @IBOutlet weak var passwordField: UITextField!
-    
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
+    
+    @IBOutlet weak var logoImage: UIImageView!
     
     var gradientLayer: CAGradientLayer!
     var API: APIEngine = APIEngine()
@@ -40,34 +40,74 @@ class loginViewController: UIViewController, APIEngineDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Users")
+//        //request.predicate = NSPredicate(format: "age = %@", "12")
+//        request.returnsObjectsAsFaults = false
+//        do {
+//            
+//            let result = try context.fetch(request)
+//            for data in result as! [NSManagedObject] {
+//                print(data.value(forKey: "username") as! String)
+//            }
+//            
+//        } catch {
+//            
+//            print("Failed")
+//        }
+       
         API.delegate = self
         setUpFields()
         setupLoginButton()
         createBackgroundImage()
-        UIView.animate(withDuration: 1.2, animations: {
-            self.passwordField.alpha = 1.0
-            self.userNameField.alpha = 1.0
-            self.loginButton.alpha = 1.0
-            self.loginButton.center = CGPoint(x: 188.0, y: 474.5)
-            self.passwordField.center = CGPoint(x: 187.0, y: 394.0)
-            self.userNameField.center = CGPoint(x: 187.0, y: 328.0)
+        
+        UIView.animate(withDuration: 1.5, animations: {
             
-        })
+            
+            self.logoImage.center = CGPoint(x: 187.0, y: 190.0)
+        }, completion: { (_) in
+            
+            UIView.animate(withDuration: 1.0, animations: {
+                self.passwordField.alpha = 1.0
+                self.userNameField.alpha = 1.0
+                self.loginButton.alpha = 1.0
+                self.loginButton.center = CGPoint(x: 187.0, y: 514.5)
+                self.passwordField.center = CGPoint(x: 187.0, y: 434.0)
+                self.userNameField.center = CGPoint(x: 187.0, y: 368.0)
+                
+            })
+            
+            
+            })
+        
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.logout), name: NSNotification.Name(rawValue: "logout"), object: nil)
     }
     
    
     func createBackgroundImage(){
+        //184 X 162
+        backgroundImage.image = UIImage(named: "Image-1")
         
-        backgroundImage.image = UIImage(named: "Image")
         self.view.bringSubviewToFront(userNameField)
         self.view.bringSubviewToFront(passwordField)
         self.view.bringSubviewToFront(loginButton)
         userNameField.alpha = 0.0
         passwordField.alpha = 0.0
         loginButton.alpha = 0.0
-        loginButton.center = CGPoint(x: 188.0, y: 504.5)
-        passwordField.center = CGPoint(x: 187.0, y: 424.0)
-        userNameField.center = CGPoint(x: 187.0, y: 358.0)
+        loginButton.center = CGPoint(x: 187.0, y: 544.5)
+        passwordField.center = CGPoint(x: 187.0, y: 464.0)
+        userNameField.center = CGPoint(x: 187.0, y: 398.0)
+        
+        print("CENTER")
+        print(logoImage.center)
+        
+    }
+    
+    func createLogoImage(){
+        
+        
+        
         
     }
     
@@ -133,7 +173,9 @@ class loginViewController: UIViewController, APIEngineDelegate{
             self.present(vc, animated: true, completion: {
                 
                 self.pullRunnerData()
-
+                self.activityIndicator.removeFromSuperview()
+                self.passwordField.text = ""
+                self.userNameField.text = ""
 
             })
         }
@@ -159,7 +201,7 @@ class loginViewController: UIViewController, APIEngineDelegate{
     
     
     func pullRunnerData(){
-        
+        print("PULLED")
         self.teamList = self.API.getTeamList()
         
         for team in teamList{
@@ -230,6 +272,13 @@ class loginViewController: UIViewController, APIEngineDelegate{
     @objc func removeSpinner(){
         activityIndicator.removeFromSuperview()
         
+        
+    }
+    
+    @objc func logout(){
+        self.API.logout()
+        self.teamList = []
+        self.teamMembersInSession = [:]
         
     }
     

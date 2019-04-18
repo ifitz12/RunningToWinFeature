@@ -65,7 +65,7 @@ class MainStopwatch{
         currentTimer.time.elapsed = 0
         currentTimer.time.status = false
         
-        currentTimer.time.mainStopwatch.baseRow.title = "00:00.00"
+        currentTimer.time.mainStopwatch.baseRow.title = "Start All"
         currentTimer.time.mainStopwatch.backgroundColor = .white
         currentTimer.time.mainStopwatch.update()
         

@@ -16,6 +16,7 @@ protocol AlertsViewControllerDelegate: class {
     func animateStart(cell: Cell<String>)
     func animateSplit(cell: Cell<String>)
     func animateTitle(cell: Cell<String>)
+    
     func newRunner(firstName: String, lastName: String, membership: String, cell: BaseCell)
     func removeRunner(teamName: String, cell: BaseCell)
     
@@ -23,30 +24,30 @@ protocol AlertsViewControllerDelegate: class {
 }
 
 
-class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    
-    var typeValue = String()
-    var choices: [String] = []
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return choices.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-       
-        return choices[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    
-        typeValue = choices[row]
-        
-        
-    }
+class AlertsViewController: UIViewController{//, UIPickerViewDelegate, UIPickerViewDataSource {
+//
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 1
+//    }
+//
+//
+   // var typeValue = String()
+    //var choices: [String] = []
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return choices.count
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//
+//        return choices[row]
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//
+//        typeValue = choices[row]
+//
+//
+//    }
     
     
     
@@ -56,9 +57,14 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     var firstName: String = ""
     var lastName: String = ""
   
-    //var API: APIEngine = APIEngine()
+    
     var pickerValue = ""
     var teamList: [String] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("ALERTS LOADED")
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -66,7 +72,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
   
     func initialize(){
-        //API.request()
+       
     }
     
     
@@ -157,14 +163,14 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
            
            // self.choices = self.API.getTeamList()
                 let alert = UIAlertController(title: "Teams", message: "\n\n\n\n\n\n", preferredStyle: .alert)
-                alert.isModalInPopover = true
+                //alert.isModalInPopover = true
                 
-                let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
+                //let pickerFrame = UIPickerView(frame: CGRect(x: 5, y: 20, width: 250, height: 140))
             
-                alert.view.addSubview(pickerFrame)
-                pickerFrame.dataSource = self
-                pickerFrame.delegate = self
-                pickerFrame.delegate?.pickerView!(pickerFrame, didSelectRow: 0, inComponent: 0)
+                //alert.view.addSubview(pickerFrame)
+                //pickerFrame.dataSource = self
+                //pickerFrame.delegate = self
+                //pickerFrame.delegate?.pickerView!(pickerFrame, didSelectRow: 0, inComponent: 0)
                 
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
                     
@@ -174,7 +180,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     
                    
                         print("got here")
-                    self.teamName = self.typeValue.capitalized
+                    //self.teamName = self.typeValue.capitalized
                   //  self.API.requestTeamMembers(teamName: self.typeValue)
                     
                     let alert = UIAlertController(title: nil, message: "Importing team...", preferredStyle: .alert)
@@ -188,7 +194,7 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
                     UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: {
                       //  print(self.API.getTeamMembers())
                      
-                      //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "newTeamSender"), object: alert, userInfo: ["team": self.typeValue.capitalized, "members": self.API.getTeamMembers()])
+                      //  
                         
                     })
                     
@@ -214,7 +220,11 @@ class AlertsViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     func newTeamName() -> String {
         return self.teamName
     }
+  
 }
+
+
+
 
 
 
